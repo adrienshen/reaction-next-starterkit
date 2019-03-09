@@ -2,15 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { inject } from "mobx-react";
 import AppBar from "@material-ui/core/AppBar";
-import Hidden from "@material-ui/core/Hidden";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import { NavigationDesktop } from "components/NavigationDesktop";
-import { NavigationMobile, NavigationToggleMobile } from "components/NavigationMobile";
-import AccountDropdown from "components/AccountDropdown";
-import ShopLogo from "@reactioncommerce/components/ShopLogo/v1";
-import Link from "components/Link";
 import MiniCart from "components/MiniCart";
 
 const styles = (theme) => ({
@@ -21,13 +14,15 @@ const styles = (theme) => ({
   },
   controls: {
     alignItems: "inherit",
-    display: "inherit",
-    flex: 1
+    display: "flex",
+    flex: 1,
+    justifyContent: "center",
   },
   title: {
-    color: theme.palette.reaction.reactionBlue,
+    // color: theme.palette.reaction.reactionBlue,
+    color: "#444",
     marginRight: theme.spacing.unit,
-    borderBottom: `solid 5px ${theme.palette.reaction.reactionBlue200}`
+    fontFamily: "arial, sans-serif",
   },
   toolbar: {
     alignItems: "center",
@@ -64,26 +59,12 @@ class Header extends Component {
     return (
       <AppBar position="static" elevation={0} className={appBar}>
         <Toolbar className={toolbar}>
-          <Hidden mdUp>
-            <NavigationToggleMobile onClick={this.handleNavigationToggleClick} />
-          </Hidden>
-
+          <MiniCart />
           <div className={controls}>
-            <Typography className={title} color="inherit" variant="h6">
-              <Link route="/">
-                <ShopLogo shopName={shop.name} />
-              </Link>
-            </Typography>
-
-            <Hidden smDown initialWidth={"md"}>
-              <NavigationDesktop />
-            </Hidden>
+            <span className={title}>Page Title</span>
           </div>
-
-          <AccountDropdown />
           <MiniCart />
         </Toolbar>
-        <NavigationMobile />
       </AppBar>
     );
   }
