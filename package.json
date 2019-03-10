@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
     "@reactioncommerce/components": "^0.63.0",
     "@reactioncommerce/components-context": "^1.2.0",
     "@segment/snippet": "^4.4.0",

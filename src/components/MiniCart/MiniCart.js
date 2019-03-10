@@ -9,26 +9,10 @@ import Badge from "@material-ui/core/Badge";
 import withCart from "containers/cart/withCart";
 import withShop from "containers/shop/withShop";
 import track from "lib/tracking/track";
-import TRACKING from "lib/tracking/constants";
 
-const { CART_VIEWED, PRODUCT_REMOVED } = TRACKING;
-
-const styles = ({ palette, zIndex }) => ({
-  popper: {
-    marginTop: "0.5rem",
-    marginRight: "1rem",
-    zIndex: zIndex.modal
-  },
+const styles = ({ palette }) => ({
   cart: {
     backgroundColor: palette.common.white
-  },
-  emptyCart: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: 360,
-    height: 320,
-    border: palette.borders.default
   },
   badge: {
     width: 20,
@@ -83,50 +67,10 @@ export default class MiniCart extends Component {
 
   anchorElement = null;
 
-  handlePopperOpen = () => {
-    const {
-      cart,
-      uiStore: { openCart }
-    } = this.props;
-    openCart();
-
-    // Track a cart view event, only if the cart contains items
-    if (cart && Array.isArray(cart.items) && cart.items.length) {
-      this.trackAction({ cartItems: cart.items, cartId: cart._id, action: CART_VIEWED });
-    }
-  };
-
-  handleClick = () => Router.pushRoute("/");
-
-  handleCheckoutButtonClick = () => {
-    this.handleLeavePopper();
-    Router.pushRoute("/cart/checkout");
-  };
-
-  handlePopperClose = () => {
-    const { closeCart } = this.props.uiStore;
-    closeCart(0);
-  };
-
-  handleEnterPopper = () => {
-    const { openCart } = this.props.uiStore;
-    openCart();
-  };
-
-  handleLeavePopper = () => {
-    const { closeCart } = this.props.uiStore;
-    closeCart();
-  };
-
   handleOnClick = () => {
     const { closeCart } = this.props.uiStore;
     closeCart();
     Router.pushRoute("cart");
-  };
-
-  handleItemQuantityChange = (quantity, cartItemId) => {
-    const { onChangeCartItemsQuantity } = this.props;
-    onChangeCartItemsQuantity({ quantity, cartItemId });
   };
 
   render() {
