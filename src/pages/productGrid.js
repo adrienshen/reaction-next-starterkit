@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import Helmet from "react-helmet";
 import withCatalogItems from "containers/catalog/withCatalogItems";
-import ProductGrid from "components/ProductGrid";
 import trackProductListViewed from "lib/tracking/trackProductListViewed";
 import { inPageSizes } from "lib/utils/pageSizes";
+import { classes } from "istanbul-lib-coverage";
 
 @withCatalogItems
 @inject("routingStore", "uiStore")
@@ -65,18 +65,84 @@ class ProductGridPage extends Component {
     this.props.uiStore.setSortBy(sortBy);
   };
 
+  renderSearchIcon() {
+    return <div>
+      SearchIcon
+    </div>
+  }
+
+  renderSubActions() {
+    return <div>
+      Filter, and Wishlist
+    </div>
+  }
+
+  renderGalleryCover() {
+    return <section>
+      <span>This is the gallery cover.</span>
+      <div className={classes.imagesList}>
+
+      </div>
+      <div className={classes.overlayControls}>
+        {this.renderSearchIcon()}
+        {this.renderSubActions()}
+      </div>
+    </section>
+  }
+
+  renderNavigationOptionsCopy() {
+    return <section>
+      <h3>Not sure what you are looking for?</h3>
+      <p>Browse our kitchen sets by categories or by style. Order a sample to make sure that's the right fit for your home.</p>
+      <ul>
+        <li>
+          <img src="/placeholder" alt="" />
+          <span>Categories</span>
+        </li>
+        <li>
+          <img src="/placeholder" alt="" />
+          <span>Styles</span>
+        </li>
+        <li>
+          <img src="/placeholder" alt="" />
+          <span>Samples</span>
+        </li>
+      </ul>
+    </section>
+  }
+
+  renderOtherOptionsCopy() {
+    return <section>
+      <div>
+        <h3>Looking for inspiration?</h3>
+        <p>Browse our idea gallery and save designs you like for later.</p>
+        <button>Browse</button>
+      </div>
+      <div>
+        <h3>Let our professionals do the work</h3>
+        <p>Have something on your mind? Contact our designers and get designs for your dream kitchen in a day.</p>
+        <button>Contact</button>
+      </div>
+      <div>
+        <h3>Measure your kitchen</h3>
+        <p>Not sure how to measure your kitchen? Follow our measuring guideline or contact our designers to help you.</p>
+        <button>Get Help</button>
+      </div>
+    </section>
+  }
+
+  renderContactUsCopy() {
+    return <section>
+      <h3>Grow your business</h3>
+      <p>Are you a reseller and want to expand your business and become our partner?</p>
+      <button>Contact Us</button>
+    </section>
+  }
+
   render() {
     const {
-      catalogItems,
-      catalogItemsPageInfo,
-      initialGridSize,
-      isLoadingCatalogItems,
-      routingStore: { query },
       shop,
-      uiStore
     } = this.props;
-    const pageSize = query && inPageSizes(query.limit) ? parseInt(query.limit, 10) : uiStore.pageSize;
-    const sortBy = query && query.sortby ? query.sortby : uiStore.sortBy;
     const pageTitle = shop && shop.description ? `${shop.name} | ${shop.description}` : shop.name;
 
     return (
@@ -85,17 +151,10 @@ class ProductGridPage extends Component {
           title={pageTitle}
           meta={[{ name: "description", content: shop && shop.description }]}
         />
-        <ProductGrid
-          catalogItems={catalogItems}
-          currencyCode={shop.currency.code}
-          initialSize={initialGridSize}
-          isLoadingCatalogItems={isLoadingCatalogItems}
-          pageInfo={catalogItemsPageInfo}
-          pageSize={pageSize}
-          setPageSize={this.setPageSize}
-          setSortBy={this.setSortBy}
-          sortBy={sortBy}
-        />
+        {this.renderGalleryCover()}
+        {this.renderNavigationOptionsCopy()}
+        {this.renderOtherOptionsCopy()}
+        {this.renderContactUsCopy()}
       </Fragment>
     );
   }

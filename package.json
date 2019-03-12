@@ -31,7 +31,8 @@
     ],
     "rules": {
       "arrow-parens": "off",
-      "comma-dangle": "off"
+      "comma-dangle": "off",
+      "semi": "off"
     }
   },
   "dependencies": {
