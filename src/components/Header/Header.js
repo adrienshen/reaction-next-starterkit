@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { inject } from "mobx-react";
+import { Router } from "routes";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import { withStyles } from "@material-ui/core/styles";
 import MiniCart from "components/MiniCart";
+import BackArrow from "components/BackArrow";
+import SearchIcon from "../SearchIcon";
 
 const styles = (theme) => ({
   appBar: {
@@ -16,13 +19,13 @@ const styles = (theme) => ({
     alignItems: "inherit",
     display: "flex",
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "center"
   },
   title: {
     // color: theme.palette.reaction.reactionBlue,
     color: "#444",
     marginRight: theme.spacing.unit,
-    fontFamily: "arial, sans-serif",
+    fontFamily: "arial, sans-serif"
   },
   toolbar: {
     alignItems: "center",
@@ -55,15 +58,17 @@ class Header extends Component {
 
   render() {
     const { classes: { appBar, controls, toolbar, title }, shop } = this.props;
+    if (Router.router && Router.router.route === "/search") return null;
 
     return (
       <AppBar position="static" elevation={0} className={appBar}>
         <Toolbar className={toolbar}>
-          <MiniCart />
+          <BackArrow />
           <div className={controls}>
             <span className={title}>Page Title</span>
           </div>
           <MiniCart />
+          <SearchIcon />
         </Toolbar>
       </AppBar>
     );

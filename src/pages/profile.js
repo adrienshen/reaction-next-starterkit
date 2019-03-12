@@ -109,7 +109,7 @@ class Profile extends Component {
         />
         <section>
           <Grid container spacing={24}>
-            <Grid item xs={0} md={1} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
+            <Grid item xs={0} md={1} />
             <Grid item xs={12} md={3}>
               {this.renderAccountProfileInfo()}
               {this.renderNavigation()}
@@ -117,7 +117,7 @@ class Profile extends Component {
             <Grid item xs={12} md={7}>
               {this.renderMainContent()}
             </Grid>
-            <Grid item xs={0} md={1} /> {/* MUI grid doesn't have an offset. Use blank grid item instead. */}
+            <Grid item xs={0} md={1} />
           </Grid>
         </section>
       </Fragment>

@@ -17,7 +17,10 @@ function defineRoutes(routes) {
     .add("tag", "/tag/:slug", "tag")
     .add("profileAddressBook", "/profile/address", "profile")
     .add("profileOrders", "/profile/orders", "profile")
-    .add("profilePaymentMethods", "/profile/payments", "profile");
+    .add("profilePaymentMethods", "/profile/payments", "profile")
+
+    // Customize
+    .add("search", "/search", "search");
 }
 
 module.exports = defineRoutes;

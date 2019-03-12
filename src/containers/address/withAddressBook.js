@@ -11,6 +11,11 @@ import {
   removeAccountAddressBookEntry
 } from "./mutations.gql";
 
+/**
+ * With address book data
+ * @param {*} Comp, Component to be enhanced
+ * @returns {React.Component} Enhanced component
+ */
 export default function withAddressBook(Comp) {
   @withApollo
   @inject("authStore")

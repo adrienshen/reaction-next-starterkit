@@ -6,7 +6,10 @@ if (process.browser) {
   const { publicRuntimeConfig } = getConfig();
 
   const wrap = (method) => (route, params, options = {}) => {
-    const { byName, urls: { as, href } } = routes.findAndGetUrls(route, params);
+    const {
+      byName,
+      urls: { as, href }
+    } = routes.findAndGetUrls(route, params);
 
     // Force full page loads
     if (!publicRuntimeConfig.enableSPARouting && !options.replace) {

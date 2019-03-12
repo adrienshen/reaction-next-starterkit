@@ -53,14 +53,6 @@ export default class MiniCart extends Component {
     })
   };
 
-  constructor(props) {
-    super(props);
-
-    this.setPopoverAnchorEl = element => {
-      this.anchorElement = element;
-    };
-  }
-
   state = {
     anchorElement: null
   };
