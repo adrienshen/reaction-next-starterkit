@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
 import track from "lib/tracking/track";
 import trackProductClicked from "lib/tracking/trackProductClicked";
 import Slider from "react-slick";

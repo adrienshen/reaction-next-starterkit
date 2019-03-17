@@ -14,7 +14,8 @@ const styles = theme => ({
     flex: "1 1 auto",
     maxWidth: theme.layout.mainContentMaxWidth,
     marginLeft: "auto",
-    marginRight: "auto"
+    marginRight: "auto",
+    minHeight: "100vh"
   },
   article: {
     padding: 0

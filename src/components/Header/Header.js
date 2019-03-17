@@ -9,11 +9,11 @@ import MiniCart from "components/MiniCart";
 import BackArrow from "components/BackArrow";
 import SearchIcon from "../SearchIcon";
 
-const styles = (theme) => ({
+const styles = theme => ({
   appBar: {
-    backgroundColor: theme.palette.reaction.white,
     borderBottom: `solid 1px ${theme.palette.reaction.black05}`,
-    color: theme.palette.reaction.coolGrey500
+    color: theme.palette.reaction.coolGrey500,
+    background: "transparent"
   },
   controls: {
     alignItems: "inherit",
@@ -30,7 +30,8 @@ const styles = (theme) => ({
   toolbar: {
     alignItems: "center",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    background: "transparent"
   }
 });
 
@@ -57,7 +58,10 @@ class Header extends Component {
   };
 
   render() {
-    const { classes: { appBar, controls, toolbar, title }, shop } = this.props;
+    const {
+      classes: { appBar, controls, toolbar, title },
+      shop
+    } = this.props;
     if (Router.router && Router.router.route === "/search") return null;
     if (Router.router && Router.router.route === "/productGrid") return null;
 

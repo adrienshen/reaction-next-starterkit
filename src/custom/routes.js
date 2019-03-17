@@ -25,6 +25,7 @@ function defineRoutes(routes) {
     .add("wishlist", "/wishlist", "wishlist")
     .add("account", "/account", "account")
     .add("about", "/about", "about")
+    .add("categories", "/categories", "categories")
 }
 
 module.exports = defineRoutes;
