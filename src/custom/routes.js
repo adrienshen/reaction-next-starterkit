@@ -20,7 +20,11 @@ function defineRoutes(routes) {
     .add("profilePaymentMethods", "/profile/payments", "profile")
 
     // Customize
-    .add("search", "/search", "search");
+    .add("search", "/search", "search")
+    .add("kitchenDesign", "/kitchendesign", "kitchenDesign")
+    .add("wishlist", "/wishlist", "wishlist")
+    .add("account", "/account", "account")
+    .add("about", "/about", "about")
 }
 
 module.exports = defineRoutes;

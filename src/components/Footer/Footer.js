@@ -1,21 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
 const date = new Date();
 
-const styles = (theme) => ({
+const styles = {
   footer: {
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: "1rem",
+    padding: "1rem 0 0 0"
   }
-});
+}
 
 const Footer = ({ ...props }) => (
-  <footer className={props.classes.footer}>
+  <footer style={styles.footer}>
     <Typography variant="caption">
       &copy; {date.getFullYear()} Reaction Commerce
     </Typography>
@@ -26,4 +26,4 @@ Footer.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(styles, { name: "SkFooter" })(Footer);
+export default Footer;

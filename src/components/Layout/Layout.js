@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Header from "components/Header";
 import Footer from "components/Footer";
+import MainNavigation from "../MainNavigation";
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
-    minHeight: "100vh"
+    minHeight: "100vh",
+    marginBottom: "5rem",
   },
   main: {
     flex: "1 1 auto",
@@ -15,7 +17,7 @@ const styles = (theme) => ({
     marginRight: "auto"
   },
   article: {
-    padding: theme.spacing.unit * 3
+    padding: 0
   }
 });
 
@@ -45,6 +47,7 @@ class Layout extends Component {
             <article className={classes.article}>{children}</article>
           </main>
           <Footer />
+          <MainNavigation />
         </div>
       </React.Fragment>
     );

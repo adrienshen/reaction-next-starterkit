@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "sideEffects": false,
   "scripts": {
-    "dev": "NODE_ENV=development node ./src/server.js",
+    "dev": "CANONICAL_URL=http://localhost:4000 EXTERNAL_GRAPHQL_URL=http://localhost:3000/graphql-alpha INTERNAL_GRAPHQL_URL=http://localhost:3000/graphql-alpha NODE_ENV=development OAUTH2_ADMIN_PORT=4445 OAUTH2_AUTH_URL=http://localhost:4444/oauth2/auth OAUTH2_CLIENT_ID=reaction-next-starterkit OAUTH2_CLIENT_SECRET=CHANGEME OAUTH2_IDP_HOST_URL=http://localhost:3000/ OAUTH2_REDIRECT_URL=http://localhost:4000/callback OAUTH2_TOKEN_URL=http://localhost:4444/oauth2/token SESSION_SECRET=CHANGEME node ./src/server.js",
     "build": "yarn run build-clean && NODE_ENV=production IS_BUILDING_NEXTJS=1 next build src",
     "build-clean": "rimraf build/app",
     "lint": "eslint .",
@@ -76,6 +76,8 @@
     "react-dom": "16.7.0",
     "react-helmet": "^5.2.0",
     "react-jss": "^8.6.1",
+    "react-responsive-carousel": "^3.1.47",
+    "react-slick": "^0.23.2",
     "react-stripe-elements": "^2.0.3",
     "react-tracking": "^5.6.0",
     "reacto-form": "^0.0.2",
