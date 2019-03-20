@@ -121,7 +121,6 @@ export default class VariantList extends Component {
     return (
       <div className={variantsContainer}>
         {variants.map(this.renderVariant)}
-        {this.renderOptionsList()}
         <div className={inventoryStatus}>
           {this.renderInventoryStatusText()}
         </div>

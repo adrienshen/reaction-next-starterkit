@@ -5,8 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import withWidth, { isWidthUp, isWidthDown } from "@material-ui/core/withWidth";
 import { inject, observer } from "mobx-react";
 import track from "lib/tracking/track";
-import Breadcrumbs from "components/Breadcrumbs";
-import ProductDetailAddToCart from "components/ProductDetailAddToCart";
+// import ProductDetailAddToCart from "components/ProductDetailAddToCart";
 import ProductDetailTitle from "components/ProductDetailTitle";
 import VariantList from "components/VariantList";
 import ProductDetailVendor from "components/ProductDetailVendor";
@@ -22,7 +21,7 @@ import trackCartItems from "lib/tracking/trackCartItems";
 
 const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
 
-const styles = (theme) => ({
+const styles = theme => ({
   section: {
     marginBottom: theme.spacing.unit * 2
   },
@@ -32,6 +31,24 @@ const styles = (theme) => ({
   },
   info: {
     marginBottom: theme.spacing.unit
+  },
+  renderTabsSection: {
+    width: "100%"
+  },
+  buttons: {
+    width: "100%",
+    display: "flex"
+  },
+  buttonTabs: {
+    width: "50%",
+    border: "none",
+    fontSize: "1rem",
+    textTransform: "uppercase",
+    outline: "none",
+    paddingBottom: "1rem"
+  },
+  contentContainer: {
+    padding: "2rem 1rem",
   }
 });
 
@@ -66,6 +83,18 @@ class ProductDetail extends Component {
     width: PropTypes.string.isRequired
   };
 
+  state = {
+    colorFilterSelected: null,
+    colorFilters: [
+      { code: "soft_white", patternLabel: "Soft White", patternUrl: "#eee" },
+      { code: "oak_wood", patternLabel: "Oak Wood", patternUrl: "wood.png" },
+      { code: "red", patternLabel: "Red", patternUrl: "red.png" },
+      { code: "brown", patternLabel: "Brown", patternUrl: "brown.png" },
+      { code: "dark", patternLabel: "Dark", patternUrl: "dark.png" }
+    ],
+    tabSelected: "features"
+  };
+
   componentDidMount() {
     const { product } = this.props;
 
@@ -87,10 +116,14 @@ class ProductDetail extends Component {
 
     uiStore.setPDPSelectedVariantId(variantId, selectOptionId);
 
-    Router.pushRoute("product", {
-      slugOrId: product.slug,
-      variantId: selectOptionId || variantId
-    }, { replace: true });
+    Router.pushRoute(
+      "product",
+      {
+        slugOrId: product.slug,
+        variantId: selectOptionId || variantId
+      },
+      { replace: true }
+    );
   }
 
   @trackProduct()
@@ -107,7 +140,7 @@ class ProductDetail extends Component {
    * @param {Object} variant The variant object that was selected
    * @returns {undefined} No return
    */
-  handleSelectVariant = (variant) => {
+  handleSelectVariant = variant => {
     this.selectVariant(variant);
   };
 
@@ -119,7 +152,7 @@ class ProductDetail extends Component {
    * @param {Number} quantity - A positive integer from 0 to infinity, representing the quantity to add to cart
    * @returns {undefined} No return
    */
-  handleAddToCartClick = async (quantity) => {
+  handleAddToCartClick = async quantity => {
     const {
       addItemsToCart,
       currencyCode,
@@ -189,11 +222,11 @@ class ProductDetail extends Component {
    * @param {Object} option The option object that was selected
    * @returns {undefined} No return
    */
-  handleSelectOption = (option) => {
+  handleSelectOption = option => {
     const { product, uiStore } = this.props;
 
     // If we are clicking an option, it must be for the current selected variant
-    const variant = product.variants.find((vnt) => vnt._id === uiStore.pdpSelectedVariantId);
+    const variant = product.variants.find(vnt => vnt._id === uiStore.pdpSelectedVariantId);
 
     this.selectVariant(variant, option._id);
   };
@@ -220,6 +253,220 @@ class ProductDetail extends Component {
     return productPrice;
   }
 
+  selectDesignColor(color) {
+    // console.log("color selected: ", color);
+    this.setState({
+      colorFilterSelected: color
+    });
+  }
+
+  identifyImagePathString(patternUrl) {
+    return patternUrl.indexOf("png") > -1;
+  }
+
+  renderColorSelect() {
+    const { classes } = this.props;
+    const { colorFilters, colorFilterSelected } = this.state;
+    return (
+      <section>
+        <ul
+          style={{
+            listStyle: "none",
+            display: "inline-flex",
+            flexFlow: "row nowrap",
+            width: "100%",
+            justifyContent: "flex-end"
+          }}
+        >
+          {colorFilters.map(pattern => {
+            return (
+              <li className={classes.colorPatternListItem}>
+                <button
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderRadius: "50%",
+                    marginRight: "2rem",
+                    backgroundImage: `url('/static/images/patterns/${pattern.patternUrl}')`,
+                    border: "none",
+                    outline: "none",
+                    cursor: "pointer",
+                    border: colorFilterSelected
+                      ? colorFilterSelected.code === pattern.code
+                        ? "2px solid #555"
+                        : "none"
+                      : "none"
+                  }}
+                  className={classes.colorPatternItem}
+                  onClick={() => this.selectDesignColor(pattern)}
+                >
+                  <span
+                    style={{
+                      display: "none"
+                    }}
+                  >
+                    {pattern.patternLabel}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    );
+  }
+
+  handleGetSampleClick() {
+    console.log("GET SAMPLE");
+  }
+
+  renderSampleBox() {
+    return (
+      <section
+        style={{
+          padding: "1rem",
+          width: "100%",
+          textAlign: "center"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "1rem"
+          }}
+        >
+          <img src="https://via.placeholder.com/80x100" alt="product photo" />
+          <div
+            style={{
+              textAlign: "left",
+              paddingLeft: "1rem"
+            }}
+          >
+            <h3
+              style={{
+                color: "#4E4E4E",
+                fontFamily: "Lato, sans-serif",
+                fontSize: "1rem",
+                marginTop: 0,
+                fontWeight: "normal"
+              }}
+            >
+              Soft White
+            </h3>
+            <span
+              style={{
+                color: "#B09A51",
+                fontFamily: "Lato, sans-serif",
+                fontSize: ".9rem",
+                fontWeight: 600
+              }}
+            >
+              ${"1,199"}
+            </span>
+          </div>
+        </div>
+        <button
+          onClick={this.handleGetSampleClick}
+          style={{
+            border: "2px solid #B09A51",
+            color: "#B09A51",
+            borderRadius: "1rem",
+            padding: "4px 12px"
+          }}
+        >
+          Get a Sample
+        </button>
+      </section>
+    );
+  }
+
+  selectTab = (tab) => {
+    this.setState({
+      tabSelected: tab,
+    });
+  }
+
+  renderTabDetails() {
+    const { classes } = this.props;
+    return (
+      <section className={classes.renderTabsSection}>
+        <div className={classes.buttons}>
+          <button
+            style={{
+              borderBottom: this.state.tabSelected === "features" ? "4px solid #B09A51" : "none",
+              color: this.state.tabSelected === "features" ? "#B09A51" : "#222",
+            }}
+            className={classes.buttonTabs} onClick={() => this.selectTab("features")}>
+            Features
+          </button>
+          <button
+            style={{
+              borderBottom: this.state.tabSelected === "details" ? "4px solid #B09A51" : "none",
+              color: this.state.tabSelected === "details" ? "#B09A51" : "#222",
+            }}
+            className={classes.buttonTabs} onClick={() => this.selectTab("details")}>
+            Description
+          </button>
+        </div>
+        <section className={classes.contentContainer}>
+          {this.state.tabSelected === "details" ? <div className={classes.content}>Details content</div> : null}
+          {this.state.tabSelected === "features" ? (
+            <div className={[classes.content, classes.features]}>Features content</div>
+          ) : null}
+        </section>
+      </section>
+    );
+  }
+
+  renderAttributeChoices() {
+    return (
+      <section>
+        <div>
+          <select placeholder="Categories" className="filterSelect">
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+        <div>
+          <select placeholder="Width" className="filterSelect">
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+        <div>
+          <select placeholder="Height" className="filterSelect">
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+        <div>
+          <select placeholder="Depth" className="filterSelect">
+            <option>1</option>
+            <option>2</option>
+          </select>
+        </div>
+      </section>
+    );
+  }
+
+  renderVariantBox() {
+    return (
+      <div>
+        <h3>24" Deep Double Full Height Door</h3>
+        <div>
+          <img src="https://via.placeholder.com/100x120" alt="" />
+          <span>{`36"w x 34"h x 24"d`}</span>
+          <div>quantity_selectors</div>
+          <div>
+            <span>${`1,099`}</span>
+            <button className="addToCart">Cc</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const {
       classes,
@@ -238,7 +485,7 @@ class ProductDetail extends Component {
     // If we have a selected variant (we always should)
     // check to see if media is available, and use this media instead
     // Revert to original media if variant doesn't have specific media
-    const selectedVariant = product.variants.find((variant) => variant._id === pdpSelectedVariantId);
+    const selectedVariant = product.variants.find(variant => variant._id === pdpSelectedVariantId);
     if (selectedVariant) {
       if (selectedVariant.media && selectedVariant.media.length) {
         pdpMediaItems = selectedVariant.media;
@@ -247,7 +494,7 @@ class ProductDetail extends Component {
       // If we have a selected option, do the same check
       // Will revert to variant check if no option media is available
       if (Array.isArray(selectedVariant.options) && selectedVariant.options.length) {
-        const selectedOption = selectedVariant.options.find((option) => option._id === pdpSelectedOptionId);
+        const selectedOption = selectedVariant.options.find(option => option._id === pdpSelectedOptionId);
         if (selectedOption) {
           if (selectedOption.media && selectedOption.media.length) {
             pdpMediaItems = selectedOption.media;
@@ -264,20 +511,25 @@ class ProductDetail extends Component {
       return (
         <Fragment>
           <div className={classes.section}>
-            <ProductDetailTitle pageTitle={product.pageTitle} title={product.title} />
-            <div className={classes.info}>
-              <ProductDetailVendor>{product.vendor}</ProductDetailVendor>
-            </div>
-            <div className={classes.info}>
-              <ProductDetailPrice compareAtPrice={compareAtDisplayPrice} isCompact price={productPrice.displayPrice} />
-            </div>
-          </div>
-
-          <div className={classes.section}>
             <MediaGallery mediaItems={pdpMediaItems} />
           </div>
 
           <div className={classes.section}>
+            {this.renderColorSelect()}
+            {this.renderSampleBox()}
+            {/* <ProductDetailAddToCart
+              onClick={this.handleAddToCartClick}
+              selectedOptionId={pdpSelectedOptionId}
+              selectedVariantId={pdpSelectedVariantId}
+              variants={product.variants}
+            /> */}
+          </div>
+
+          <div className={classes.section}>{this.renderTabDetails()}</div>
+
+          {this.renderAttributeChoices()}
+
+          <div className={classes.variantOptionList}>
             <VariantList
               onSelectOption={this.handleSelectOption}
               onSelectVariant={this.handleSelectVariant}
@@ -287,16 +539,6 @@ class ProductDetail extends Component {
               currencyCode={currencyCode}
               variants={product.variants}
             />
-            <ProductDetailAddToCart
-              onClick={this.handleAddToCartClick}
-              selectedOptionId={pdpSelectedOptionId}
-              selectedVariantId={pdpSelectedVariantId}
-              variants={product.variants}
-            />
-          </div>
-
-          <div className={classes.section}>
-            <ProductDetailDescription>{product.description}</ProductDetailDescription>
           </div>
         </Fragment>
       );
@@ -305,9 +547,6 @@ class ProductDetail extends Component {
     return (
       <Fragment>
         <Grid container spacing={theme.spacing.unit * 5}>
-          <Grid item className={classes.breadcrumbGrid} xs={12}>
-            <Breadcrumbs isPDP tagId={routingStore.tagId} product={product} />
-          </Grid>
           <Grid item xs={12} sm={6}>
             <div className={classes.section}>
               <MediaGallery mediaItems={pdpMediaItems} />
@@ -320,7 +559,11 @@ class ProductDetail extends Component {
               <ProductDetailVendor>{product.vendor}</ProductDetailVendor>
             </div>
             <div className={classes.info}>
-              <ProductDetailPrice className={classes.bottomMargin} compareAtPrice={compareAtDisplayPrice} price={productPrice.displayPrice} />
+              <ProductDetailPrice
+                className={classes.bottomMargin}
+                compareAtPrice={compareAtDisplayPrice}
+                price={productPrice.displayPrice}
+              />
             </div>
             <div className={classes.info}>
               <ProductDetailDescription>{product.description}</ProductDetailDescription>
@@ -334,12 +577,12 @@ class ProductDetail extends Component {
               currencyCode={currencyCode}
               variants={product.variants}
             />
-            <ProductDetailAddToCart
+            {/* <ProductDetailAddToCart
               onClick={this.handleAddToCartClick}
               selectedOptionId={pdpSelectedOptionId}
               selectedVariantId={pdpSelectedVariantId}
               variants={product.variants}
-            />
+            /> */}
           </Grid>
         </Grid>
       </Fragment>

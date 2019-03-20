@@ -64,6 +64,7 @@ class Header extends Component {
     } = this.props;
     if (Router.router && Router.router.route === "/search") return null;
     if (Router.router && Router.router.route === "/productGrid") return null;
+    if (Router.router && Router.router.route === "/cart") return null;
 
     return (
       <AppBar position="static" elevation={0} className={appBar}>

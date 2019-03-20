@@ -8,9 +8,6 @@ import Typography from "@material-ui/core/Typography";
  */
 class ProductDetailDescription extends Component {
   static propTypes = {
-    /**
-     * Product description
-     */
     children: PropTypes.string
   }
 

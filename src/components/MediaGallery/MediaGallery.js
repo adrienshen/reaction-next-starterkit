@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ProgressiveImage from "@reactioncommerce/components/ProgressiveImage/v1";
-import MediaGalleryItem from "components/MediaGalleryItem";
 
 const styles = (theme) => ({
   root: {
@@ -12,7 +11,7 @@ const styles = (theme) => ({
   featured: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing.unit,
   },
   featuredImage: {
     flex: 0,
@@ -81,8 +80,6 @@ class MediaGallery extends Component {
     const featuredMedia = mediaItems[this.state.featuredMediaIndex];
     const mediaUrls = featuredMedia && featuredMedia.URLs;
 
-    // TODO: figure out the correct usage of alt text here
-    // LINK TO GH ISSUE
     return <ProgressiveImage presrc={mediaUrls && mediaUrls.thumbnail} src={mediaUrls && mediaUrls.large} />;
   }
 
@@ -93,14 +90,6 @@ class MediaGallery extends Component {
       <Grid container className={classes.root}>
         <Grid item xs={12} sm={12}>
           <div className={classes.featured}>{this.renderFeaturedImage()}</div>
-
-          <Grid container spacing={theme.spacing.unit}>
-            {mediaItems.map((media, index) => (
-              <Grid item key={index} xs={3} sm={2}>
-                <MediaGalleryItem index={index} media={media} onClick={this.handleMediaItemClick} />
-              </Grid>
-            ))}
-          </Grid>
         </Grid>
       </Grid>
     );

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Button from "@reactioncommerce/components/Button/v1";
 import { Router } from "routes";
 
 export default class CheckoutButtons extends Component {
@@ -21,7 +20,7 @@ export default class CheckoutButtons extends Component {
      * className for primary checkout button
      */
     primaryClassName: PropTypes.string
-  }
+  };
 
   static defaultProps = {
     primaryButtonRoute: "/cart/checkout",
@@ -31,25 +30,35 @@ export default class CheckoutButtons extends Component {
   handleOnClick = () => {
     const { primaryButtonRoute } = this.props;
     Router.pushRoute(primaryButtonRoute);
-  }
+  };
 
   render() {
-    const {
-      isDisabled,
-      primaryClassName,
-      primaryButtonText
-    } = this.props;
+    const { isDisabled, primaryClassName, primaryButtonText } = this.props;
 
     return (
-      <Button
-        actionType="important"
-        className={primaryClassName}
-        isDisabled={isDisabled}
-        isFullWidth
-        onClick={this.handleOnClick}
+      <div
+        style={{
+          width: "100%",
+          display: "inline-block",
+          textAlign: "right"
+        }}
       >
-        {primaryButtonText}
-      </Button>
+        <button
+          style={{
+            background: "#B09A51",
+            color: "#fff",
+            border: "#B09A51",
+            padding: ".75rem 2rem",
+            borderRadius: "1.3rem",
+            fontSize: "1.15rem",
+            textTransform: "uppercase"
+          }}
+          isDisabled={isDisabled}
+          onClick={this.handleOnClick}
+        >
+          {primaryButtonText}
+        </button>
+      </div>
     );
   }
 }

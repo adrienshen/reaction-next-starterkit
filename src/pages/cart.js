@@ -3,14 +3,12 @@ import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { inject, observer } from "mobx-react";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import CartEmptyMessage from "@reactioncommerce/components/CartEmptyMessage/v1";
-import CartSummary from "@reactioncommerce/components/CartSummary/v1";
+import CartSummary from "../custom/CartSummary";
 import withCart from "containers/cart/withCart";
 import CartItems from "components/CartItems";
 import CheckoutButtons from "components/CheckoutButtons";
-import Link from "components/Link";
 import { Router } from "routes";
 import PageLoading from "components/PageLoading";
 import track from "lib/tracking/track";
@@ -103,9 +101,8 @@ class CartPage extends Component {
 
     if (data && !error) {
       const { cart: { _id } } = data.removeCartItems;
-      const removedItem = { cart_id: _id, ...variantById(items, itemId) }; // eslint-disable-line camelcase
+      const removedItem = { cart_id: _id, ...variantById(items, itemId) };
 
-      // Track removed item
       this.trackAction({ cartItems: removedItem, action: TRACKING.PRODUCT_REMOVED });
     }
   };
@@ -113,9 +110,11 @@ class CartPage extends Component {
   renderCartItems() {
     const { cart, classes, hasMoreCartItems, loadMoreCartItems } = this.props;
 
+    console.log("cart.items: ", cart);
+
     if (cart && Array.isArray(cart.items) && cart.items.length) {
       return (
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={8} style={{ marginBottom: "4rem" }}>
           <div className={classes.itemWrapper}>
             <CartItems
               hasMoreCartItems={hasMoreCartItems}
@@ -144,14 +143,15 @@ class CartPage extends Component {
 
       return (
         <Grid item xs={12} md={3}>
-          <CartSummary
+          {/* <CartSummary
             displayShipping={fulfillmentTotal && fulfillmentTotal.displayAmount}
             displaySubtotal={itemTotal && itemTotal.displayAmount}
             displaySurcharge={surchargeTotal && surchargeTotal.displayAmount}
             displayTax={taxTotal && taxTotal.displayAmount}
             displayTotal={total && total.displayAmount}
             itemsQuantity={cart.totalItemQuantity}
-          />
+          /> */}
+          <CartSummary />
           <div className={classes.checkoutButtonsContainer}>
             <CheckoutButtons />
           </div>
@@ -163,7 +163,7 @@ class CartPage extends Component {
   }
 
   render() {
-    const { cart, classes, shop } = this.props;
+    const { cart, shop } = this.props;
     // when a user has no item in cart in a new session, this.props.cart is null
     // when the app is still loading, this.props.cart is undefined
     if (typeof cart === "undefined") return <PageLoading delay={0} />;
@@ -174,24 +174,12 @@ class CartPage extends Component {
           title={`Cart | ${shop && shop.name}`}
           meta={[{ name: "description", content: shop && shop.description }]}
         />
-        <section>
-          <Typography className={classes.title} variant="h6" align="center">
-            Shopping Cart
-          </Typography>
+        <section style={{
+          marginTop: "2rem",
+        }}>
           <Grid container spacing={24}>
             {this.renderCartItems()}
             {this.renderCartSummary()}
-            <Grid className={classes.customerSupportCopy} item>
-              <Typography paragraph variant="caption">
-                Have questions? call <span className={classes.phoneNumber}>1.800.555.5555</span>
-              </Typography>
-              <Typography paragraph variant="caption">
-                <Link href="#">Shipping information</Link>
-              </Typography>
-              <Typography paragraph variant="caption">
-                <Link href="#">Return policy</Link>
-              </Typography>
-            </Grid>
           </Grid>
         </section>
       </Fragment>
