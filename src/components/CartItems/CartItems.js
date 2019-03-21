@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Card, Paper } from "@material-ui/core";
 import ProductDetailTitle from "../ProductDetailTitle";
+import QuantitySelector from "../../custom/components/QuantitySelector";
+import withCart from "../../containers/cart/withCart";
 
 const styles = theme => ({
   loadMore: {
@@ -46,25 +48,6 @@ const styles = theme => ({
     color: "#8E7A3F",
     marginTop: "0rem"
   },
-  incrementDecrementButtons: {
-    borderRadius: "50%",
-    color: "#fff",
-    padding: "4px",
-    width: "30px",
-    height: "30px",
-    fontWeight: 600,
-    background: "#B09A51",
-    fontWeight: 600,
-    fontSize: "18px",
-    textAlign: "center",
-    outline: "none"
-  },
-  quantityNumber: {
-    margin: ".5rem",
-    color: "#4E4E4E",
-    fontFamily: "Lato, sans-serif",
-    fontSize: "12px"
-  },
   originalPrice: {
     color: "#C6C6C6",
     fontFamily: "Lato, sans-serif",
@@ -81,6 +64,7 @@ const styles = theme => ({
 });
 
 @withStyles(styles, { name: "SkCartItems" })
+@withCart()
 class CartItems extends Component {
   static propTypes = {
     classes: PropTypes.object,
@@ -133,13 +117,9 @@ class CartItems extends Component {
   }
 
   renderPrice(price) {
-    const { classes } = this.props;
-    return (
-      <div>
-        <span className={classes.originalPrice}>{price.displayAmount}</span>
-        <span className={classes.price}>{price.displayAmount}</span>
-      </div>
-    );
+    return <QuantitySelector
+      decrement={() => console.log("decrement")}
+      increment={() => console.log("increment")} />
   }
 
   renderProductCartItem(item) {

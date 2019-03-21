@@ -15,11 +15,22 @@ import MediaGallery from "components/MediaGallery";
 import { Router } from "routes";
 import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
 import variantById from "lib/utils/variantById";
-import trackProduct from "lib/tracking/trackProduct";
-import TRACKING from "lib/tracking/constants";
+// import trackProduct from "lib/tracking/trackProduct";
+// import TRACKING from "lib/tracking/constants";
 import trackCartItems from "lib/tracking/trackCartItems";
 
-const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Typography from "@material-ui/core/Typography";
+
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import VariantOptionBox from "../../custom/components/VariantOptionBox";
+
+// const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
 
 const styles = theme => ({
   section: {
@@ -45,11 +56,26 @@ const styles = theme => ({
     fontSize: "1rem",
     textTransform: "uppercase",
     outline: "none",
-    paddingBottom: "1rem"
+    paddingBottom: "1rem",
+    background: "#fff",
+    backgroundColor: "#fff"
   },
   contentContainer: {
-    padding: "2rem 1rem",
-  }
+    padding: "2rem 1rem"
+  },
+  selectContainer: {
+    width: "100%",
+    padding: "1rem"
+  },
+  filterSelect: {
+    width: "100%",
+    height: "48px",
+    border: "2px solid #ddd",
+    paddingLeft: "2rem",
+    background: "#fff",
+    outline: "none"
+  },
+  filterOption: {}
 });
 
 /**
@@ -92,7 +118,8 @@ class ProductDetail extends Component {
       { code: "brown", patternLabel: "Brown", patternUrl: "brown.png" },
       { code: "dark", patternLabel: "Dark", patternUrl: "dark.png" }
     ],
-    tabSelected: "features"
+    tabSelected: "features",
+    subCategorySelected: ["wall", "base", "tall", "pantry"]
   };
 
   componentDidMount() {
@@ -112,7 +139,7 @@ class ProductDetail extends Component {
       selectOptionId = variant.options[0]._id;
     }
 
-    this.trackAction({ variant, optionId, action: PRODUCT_VIEWED });
+    // this.trackAction({ variant, optionId, action: PRODUCT_VIEWED });
 
     uiStore.setPDPSelectedVariantId(variantId, selectOptionId);
 
@@ -126,11 +153,11 @@ class ProductDetail extends Component {
     );
   }
 
-  @trackProduct()
-  trackAction() {}
+  // @trackProduct()
+  // trackAction() {}
 
-  @trackCartItems()
-  trackCartItems() {}
+  // @trackCartItems()
+  // trackCartItems() {}
 
   /**
    * @name handleSelectVariant
@@ -192,20 +219,20 @@ class ProductDetail extends Component {
         const { cart } = data.createCart || data.addCartItems;
         const { edges: items } = cart.items;
 
-        this.trackAction({
-          variant: {
-            ...selectedVariant,
-            cart_id: cart._id, // eslint-disable-line camelcase
-            quantity
-          },
-          optionId: selectedOption ? selectedOption._id : null,
-          action: PRODUCT_ADDED
-        });
+        // this.trackAction({
+        //   variant: {
+        //     ...selectedVariant,
+        //     cart_id: cart._id, // eslint-disable-line camelcase
+        //     quantity
+        //   },
+        //   optionId: selectedOption ? selectedOption._id : null,
+        //   action: PRODUCT_ADDED
+        // });
 
         // The mini cart popper will open automatically after adding an item to the cart,
         // therefore, a CART_VIEWED event is published.
         // debugger // eslint-disable-line
-        this.trackCartItems({ cartItems: items, cartId: cart._id, action: CART_VIEWED }); // eslint-disable-line camelcase
+        // this.trackCartItems({ cartItems: items, cartId: cart._id, action: CART_VIEWED }); // eslint-disable-line camelcase
       }
     }
     if (isWidthUp("md", width)) {
@@ -372,7 +399,9 @@ class ProductDetail extends Component {
             border: "2px solid #B09A51",
             color: "#B09A51",
             borderRadius: "1rem",
-            padding: "4px 12px"
+            padding: "6px 14px",
+            background: "#fff",
+            backgroundColor: "#fff"
           }}
         >
           Get a Sample
@@ -381,36 +410,40 @@ class ProductDetail extends Component {
     );
   }
 
-  selectTab = (tab) => {
+  selectTab = tab => {
     this.setState({
-      tabSelected: tab,
+      tabSelected: tab
     });
-  }
+  };
 
   renderTabDetails() {
-    const { classes } = this.props;
+    const { classes, product } = this.props;
     return (
       <section className={classes.renderTabsSection}>
         <div className={classes.buttons}>
           <button
             style={{
               borderBottom: this.state.tabSelected === "features" ? "4px solid #B09A51" : "none",
-              color: this.state.tabSelected === "features" ? "#B09A51" : "#222",
+              color: this.state.tabSelected === "features" ? "#B09A51" : "#222"
             }}
-            className={classes.buttonTabs} onClick={() => this.selectTab("features")}>
+            className={classes.buttonTabs}
+            onClick={() => this.selectTab("features")}
+          >
             Features
           </button>
           <button
             style={{
               borderBottom: this.state.tabSelected === "details" ? "4px solid #B09A51" : "none",
-              color: this.state.tabSelected === "details" ? "#B09A51" : "#222",
+              color: this.state.tabSelected === "details" ? "#B09A51" : "#222"
             }}
-            className={classes.buttonTabs} onClick={() => this.selectTab("details")}>
+            className={classes.buttonTabs}
+            onClick={() => this.selectTab("details")}
+          >
             Description
           </button>
         </div>
         <section className={classes.contentContainer}>
-          {this.state.tabSelected === "details" ? <div className={classes.content}>Details content</div> : null}
+          {this.state.tabSelected === "details" ? <div className={classes.content}>{product.description}</div> : null}
           {this.state.tabSelected === "features" ? (
             <div className={[classes.content, classes.features]}>Features content</div>
           ) : null}
@@ -419,52 +452,103 @@ class ProductDetail extends Component {
     );
   }
 
-  renderAttributeChoices() {
+  handleSubCategorySelect(value) {
+    let nextList;
+    if (value in this.state.subCategorySelected) {
+      const indexOfElem = this.state.subCategorySelected.indexOf(value);
+      nextList = this.state.subCategorySelected.slice(indexOfElem, indexOfElem + 1);
+    } else {
+      nextList = this.state.subCategorySelected.concat([value]);
+    }
+
+    console.log("nextList: ", nextList);
+  }
+
+  renderCheckboxControl(controlValue, key) {
     return (
-      <section>
-        <div>
-          <select placeholder="Categories" className="filterSelect">
-            <option>1</option>
-            <option>2</option>
-          </select>
-        </div>
-        <div>
-          <select placeholder="Width" className="filterSelect">
-            <option>1</option>
-            <option>2</option>
-          </select>
-        </div>
-        <div>
-          <select placeholder="Height" className="filterSelect">
-            <option>1</option>
-            <option>2</option>
-          </select>
-        </div>
-        <div>
-          <select placeholder="Depth" className="filterSelect">
-            <option>1</option>
-            <option>2</option>
-          </select>
-        </div>
-      </section>
+      <FormControlLabel
+        key={key}
+        control={
+          <Checkbox
+            checked={controlValue in this.state.subCategorySelected}
+            onChange={this.handleSubCategorySelect(controlValue)}
+            value={controlValue}
+          />
+        }
+        label={controlValue.toUpperCase()}
+      />
     );
   }
 
-  renderVariantBox() {
+  renderCategorySelect(categoryObj) {
+    const { classes } = this.props;
     return (
-      <div>
-        <h3>24" Deep Double Full Height Door</h3>
-        <div>
-          <img src="https://via.placeholder.com/100x120" alt="" />
-          <span>{`36"w x 34"h x 24"d`}</span>
-          <div>quantity_selectors</div>
-          <div>
-            <span>${`1,099`}</span>
-            <button className="addToCart">Cc</button>
-          </div>
-        </div>
+      <div className={classes.selectContainer}>
+        <select
+          style={{
+            color: "#808080",
+            fontSize: "1rem"
+          }}
+          defaultValue=""
+          className={classes.filterSelect}
+        >
+          <option value="" disabled selected>
+            {categoryObj.category.toUpperCase()}
+          </option>
+          {categoryObj.options.map((elem, key) => {
+            return this.renderOption(elem, key);
+          })}
+        </select>
       </div>
     );
+  }
+
+  renderOption(option, key) {
+    const { classes } = this.props;
+    return <option value={option.value}>{option.label}</option>;
+  }
+
+  renderAttributeChoices() {
+    try {
+      const { classes } = this.props;
+      return (
+        <section className={classes.section}>
+          <div className={classes.selectContainer}>
+            <ExpansionPanel>
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.heading}>Subcategories</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <FormControl component="fieldset" className={classes.formControl}>
+                  {["wall", "base", "tall", "pantry"].map((elem, key) => this.renderCheckboxControl(elem, key))}
+                </FormControl>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </div>
+          <div className={classes.categoryFilters}>
+            {this.renderCategorySelect({
+              category: "width",
+              options: [{ value: 20, label: "20" }, { value: 21, label: "21" }]
+            })}
+            {this.renderCategorySelect({
+              category: "height",
+              options: [{ value: 20, label: "20" }, { value: 21, label: "21" }]
+            })}
+            {this.renderCategorySelect({
+              category: "depth",
+              options: [{ value: 20, label: "20" }, { value: 21, label: "21" }]
+            })}
+          </div>
+        </section>
+      );
+    } catch (err) {
+      console.error("err: ", err);
+      return <div>error here</div>;
+    }
+  }
+
+  renderVariantBox(product) {
+    return <VariantOptionBox product={product} />;
   }
 
   render() {
@@ -530,7 +614,8 @@ class ProductDetail extends Component {
           {this.renderAttributeChoices()}
 
           <div className={classes.variantOptionList}>
-            <VariantList
+            {this.renderVariantBox(product)}
+            {/* <VariantList
               onSelectOption={this.handleSelectOption}
               onSelectVariant={this.handleSelectVariant}
               product={product}
@@ -538,7 +623,7 @@ class ProductDetail extends Component {
               selectedVariantId={pdpSelectedVariantId}
               currencyCode={currencyCode}
               variants={product.variants}
-            />
+            /> */}
           </div>
         </Fragment>
       );
