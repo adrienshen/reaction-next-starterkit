@@ -33,6 +33,7 @@ export const ProductVariantTitle = ({ title }) => {
     fontSize: "1rem",
     fontWeight: "400",
     fontFamily: "Lato, sans-serif",
+    width: "100%",
   }}>{title}</h3>
 }
 

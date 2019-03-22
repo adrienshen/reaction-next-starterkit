@@ -64,10 +64,10 @@ export default class VariantOptionBox extends PureComponent {
 
       if (variant.options && variant.options.length) {
         return variant.options.map(option => {
-          return this.renderFinalOption(option, dimensions, variantThumbnail);
+          return this.renderFinalOption(option, dimensions);
         });
       } else {
-        return this.renderFinalOption(variant, dimensions, variantThumbnail);
+        return this.renderFinalOption(variant, dimensions, "");
       }
     } catch(err) {
       console.error("err: ", err);
@@ -76,12 +76,18 @@ export default class VariantOptionBox extends PureComponent {
   }
 
   renderFinalOption(productOptionVariant, dimensions, variantThumbnail) {
-    // console.log("productOptionVariant: ", productOptionVariant.media)
+    // console.log("productOptionVariant.media[0].URLs: ", productOptionVariant.media)
+    let thumbnail = "";
+    if (productOptionVariant.media && productOptionVariant.media.length && productOptionVariant.media[0].URLs && productOptionVariant.media[0].URLs.thumbnail) {
+      thumbnail = productOptionVariant.media[0].URLs.thumbnail;
+    } else {
+      thumbnail = "";
+    }
     if (productOptionVariant.isSoldOut) return null;
     return (
       <div style={styles.container}>
         <ProductVariantTitle title={productOptionVariant.title} />
-        <ProductVariantThumbnail src={variantThumbnail} />
+        <ProductVariantThumbnail src={thumbnail || variantThumbnail || ""} />
         <div style={styles.content}>
           <ProductDimension
             dimension={`${dimensions.width}"w x ${dimensions.height}"h x ${dimensions.depth}"d`} />

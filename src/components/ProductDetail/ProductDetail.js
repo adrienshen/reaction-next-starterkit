@@ -564,6 +564,8 @@ class ProductDetail extends Component {
       width
     } = this.props;
 
+    console.log("color selected: ", this.state);
+
     // Set the default media as the top-level product's media
     // (all media on all variants and objects)
     let pdpMediaItems = product.media;
