@@ -3,6 +3,7 @@ import { ProductVariantThumbnail } from "./Images";
 import { ProductDimension, ProductCurrentPrice, ProductVariantTitle } from "./Text";
 import QuantitySelector from "./QuantitySelector";
 import { ProductVariantAddToCart } from "./Buttons";
+import RenderError from "../../custom/components/RenderError";
 
 const styles = {
   container: {
@@ -11,7 +12,7 @@ const styles = {
     border: "1px solid #ECECEC",
     margin: "1rem",
     display: "flex",
-    flexFlow: "row wrap",
+    flexFlow: "row wrap"
   },
   inner: {
     display: "flex",
@@ -33,26 +34,66 @@ export default class VariantOptionBox extends PureComponent {
   render() {
     try {
       const { product } = this.props;
-      console.log("product: ", product);
-      return (
-        <div style={styles.container}>
-          <ProductVariantTitle title={`24" Deep Double Full Height Door`} />
-          <ProductVariantThumbnail src="" />
-          <div style={styles.content}>
-            <ProductDimension dimension={`36"w x 34"h x 24"d`} />
-            <QuantitySelector
-              quantity={1}
-              increment={() => console.log("increment")}
-              decrement={() => console.log("decrement")}
-            />
-            <ProductCurrentPrice price="1,099" />
-            <ProductVariantAddToCart action={() => alert("add to cart")} />
-          </div>
-        </div>
-      );
+      const { variants } = product;
+
+      console.log("top level product: ", product);
+
+      // RC makes sure there is at least one variant
+      return variants.map((variant, key) => {
+        return this.renderVariantWithOptions(variant, key);
+      });
     } catch (err) {
       console.error(err, "was an error...");
-      return <div>something happended</div>;
+      return <RenderError componentName="VariantOptionBox" />
     }
+  }
+
+  renderVariantWithOptions(variant) {
+    try {
+      const dimensions = {
+        width: variant.width,
+        height: variant.height,
+        depth: variant.length,
+        weight: variant.weight
+      };
+      
+      let variantThumbnail = "";
+      if (variant && variant.media && variant.media[0] && variant.media[0].URLs && variant.media[0].URLs.thumbnail) {
+        variantThumbnail = variant.media[0].URLs.thumbnail;
+      }
+
+      if (variant.options && variant.options.length) {
+        return variant.options.map(option => {
+          return this.renderFinalOption(option, dimensions, variantThumbnail);
+        });
+      } else {
+        return this.renderFinalOption(variant, dimensions, variantThumbnail);
+      }
+    } catch(err) {
+      console.error("err: ", err);
+      return <RenderError componentName="this.renderVariantWithOptions" />
+    }
+  }
+
+  renderFinalOption(productOptionVariant, dimensions, variantThumbnail) {
+    // console.log("productOptionVariant: ", productOptionVariant.media)
+    if (productOptionVariant.isSoldOut) return null;
+    return (
+      <div style={styles.container}>
+        <ProductVariantTitle title={productOptionVariant.title} />
+        <ProductVariantThumbnail src={variantThumbnail} />
+        <div style={styles.content}>
+          <ProductDimension
+            dimension={`${dimensions.width}"w x ${dimensions.height}"h x ${dimensions.depth}"d`} />
+          <QuantitySelector
+            quantity={0}
+            increment={() => console.log("increment")}
+            decrement={() => console.log("decrement")}
+          />
+          <ProductCurrentPrice price={productOptionVariant.pricing[0].displayPrice} />
+          <ProductVariantAddToCart action={() => alert("add to cart")} />
+        </div>
+      </div>
+    );
   }
 }

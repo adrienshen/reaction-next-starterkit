@@ -12,7 +12,7 @@ export const ProductCurrentPrice = ({ price }) => {
         marginTop: ".5rem"
       }}
     >
-      ${price}
+      {price}
     </span>
   );
 };
@@ -44,3 +44,10 @@ export const QuantityNumeral = ({ numeral }) => {
     fontFamily: "Lato, sans-serif"
   }}>{numeral}</span>
 }
+
+export const SubcategoriesLabel = () => <span style={{
+  fontFamily: "Lato, sans-serif",
+  color:"#B09A51",
+  fontWeight: 600,
+  fontWeight: "17px"
+}}>Subcategories</span>

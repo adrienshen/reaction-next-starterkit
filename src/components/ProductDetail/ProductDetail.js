@@ -23,8 +23,8 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Typography from "@material-ui/core/Typography";
 
+import { SubcategoriesLabel } from "../../custom/components/Text";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -452,26 +452,28 @@ class ProductDetail extends Component {
     );
   }
 
-  handleSubCategorySelect(value) {
-    let nextList;
-    if (value in this.state.subCategorySelected) {
-      const indexOfElem = this.state.subCategorySelected.indexOf(value);
-      nextList = this.state.subCategorySelected.slice(indexOfElem, indexOfElem + 1);
+  handleSubCategorySelect = (value) => {
+    let nextList = this.state.subCategorySelected;
+    const index = this.state.subCategorySelected.indexOf(value);
+    if (index > -1) {
+      nextList.splice(index, 1);
     } else {
       nextList = this.state.subCategorySelected.concat([value]);
     }
-
-    console.log("nextList: ", nextList);
+    this.setState({
+      subCategorySelected: nextList
+    });
   }
 
   renderCheckboxControl(controlValue, key) {
+    console.log("controlValue: ", controlValue in this.state.subCategorySelected);
     return (
       <FormControlLabel
         key={key}
         control={
           <Checkbox
-            checked={controlValue in this.state.subCategorySelected}
-            onChange={this.handleSubCategorySelect(controlValue)}
+            checked={this.state.subCategorySelected.indexOf(controlValue) !== -1}
+            onChange={() => this.handleSubCategorySelect(controlValue)}
             value={controlValue}
           />
         }
@@ -516,7 +518,7 @@ class ProductDetail extends Component {
           <div className={classes.selectContainer}>
             <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Subcategories</Typography>
+                <SubcategoriesLabel />
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <FormControl component="fieldset" className={classes.formControl}>

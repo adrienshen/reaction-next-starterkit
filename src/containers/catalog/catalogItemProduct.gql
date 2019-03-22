@@ -72,6 +72,10 @@ query catalogItemProductQuery($slugOrId: String!) {
         title
         optionTitle
         index
+        weight
+        width
+        length
+        height
         pricing {
           compareAtPrice {
             displayAmount
