@@ -7,3 +7,12 @@ export const ProductVariantThumbnail = ({ src }) => {
     </div>
   );
 };
+
+export const SampleCenterImage = ({ src }) => {
+  return (
+    <img style={{
+      width: "200px",
+      marginBottom: ".75rem",
+    }} src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"} alt="a sample image" />
+  );
+}

@@ -29,6 +29,9 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import VariantOptionBox from "../../custom/components/VariantOptionBox";
+import SampleBox from "../../custom/components/SampleBox";
+import { ProductGetSample } from "../../custom/components/Buttons";
+import DetailTabs from "../../custom/DetailTabs";
 
 // const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
 
@@ -118,7 +121,7 @@ class ProductDetail extends Component {
       { code: "brown", patternLabel: "Brown", patternUrl: "brown.png" },
       { code: "dark", patternLabel: "Dark", patternUrl: "dark.png" }
     ],
-    tabSelected: "features",
+    tabSelected: "FEATURES",
     subCategorySelected: ["wall", "base", "tall", "pantry"]
   };
 
@@ -356,56 +359,8 @@ class ProductDetail extends Component {
           textAlign: "center"
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "1rem"
-          }}
-        >
-          <img src="https://via.placeholder.com/80x100" alt="product photo" />
-          <div
-            style={{
-              textAlign: "left",
-              paddingLeft: "1rem"
-            }}
-          >
-            <h3
-              style={{
-                color: "#4E4E4E",
-                fontFamily: "Lato, sans-serif",
-                fontSize: "1rem",
-                marginTop: 0,
-                fontWeight: "normal"
-              }}
-            >
-              Soft White
-            </h3>
-            <span
-              style={{
-                color: "#B09A51",
-                fontFamily: "Lato, sans-serif",
-                fontSize: ".9rem",
-                fontWeight: 600
-              }}
-            >
-              ${"1,199"}
-            </span>
-          </div>
-        </div>
-        <button
-          onClick={this.handleGetSampleClick}
-          style={{
-            border: "2px solid #B09A51",
-            color: "#B09A51",
-            borderRadius: "1rem",
-            padding: "6px 14px",
-            background: "#fff",
-            backgroundColor: "#fff"
-          }}
-        >
-          Get a Sample
-        </button>
+        <SampleBox price="$9.99" title="Sample Title" />
+        <ProductGetSample action={this.handleGetSampleClick} />
       </section>
     );
   }
@@ -417,39 +372,11 @@ class ProductDetail extends Component {
   };
 
   renderTabDetails() {
-    const { classes, product } = this.props;
-    return (
-      <section className={classes.renderTabsSection}>
-        <div className={classes.buttons}>
-          <button
-            style={{
-              borderBottom: this.state.tabSelected === "features" ? "4px solid #B09A51" : "none",
-              color: this.state.tabSelected === "features" ? "#B09A51" : "#222"
-            }}
-            className={classes.buttonTabs}
-            onClick={() => this.selectTab("features")}
-          >
-            Features
-          </button>
-          <button
-            style={{
-              borderBottom: this.state.tabSelected === "details" ? "4px solid #B09A51" : "none",
-              color: this.state.tabSelected === "details" ? "#B09A51" : "#222"
-            }}
-            className={classes.buttonTabs}
-            onClick={() => this.selectTab("details")}
-          >
-            Description
-          </button>
-        </div>
-        <section className={classes.contentContainer}>
-          {this.state.tabSelected === "details" ? <div className={classes.content}>{product.description}</div> : null}
-          {this.state.tabSelected === "features" ? (
-            <div className={[classes.content, classes.features]}>Features content</div>
-          ) : null}
-        </section>
-      </section>
-    );
+    const { product } = this.props;
+    return <DetailTabs
+              product={product}
+              selectTab={this.selectTab}
+              tabSelected={this.state.tabSelected} />
   }
 
   handleSubCategorySelect = (value) => {

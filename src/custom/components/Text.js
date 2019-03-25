@@ -1,5 +1,37 @@
 import React from "react";
+import Link from "../../components/Link";
 
+/** Common text elements */
+export const Body = ({ content = "P needs content", size = "m" }) => {
+  const fontSize = {"s": "16px", "m": "18px", "l": "19px"}[size];
+  return <p style={{
+    fontFamily: "Lato, sans-serif",
+    fontSize: fontSize,
+    color: "#4E4E4E"
+  }}>{content}</p>
+}
+
+export const H1 = ({ title }) => {
+  return <h1 style={{
+    fontFamily: "Lato, sans-serif",
+    fontSize: "34px",
+    fontWeight: 800,
+  }}>
+    {title}
+  </h1>
+}
+
+export const H2 = ({ title }) => {
+  return <h2 style={{
+    fontFamily: "Lato, sans-serif",
+    fontSize: "22px",
+    fontWeight: 400,
+  }}>
+    {title}
+  </h2>
+}
+
+/** Special text elements */
 export const ProductCurrentPrice = ({ price }) => {
   return (
     <span
@@ -52,3 +84,38 @@ export const SubcategoriesLabel = () => <span style={{
   fontWeight: 600,
   fontWeight: "17px"
 }}>Subcategories</span>
+
+/**
+ * Samples
+ */
+
+ export const RadioLabel = ({ title, index, productIndexSelected }) => <div style={{
+  width: "100%",
+  textAlign: "center",
+  marginBottom: "1rem"
+ }}>
+   <input checked={index === productIndexSelected} id="sampleItem" name="sampleItem" type="radio" />
+   <label for="sampleItem">{title}</label>
+  </div>
+
+export const SampleOriginalPrice = ({ price }) => {
+  return (
+    <span style={{
+      color: "#C6C6C6",
+      fontSize: "13px",
+      fontFamily: "Lato, sans-serif",
+      textDecoration: "line-through",
+      marginRight: ".5rem"
+    }}>{price}</span>
+  )
+}
+
+export const SamplePrice = ({ price }) => {
+  return (
+    <span style={{
+      color: "#FF6F6F",
+      fontSize: "14px",
+      fontFamily: "Lato, sans-serif",
+    }}>{price}</span>
+  )
+}

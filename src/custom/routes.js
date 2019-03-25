@@ -19,13 +19,24 @@ function defineRoutes(routes) {
     .add("profileOrders", "/profile/orders", "profile")
     .add("profilePaymentMethods", "/profile/payments", "profile")
 
-    // Customize
+    // CabinetOne Customize Routes
     .add("search", "/search", "search")
     .add("kitchenDesign", "/kitchendesign", "kitchenDesign")
     .add("wishlist", "/wishlist", "wishlist")
     .add("account", "/account", "account")
     .add("about", "/about", "about")
     .add("categories", "/categories", "categories")
+    
+    // Category verticals
+    .add("samples", "/categories/samples", "samples")
+    .add("category-kitchen", "/category/kitchen", "category-kitchen")
+    .add("category-bedroom", "/category/bedroom", "category-bedroom")
+    .add("category-bathroom", "/category/bathroom", "category-bathroom")
+    .add("category-living", "/category/living", "category-living")
+    .add("category-outdoor", "/category/living", "category-outdoor")
+
+    // Product detail
+    .add("product-samples", "/samples/:variantId?", "product-samples")
 }
 
 module.exports = defineRoutes;

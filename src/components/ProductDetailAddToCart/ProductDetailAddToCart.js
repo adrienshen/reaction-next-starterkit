@@ -42,12 +42,12 @@ const cartItem = {
 // pending the GraphQL endpoint being hooked up
 // Remove the code between these comments when live data is available
 
-const styles = (theme) => ({
+const styles = theme => ({
   addToCartButton: {
-    "padding": theme.spacing.unit,
-    "backgroundColor": theme.palette.primary.main,
-    "borderRadius": theme.palette.reaction.buttonBorderRadius,
-    "minWidth": "66%",
+    padding: theme.spacing.unit,
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: theme.palette.reaction.buttonBorderRadius,
+    minWidth: "66%",
     "&:hover": {
       borderColor: theme.palette.reaction.activeElementBorderColor
     },
@@ -83,16 +83,16 @@ const styles = (theme) => ({
     marginBottom: theme.spacing.unit * 3
   },
   quantityInput: {
-    "color": theme.palette.reaction.coolGray500,
-    "fontSize": "12px",
-    "width": "40px",
-    "textAlign": "center",
+    color: theme.palette.reaction.coolGray500,
+    fontSize: "12px",
+    width: "40px",
+    textAlign: "center",
     "&:focus": {
       borderColor: "#80bdff",
       boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)"
     },
-    "borderLeft": `1px solid ${theme.palette.reaction.black15}`,
-    "borderRight": `1px solid ${theme.palette.reaction.black15}`
+    borderLeft: `1px solid ${theme.palette.reaction.black15}`,
+    borderRight: `1px solid ${theme.palette.reaction.black15}`
   },
   quantitySvg: {
     fontSize: "18px"
@@ -102,7 +102,6 @@ const styles = (theme) => ({
     marginBottom: theme.spacing.unit * 2
   }
 });
-
 
 @withStyles(styles, { name: "SkProductDetailAddToCart" })
 @inject("uiStore")
@@ -147,9 +146,9 @@ export default class ProductDetailAddToCart extends Component {
 
     // Open cart popper on addToCart
     uiStore.openCartWithTimeout();
-  }
+  };
 
-  handleQuantityInputChange = (event) => {
+  handleQuantityInputChange = event => {
     const { value } = event.target;
     const numericValue = Math.floor(Number(value));
     const variant = this.getVariantToCheckAvailableToSellQuantity();
@@ -174,7 +173,7 @@ export default class ProductDetailAddToCart extends Component {
     }
 
     return this.setState({ addToCartError: "Sorry, you are trying to add too many items to your cart." });
-  }
+  };
 
   handleIncrementButton = () => {
     const value = this.state.addToCartQuantity + 1;
@@ -196,7 +195,7 @@ export default class ProductDetailAddToCart extends Component {
     }
 
     return this.setState({ addToCartError: "Sorry, you are trying to add too many items to your cart." });
-  }
+  };
 
   handleDecrementButton = () => {
     const value = this.state.addToCartQuantity - 1;
@@ -207,19 +206,21 @@ export default class ProductDetailAddToCart extends Component {
         addToCartQuantity: value
       });
     }
-  }
-
+  };
 
   getVariantToCheckAvailableToSellQuantity = () => {
     const { selectedOptionId, selectedVariantId, variants } = this.props;
-    const selectedVariant = variants.find((variant) => variant._id === selectedVariantId);
+    const selectedVariant = variants.find(variant => variant._id === selectedVariantId);
 
     if (selectedOptionId) {
       // Check to make sure the selected option is from this current page, and not left over from a previous page
-      const options = (selectedVariant && Array.isArray(selectedVariant.options) && selectedVariant.options.length) ? selectedVariant.options : null;
+      const options =
+        selectedVariant && Array.isArray(selectedVariant.options) && selectedVariant.options.length
+          ? selectedVariant.options
+          : null;
 
       if (options) {
-        return options.find((option) => option._id === selectedOptionId);
+        return options.find(option => option._id === selectedOptionId);
       }
     }
 
@@ -230,7 +231,7 @@ export default class ProductDetailAddToCart extends Component {
 
     // We should always have a selected option or variant, so we should never get this far
     return null;
-  }
+  };
 
   render() {
     const {
@@ -254,7 +255,9 @@ export default class ProductDetailAddToCart extends Component {
         <Grid container>
           <Grid item xs={12} className={quantityGrid}>
             <Divider />
-            <Typography component="span" className={quantityTypography}>Quantity</Typography>
+            <Typography component="span" className={quantityTypography}>
+              Quantity
+            </Typography>
             <TextField
               id="addToCartQuantityInput"
               value={addToCartQuantity}
@@ -296,10 +299,7 @@ export default class ProductDetailAddToCart extends Component {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <ButtonBase
-              onClick={this.handleOnClick}
-              className={addToCartButton}
-            >
+            <ButtonBase onClick={this.handleOnClick} className={addToCartButton}>
               <Typography className={addToCartText} component="span" variant="body1">
                 Add to cart
               </Typography>
