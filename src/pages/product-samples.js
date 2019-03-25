@@ -58,7 +58,8 @@ class View extends Component {
   };
 
   renderSampleVariant = () => {
-    return <VariantSample product={this.props.product} />
+    console.log("this.props router: ", this.props);
+    return <VariantSample variantId={this.props.router.query.slugOrId} product={this.props.product} />
   }
 
   render() {
@@ -68,7 +69,6 @@ class View extends Component {
     return (
       <Fragment>
         <Helmet title={pageTitle} meta={[{ name: "description", content: shop && shop.description }]} />
-        Product/Samples: Specific sample 
         {this.renderSampleVariant()}
       </Fragment>
     );

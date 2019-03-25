@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { QuantityNumeral } from "../../custom/components/Text";
+import RenderError from "./RenderError";
 
 const styles = {
   container: {
@@ -30,9 +31,9 @@ const styles = {
 export default class QuantitySelector extends PureComponent {
   render() {
     try {
-      const { increment, decrement, quantity } = this.props;
+      const { increment, decrement, quantity, align = "center" } = this.props;
       return (
-        <div style={styles.container}>
+        <div style={{ ...styles.container, textAlign: align }}>
           <button onClick={increment} style={styles.incrementDecrementButtons}>
             &#8722;
           </button>
@@ -43,7 +44,7 @@ export default class QuantitySelector extends PureComponent {
         </div>
       );
     } catch (err) {
-      return <div>Error rendering</div>;
+      return <RenderError />;
     }
   }
 }
