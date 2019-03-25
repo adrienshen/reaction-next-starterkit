@@ -32,6 +32,7 @@ import VariantOptionBox from "../../custom/components/VariantOptionBox";
 import SampleBox from "../../custom/components/SampleBox";
 import { ProductGetSample } from "../../custom/components/Buttons";
 import DetailTabs from "../../custom/DetailTabs";
+import FilterColor from "../../custom/components/FilterColor";
 
 // const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
 
@@ -220,22 +221,6 @@ class ProductDetail extends Component {
         // The response data will be in either `createCart` or `addCartItems` prop
         // depending on the type of user, either authenticated or anonymous.
         const { cart } = data.createCart || data.addCartItems;
-        const { edges: items } = cart.items;
-
-        // this.trackAction({
-        //   variant: {
-        //     ...selectedVariant,
-        //     cart_id: cart._id, // eslint-disable-line camelcase
-        //     quantity
-        //   },
-        //   optionId: selectedOption ? selectedOption._id : null,
-        //   action: PRODUCT_ADDED
-        // });
-
-        // The mini cart popper will open automatically after adding an item to the cart,
-        // therefore, a CART_VIEWED event is published.
-        // debugger // eslint-disable-line
-        // this.trackCartItems({ cartItems: items, cartId: cart._id, action: CART_VIEWED }); // eslint-disable-line camelcase
       }
     }
     if (isWidthUp("md", width)) {
@@ -295,55 +280,17 @@ class ProductDetail extends Component {
   }
 
   renderColorSelect() {
-    const { classes } = this.props;
     const { colorFilters, colorFilterSelected } = this.state;
-    return (
-      <section>
-        <ul
-          style={{
-            listStyle: "none",
-            display: "inline-flex",
-            flexFlow: "row nowrap",
-            width: "100%",
-            justifyContent: "flex-end"
-          }}
-        >
-          {colorFilters.map(pattern => {
-            return (
-              <li className={classes.colorPatternListItem}>
-                <button
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    marginRight: "2rem",
-                    backgroundImage: `url('/static/images/patterns/${pattern.patternUrl}')`,
-                    border: "none",
-                    outline: "none",
-                    cursor: "pointer",
-                    border: colorFilterSelected
-                      ? colorFilterSelected.code === pattern.code
-                        ? "2px solid #555"
-                        : "none"
-                      : "none"
-                  }}
-                  className={classes.colorPatternItem}
-                  onClick={() => this.selectDesignColor(pattern)}
-                >
-                  <span
-                    style={{
-                      display: "none"
-                    }}
-                  >
-                    {pattern.patternLabel}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    );
+    try {
+      return (
+        <FilterColor
+          colorFilters={colorFilters}
+          colorFilterSelected={colorFilterSelected}
+          selectDesignColor={this.selectDesignColor} />
+      );  
+    } catch(err) {
+      console.error("Error: ", err);
+    }
   }
 
   handleGetSampleClick() {
@@ -373,13 +320,10 @@ class ProductDetail extends Component {
 
   renderTabDetails() {
     const { product } = this.props;
-    return <DetailTabs
-              product={product}
-              selectTab={this.selectTab}
-              tabSelected={this.state.tabSelected} />
+    return <DetailTabs product={product} selectTab={this.selectTab} tabSelected={this.state.tabSelected} />;
   }
 
-  handleSubCategorySelect = (value) => {
+  handleSubCategorySelect = value => {
     let nextList = this.state.subCategorySelected;
     const index = this.state.subCategorySelected.indexOf(value);
     if (index > -1) {
@@ -390,7 +334,7 @@ class ProductDetail extends Component {
     this.setState({
       subCategorySelected: nextList
     });
-  }
+  };
 
   renderCheckboxControl(controlValue, key) {
     console.log("controlValue: ", controlValue in this.state.subCategorySelected);

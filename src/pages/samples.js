@@ -77,7 +77,6 @@ class View extends Component {
     return (
       <Fragment>
         <Helmet title={pageTitle} meta={[{ name: "description", content: shop && shop.description }]} />
-        Samples
         {this.renderCategorySample()}
       </Fragment>
     );
