@@ -58,7 +58,7 @@ class View extends Component {
   };
 
   renderSampleVariant = () => {
-    // console.log("this.props router: ", this.props);
+    console.log("this.props router: ", this.props.router.query.slugOrId);
     return <VariantSample variantId={this.props.router.query.slugOrId} product={this.props.product} />
   }
 

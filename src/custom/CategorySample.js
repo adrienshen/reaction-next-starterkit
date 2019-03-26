@@ -23,17 +23,17 @@ class CategorySample extends Component {
 
   state = {
     productIndexSelected: 0,
-    colorFilterSelected: null,
+    colorFilterSelected: null
   };
 
   componentDidMount() {
     console.log("this.propss : ", this.props);
   }
 
-  selectSampleItem = value => {
-    // console.log("index selected: ", value);
+  selectSampleItem = variantId => {
+    console.log("index selected: ", variantId);
 
-    this.setState({ productIndexSelected: value });
+    Router.push(`/samples/${variantId}`);
   };
 
   renderSampleSelection() {
@@ -45,19 +45,21 @@ class CategorySample extends Component {
         return elem.variantId === this.state.colorFilterSelected.variantId;
       });
     }
-    return displayVariants.map((variant) => {
+    return displayVariants.map(variant => {
       return this.renderFinalOption(variant.options);
     });
   }
 
   renderFinalOption(variantOptions) {
-    return variantOptions.map((option) => {
-      return <SampleItem
-                productIndexSelected={this.state.productIndexSelected}
-                index={option.variantId}
-                selectSampleItem={this.selectSampleItem}
-                sample={option}
-      />
+    return variantOptions.map(option => {
+      return (
+        <SampleItem
+          productIndexSelected={this.state.productIndexSelected}
+          index={option.variantId}
+          selectSampleItem={this.selectSampleItem}
+          sample={option}
+        />
+      );
     });
   }
 
@@ -161,7 +163,9 @@ const SampleItem = ({ selectSampleItem, sample, index, productIndexSelected }) =
           textAlign: "center"
         }}
       >
-        <SampleOriginalPrice price={sample.pricing[0].compareAtPrice ? sample.pricing[0].compareAtPrice.displayAmount : "$0.00"} />
+        <SampleOriginalPrice
+          price={sample.pricing[0].compareAtPrice ? sample.pricing[0].compareAtPrice.displayAmount : "$0.00"}
+        />
         <SamplePrice price={sample.pricing.length ? sample.pricing[0].displayPrice : "$0.00"} />
       </div>
     </div>

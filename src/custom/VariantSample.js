@@ -55,14 +55,22 @@ class VariantSample extends Component {
   findVariantToDisplay() {
     const { product, variantId } = this.props;
     // console.log("findVariantToDisplay :", product, variantId);
-    return product.variants.filter(elem => {
-      return elem.variantId === variantId;
-    })[0];
+    
+    let optionFounded = null;
+    product.variants.forEach(variant => {
+      variant.options.forEach(option => {
+        if (option.variantId === variantId) {
+          optionFounded = option;
+        }
+      })
+    });
+
+    // console.log("option founded? ", optionFounded);
+    return optionFounded;
   }
 
   renderSampleSelection() {
     const { product } = this.props;
-    console.info(this.findVariantToDisplay());
 
     return (
       <SampleVariant
