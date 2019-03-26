@@ -16,3 +16,13 @@ export const SampleCenterImage = ({ src }) => {
     }} src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"} alt="a sample image" />
   );
 }
+
+export const WishListImage = ({ src }) => {
+  return (
+    <img style={{
+      width: "90%",
+      maxWidth: "350px",
+      marginBottom: ".75rem",
+    }} src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"} alt="a sample image" />
+  );
+}

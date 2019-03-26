@@ -43,6 +43,7 @@ const BarOptions = {
   "/productGrid": { display: false },
   "/cart": { display: false },
   "/product-samples": { display: true, title: "Sample Details", cart: true, search: true, leftIcon: "back" },
+  "/wishlist": { display: true, title: "Wishlist", cart: true, search: true, leftIcon: "back" }
 };
 
 @withStyles(styles, { name: "SkHeader" })

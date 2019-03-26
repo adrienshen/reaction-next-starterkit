@@ -203,3 +203,17 @@ export const SamplePrice = ({ price }) => {
     </span>
   );
 };
+
+export const WishListTitle = ({ title }) => {
+  return (
+    <span
+      style={{
+        color: "#B09A51",
+        fontSize: "17px",
+        fontFamily: "Lato, sans-serif"
+      }}
+    >
+      {title}
+    </span>
+  );
+};
