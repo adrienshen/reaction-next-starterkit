@@ -8,6 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 import MiniCart from "components/MiniCart";
 import BackArrow from "components/BackArrow";
 import SearchIcon from "../SearchIcon";
+import RenderError from "../../custom/components/RenderError";
 
 const styles = theme => ({
   appBar: {
@@ -19,13 +20,15 @@ const styles = theme => ({
     alignItems: "inherit",
     display: "flex",
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingLeft: "2rem",
   },
   title: {
     // color: theme.palette.reaction.reactionBlue,
-    color: "#444",
+    color: "#4E4E4E",
     marginRight: theme.spacing.unit,
-    fontFamily: "arial, sans-serif"
+    fontFamily: "Lato, sans-serif",
+    fontSize: "17px"
   },
   toolbar: {
     alignItems: "center",
@@ -34,6 +37,13 @@ const styles = theme => ({
     background: "transparent"
   }
 });
+
+const BarOptions = {
+  "/search": { display: false },
+  "/productGrid": { display: false },
+  "/cart": { display: false },
+  "/product-samples": { display: true, title: "Sample Details", cart: true, search: true, leftIcon: "back" },
+};
 
 @withStyles(styles, { name: "SkHeader" })
 @inject("uiStore")
@@ -58,26 +68,38 @@ class Header extends Component {
   };
 
   render() {
-    const {
-      classes: { appBar, controls, toolbar, title },
-      shop
-    } = this.props;
-    if (Router.router && Router.router.route === "/search") return null;
-    if (Router.router && Router.router.route === "/productGrid") return null;
-    if (Router.router && Router.router.route === "/cart") return null;
+    try {
+      const {
+        classes: { appBar, controls, toolbar, title },
+        shop
+      } = this.props;
 
-    return (
-      <AppBar position="static" elevation={0} className={appBar}>
-        <Toolbar className={toolbar}>
-          <BackArrow />
-          <div className={controls}>
-            <span className={title}>Page Title</span>
-          </div>
-          <MiniCart />
-          <SearchIcon />
-        </Toolbar>
-      </AppBar>
-    );
+      const screen = BarOptions[Router.router.route];
+      if (screen.display === false) return null;
+
+      return (
+        <AppBar
+          style={{
+            border: "none"
+          }}
+          position="static"
+          elevation={0}
+          className={appBar}
+        >
+          <Toolbar className={toolbar}>
+            {screen.leftIcon === "back" ? <BackArrow /> : null}
+            <div className={controls}>
+              <span className={title}>{screen.title || ""}</span>
+            </div>
+            {screen.cart ? <MiniCart /> : null}
+            {screen.search ? <SearchIcon /> : null}
+          </Toolbar>
+        </AppBar>
+      );
+    } catch (err) {
+      console.error("There was an error! ", err);
+      return null;
+    }
   }
 }
 

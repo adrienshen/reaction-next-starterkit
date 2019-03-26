@@ -124,7 +124,7 @@ const SampleVariant = ({ variant, selectTab, tabSelected, product }) => {
             variant && variant.primaryImage && variant.primaryImage.URLs && variant.primaryImage.URLs.thumbnail
           }
           price={variant && variant.pricing.length && variant.pricing[0].displayPrice}
-          title={variant.title}
+          title={variant && variant.title}
         />
       </section>
 

@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import RenderError from "./components/RenderError";
 
-const styles = (themes) => ({
+const styles = ({
   renderTabsSection: {
     width: "100%"
   },
@@ -31,31 +31,31 @@ const styles = (themes) => ({
 export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTab, tabSelected, product }) => {
   try {
     return (
-      <section className={classes.renderTabsSection}>
-        <div className={classes.buttons}>
+      <section style={styles.renderTabsSection}>
+        <div style={styles.buttons}>
           <button
             style={{
+              ...styles.buttonTabs,
               borderBottom: tabSelected === "FEATURES" ? "4px solid #B09A51" : "none",
               color: tabSelected === "FEATURES" ? "#B09A51" : "#222"
             }}
-            className={classes.buttonTabs}
             onClick={() => selectTab("FEATURES")}
           >
             Features
           </button>
           <button
             style={{
+              ...styles.buttonTabs,
               borderBottom: tabSelected === "DETAILS" ? "4px solid #B09A51" : "none",
               color: tabSelected === "DETAILS" ? "#B09A51" : "#222"
             }}
-            className={classes.buttonTabs}
             onClick={() => selectTab("DETAILS")}
           >
             Description
           </button>
         </div>
-        <section className={classes.contentContainer}>
-          {tabSelected === "DETAILS" ? <div className={classes.content}>{product.description}</div> : null}
+        <section style={styles.contentContainer}>
+          {tabSelected === "DETAILS" ? <div style={styles.content}>{product.description}</div> : null}
           {tabSelected === "FEATURES" ? (
             <div className={[classes.content, classes.features]}>Features content - not sure where this should come from</div>
           ) : null}
