@@ -16,7 +16,7 @@
     "build": "yarn run build-clean && NODE_ENV=production IS_BUILDING_NEXTJS=1 next build src",
     "build-clean": "rimraf build/app",
     "lint": "eslint .",
-    "start": "NODE_ENV=production node ./src/server.js",
+    "start": "CANONICAL_URL=http://localhost:4000 EXTERNAL_GRAPHQL_URL=http://localhost:3000/graphql-alpha INTERNAL_GRAPHQL_URL=http://localhost:3000/graphql-alpha OAUTH2_ADMIN_PORT=4445 OAUTH2_AUTH_URL=http://localhost:4444/oauth2/auth OAUTH2_CLIENT_ID=reaction-next-starterkit OAUTH2_CLIENT_SECRET=CHANGEME OAUTH2_IDP_HOST_URL=http://localhost:3000/ OAUTH2_REDIRECT_URL=http://localhost:4000/callback OAUTH2_TOKEN_URL=http://localhost:4444/oauth2/token SESSION_SECRET=CHANGEME NODE_ENV=production node ./src/server.js",
     "test": "yarn run test:unit",
     "test:ci": "yarn run test:unit --ci --runInBand --colors",
     "test:unit": "NODE_ENV=jesttest jest",

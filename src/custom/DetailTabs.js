@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import RenderError from "./components/RenderError";
 
-const styles = ({
+const styles = {
   renderTabsSection: {
     width: "100%"
   },
@@ -22,11 +22,11 @@ const styles = ({
   },
   contentContainer: {
     padding: "2rem 1rem",
-    minHeight: "10rem",
+    minHeight: "10rem"
   },
   content: {},
   features: {}
-});
+};
 
 export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTab, tabSelected, product }) => {
   try {
@@ -57,13 +57,15 @@ export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTa
         <section style={styles.contentContainer}>
           {tabSelected === "DETAILS" ? <div style={styles.content}>{product.description}</div> : null}
           {tabSelected === "FEATURES" ? (
-            <div className={[classes.content, classes.features]}>Features content - not sure where this should come from</div>
+            <div className={[classes.content, classes.features]}>
+              Features content - not sure where this should come from
+            </div>
           ) : null}
         </section>
       </section>
     );
   } catch (err) {
     console.error("Error: ", err);
-    return <RenderError />
+    return <RenderError />;
   }
 });

@@ -37,6 +37,7 @@ function defineRoutes(routes) {
 
     // Product detail
     .add("product-samples", "/samples/:variantId?", "product-samples")
+
 }
 
 module.exports = defineRoutes;

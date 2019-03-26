@@ -37,13 +37,25 @@ export const H2 = ({ title }) => {
       style={{
         fontFamily: "Lato, sans-serif",
         fontSize: "22px",
-        fontWeight: 400
+        fontWeight: 400,
+        textAlign: "center"
       }}
     >
       {title}
     </h2>
   );
 };
+
+export const UserName = ({ name }) => {
+  return (
+    <span style={{
+      color: "#B09A51",
+      fontSize: "16px",
+      fontFamily: "Lato, sans-serif",
+      fontWeight: 600
+    }}>{name}</span>
+  )
+}
 
 /** Special text elements */
 export const ProductCurrentPrice = ({ price }) => {

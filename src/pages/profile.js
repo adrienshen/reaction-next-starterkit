@@ -73,19 +73,19 @@ class Profile extends Component {
         route: "/profile/address",
         label: "Address Book",
         isSelected: asPath === "/profile/address"
+      },
+      {
+        href: "/profile/orders",
+        route: "/profile/orders",
+        label: "Orders",
+        isSelected: asPath === "/profile/orders"
+      },
+      {
+        href: "/profile/payments",
+        route: "/profile/payments",
+        label: "Payment Methods",
+        isSelected: asPath === "/profile/payments"
       }
-      // {
-      //   href: "/profile/orders",
-      //   route: "/profile/orders",
-      //   label: "Orders",
-      //   isSelected: asPath === "/profile/orders"
-      // },
-      // {
-      //   href: "/profile/payments",
-      //   route: "/profile/payments",
-      //   label: "Payment Methods",
-      //   isSelected: asPath === "/profile/payments"
-      // }
     ];
 
     return (
