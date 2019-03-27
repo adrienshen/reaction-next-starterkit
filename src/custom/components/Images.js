@@ -20,9 +20,10 @@ export const SampleCenterImage = ({ src }) => {
 export const WishListImage = ({ src }) => {
   return (
     <img style={{
-      width: "90%",
-      maxWidth: "350px",
+      width: "100%",
+      maxWidth: "450px",
       marginBottom: ".75rem",
+      maxHeight: "280px"
     }} src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"} alt="a sample image" />
   );
 }

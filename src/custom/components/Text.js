@@ -210,7 +210,10 @@ export const WishListTitle = ({ title }) => {
       style={{
         color: "#B09A51",
         fontSize: "17px",
-        fontFamily: "Lato, sans-serif"
+        fontFamily: "Lato, sans-serif",
+        marginBottom: "1rem",
+        display: "inline-block",
+        marginBottom: ".5rem"
       }}
     >
       {title}

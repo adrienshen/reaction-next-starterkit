@@ -76,7 +76,7 @@ class Header extends Component {
       } = this.props;
 
       const screen = BarOptions[Router.router.route];
-      if (screen.display === false) return null;
+      if (screen.display === false) return <div style={{ width: "56px" }} />;
 
       return (
         <AppBar

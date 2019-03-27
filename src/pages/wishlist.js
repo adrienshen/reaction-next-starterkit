@@ -10,11 +10,24 @@ import { WishListImage } from "../custom/components/Images";
 import IconButton from "@material-ui/core/IconButton";
 import { TunesIcon, FavoriteFullIcon } from "../custom/components/SvgIcons";
 
-const styles = theme => ({
-  accountProfileInfoContainer: {
-    marginBottom: theme.spacing.unit * 4
+const styles = {
+  imageContainer: {
+    position: "relative",
+    textAlign: "center",
+    width: "90%",
+    margin: "0 auto",
+    marginBottom: "2rem"
+  },
+  toolbarCont: {
+    display: "flex",
+    width: "100%",
+    background: "#D8B08C",
+    opacity: 0.55,
+    justifyContent: "flex-end",
+    position: "absolute",
+    bottom: 0
   }
-});
+};
 
 @withStyles(styles)
 @inject("authStore")
@@ -32,11 +45,19 @@ class Profile extends Component {
     })
   };
 
-  renderWishItem() {
+  goDetails() {
+    console.log("Navigate to details");
+  }
+
+  toggleFavorite() {
+    console.log("Toggle favorite");
+  }
+
+  renderWishItem(elem) {
     return (
       <div>
-        <WishListTitle title="Flat White" />
-        <div>
+        <div style={styles.imageContainer}>
+          <WishListTitle title="Flat White" />
           <WishListImage src="" />
           <ImageToolbar />
         </div>
@@ -59,7 +80,11 @@ class Profile extends Component {
           title={`Wishlist | ${shop && shop.name}`}
           meta={[{ name: "description", content: shop && shop.description }]}
         />
-        <section>{this.renderWishItem()}</section>
+        <section style={{ paddingTop: "2rem" }}>
+          {[1, 2, 3].map(elem => {
+            return this.renderWishItem(elem);
+          })}
+        </section>
       </Fragment>
     );
   }
@@ -67,19 +92,11 @@ class Profile extends Component {
 
 const ImageToolbar = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100%",
-        background: "#D8B08C",
-        opacity: 0.55,
-        justifyContent: "flex-end"
-      }}
-    >
+    <div style={styles.toolbarCont}>
       <IconButton color="transparent" onClick={() => console.log("Detail page")}>
         <TunesIcon />
       </IconButton>
-      <IconButton color="transparent" onClick={() => console.log("Fave")}>
+      <IconButton color="transparent" onClick={() => console.log("Fave 2")}>
         <FavoriteFullIcon />
       </IconButton>
     </div>

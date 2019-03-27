@@ -6,24 +6,24 @@
 function defineRoutes(routes) {
   routes
     .add("home", "/", "productGrid")
-    .add("cart", "/cart", "cart")
-    .add("checkout", "/cart/checkout", "checkout")
-    .add("checkoutLogin", "/cart/login", "checkout")
-    .add("checkoutComplete", "/checkout/order/:orderId", "checkoutComplete")
     .add("login", "/login", "login")
     .add("shopProduct", "/shop/:shopSlug/product/:slugOrId", "product")
     .add("product", "/product/:slugOrId/:variantId?", "product")
     .add("shop", "/shop/:shopId/:tag", "productGrid")
     .add("tag", "/tag/:slug", "tag")
-    .add("profileAddressBook", "/profile/address", "profile")
-    .add("profileOrders", "/profile/orders", "profile")
-    .add("profilePaymentMethods", "/profile/payments", "profile")
 
     // CabinetOne Customize Routes
     .add("search", "/search", "search")
     .add("kitchenDesign", "/kitchendesign", "kitchenDesign")
-    .add("wishlist", "/wishlist", "wishlist")
+    
+    // Account and profile
     .add("account", "/account", "account")
+    .add("wishlist", "/account/wishlist", "wishlist")
+    .add("profileAddressBook", "/profile/address", "profile")
+    .add("profileOrders", "/profile/orders", "profile")
+    .add("profilePaymentMethods", "/profile/payments", "profile")
+
+    // Extras about
     .add("about", "/about", "about")
     .add("categories", "/categories", "categories")
     
@@ -37,6 +37,13 @@ function defineRoutes(routes) {
 
     // Product detail
     .add("product-samples", "/samples/:variantId?", "product-samples")
+
+
+    // Checkout and payments
+    .add("cart", "/cart", "cart")
+    .add("checkout", "/cart/checkout", "checkout")
+    .add("checkoutLogin", "/cart/login", "checkout")
+    .add("checkoutComplete", "/checkout/order/:orderId", "checkoutComplete")
 
 }
 
