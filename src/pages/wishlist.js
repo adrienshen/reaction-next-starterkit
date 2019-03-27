@@ -9,6 +9,20 @@ import { WishListImage } from "../custom/components/Images";
 
 import IconButton from "@material-ui/core/IconButton";
 import { TunesIcon, FavoriteFullIcon } from "../custom/components/SvgIcons";
+import { Router } from "routes";
+
+const WishListStaticMockLocal = [
+  {
+    name: "Potted Plant",
+    productUrl: "potted-plant/cmVhY3Rpb24vY2F0YWxvZ1Byb2R1Y3RWYXJpYW50OkdvRnlSak0zTUZyb2hTNkVn",
+    primaryImage: "http://localhost:3000/assets/files/Media/MkTBScckCuQLoi6Lm/medium/green_plant_product_14301_1.jpg",
+  },
+  {
+    name: "Doors",
+    productUrl: "doors/cmVhY3Rpb24vY2F0YWxvZ1Byb2R1Y3RWYXJpYW50OkRDZkhCSlNhTmtDOGVuR2VI",
+    primaryImage: "http://localhost:3000/assets/files/Media/eMXwqTdeoAuZ73vZd/medium/Screenshot 2019-03-22 16.22.49.jpg",
+  }
+];
 
 const styles = {
   imageContainer: {
@@ -45,20 +59,21 @@ class Profile extends Component {
     })
   };
 
-  goDetails() {
-    console.log("Navigate to details");
+  goProductDetailPage(url) {
+    console.log("Navigate to details: ", url);
+    Router.push("/product/" + url);
   }
 
   toggleFavorite() {
-    console.log("Toggle favorite");
+    console.log("Fave/Unfave");
   }
 
-  renderWishItem(elem) {
+  renderWishItem(wish) {
     return (
-      <div>
+      <div onClick={() => this.goProductDetailPage(wish.productUrl)}>
         <div style={styles.imageContainer}>
-          <WishListTitle title="Flat White" />
-          <WishListImage src="" />
+          <WishListTitle title={wish.name} />
+          <WishListImage src={wish.primaryImage} />
           <ImageToolbar />
         </div>
       </div>
@@ -81,8 +96,8 @@ class Profile extends Component {
           meta={[{ name: "description", content: shop && shop.description }]}
         />
         <section style={{ paddingTop: "2rem" }}>
-          {[1, 2, 3].map(elem => {
-            return this.renderWishItem(elem);
+          {WishListStaticMockLocal.map(wish => {
+            return this.renderWishItem(wish);
           })}
         </section>
       </Fragment>

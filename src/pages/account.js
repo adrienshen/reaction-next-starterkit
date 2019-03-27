@@ -125,7 +125,7 @@ class AccountHomeScreen extends Component {
               <i>
                 <FavoriteIcon />
               </i>
-              <Link href="">
+              <Link href="/account/wishlist">
                 <span style={styles.link}>Wishlist</span>
               </Link>
             </div>
