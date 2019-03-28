@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { Card, Paper } from "@material-ui/core";
-import ProductDetailTitle from "../ProductDetailTitle";
+import { Card } from "@material-ui/core";
 import QuantitySelector from "../../custom/components/QuantitySelector";
 import withCart from "../../containers/cart/withCart";
 

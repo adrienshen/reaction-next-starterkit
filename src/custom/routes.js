@@ -19,9 +19,12 @@ function defineRoutes(routes) {
     // Account and profile
     .add("account", "/account", "account")
     .add("wishlist", "/account/wishlist", "wishlist")
-    .add("profileAddressBook", "/profile/address", "profile")
-    .add("profileOrders", "/profile/orders", "profile")
-    .add("profilePaymentMethods", "/profile/payments", "profile")
+    .add("orders", "/account/orders", "orders")
+    .add("profile", "/account/profile", "profile")
+    .add("paymentMethods", "/account/payment", "paymentMethods")
+    // .add("profileAddressBook", "/profile/address", "profile")
+    // .add("profileOrders", "/profile/orders", "profile")
+    // .add("profilePaymentMethods", "/profile/payments", "profile")
 
     // Extras about
     .add("about", "/about", "about")
@@ -37,7 +40,6 @@ function defineRoutes(routes) {
 
     // Product detail
     .add("product-samples", "/samples/:variantId?", "product-samples")
-
 
     // Checkout and payments
     .add("cart", "/cart", "cart")

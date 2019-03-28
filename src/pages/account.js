@@ -4,7 +4,6 @@ import { inject, observer } from "mobx-react";
 import Helmet from "react-helmet";
 import AccountProfileInfo from "@reactioncommerce/components/AccountProfileInfo/v1";
 import InPageMenu from "@reactioncommerce/components/InPageMenu/v1";
-import withAddressBook from "containers/address/withAddressBook";
 import ErrorPage from "./_error";
 import { H2, UserName } from "../custom/components/Text";
 
@@ -33,7 +32,6 @@ const styles = {
   }
 };
 
-@withAddressBook
 @inject("authStore")
 @inject("uiStore")
 @observer
@@ -43,9 +41,6 @@ class AccountHomeScreen extends Component {
       account: PropTypes.object.isRequired
     }),
     classes: PropTypes.object,
-    onAddressAdded: PropTypes.func.isRequired,
-    onAddressDeleted: PropTypes.func.isRequired,
-    onAddressEdited: PropTypes.func.isRequired,
     shop: PropTypes.shape({
       name: PropTypes.string.isRequired,
       description: PropTypes.string
@@ -133,7 +128,7 @@ class AccountHomeScreen extends Component {
               <i>
                 <OrdersIcon />
               </i>
-              <Link href="">
+              <Link href="/account/orders">
                 <span style={styles.link}>My Orders</span>
               </Link>
             </div>
@@ -141,7 +136,7 @@ class AccountHomeScreen extends Component {
               <i>
                 <ProfileIcon />
               </i>
-              <Link href="/">
+              <Link href="/account/profile">
                 <span style={styles.link}>Personal Information</span>
               </Link>
             </div>
@@ -149,7 +144,7 @@ class AccountHomeScreen extends Component {
               <i>
                 <CardIcon />
               </i>
-              <Link href="">
+              <Link href="/account/payment">
                 <span style={styles.link}>Payment Information</span>
               </Link>
             </div>

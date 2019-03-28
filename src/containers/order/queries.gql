@@ -6,3 +6,9 @@ query orderByReferenceId($id: ID!, $shopId: ID!, $token: String) {
     ...OrderQueryFragment
   }
 }
+
+# Get all customers orders in list
+query customersOrders($userId: ID!, $shopId: ID!, $token: String) {
+  orders: customersOrder(userId: $userId, shopId: $shopId, token: $token)
+  ...CustomersOrderQueryFragment
+}
