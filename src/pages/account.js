@@ -100,6 +100,8 @@ class AccountHomeScreen extends Component {
       shop
     } = this.props;
 
+    console.log("user account: ", account);
+
     // If there is no logged in user, return Not Found page
     // if (account && !account._id) return <ErrorPage shop={shop} subtitle="Not Found" />;
 
@@ -113,7 +115,7 @@ class AccountHomeScreen extends Component {
           <H2 title="My Account" />
           <div style={styles.avatarName}>
             <Avatar style={{ marginBottom: "1rem", width: 80, height: 80 }}>DEV</Avatar>
-            <UserName name="John Doe" />
+            <UserName name={`${account.firstName} ${account.lastName} (${account.primaryEmailAddress})`} />
           </div>
           <section className="navigation-items">
             <div style={styles.line}>

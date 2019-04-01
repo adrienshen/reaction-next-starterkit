@@ -3,11 +3,22 @@ import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import Helmet from "react-helmet";
 import { Card } from "@material-ui/core";
+import { OrderNumber, OrderItemRow, TotalAmount } from "../custom/components/Text";
 
 const styles = {
   container: {
     marginBottom: "4rem"
   },
+  card: {
+    padding: "1rem",
+    width: "90%",
+    margin: "0 auto",
+    marginBottom: "1rem",
+    border: "1px solid #ddd",
+    borderRadius: "4px",
+    background: "#FFFEF9",
+    maxWidth: "450px",
+  }
 };
 
 @inject("authStore")
@@ -27,28 +38,25 @@ class OrdersPage extends Component {
 
   state = {
     // RC 
-    orders: [
-      {
-        _id: "12345678",
-        sku: "12345678",
-        category: "Base",
-        paint: "High Gloss",
-        dimensions: `10"W x 12"H x 9"D`,
-        quantity: 1,
-        items: []
-      }
-    ]
+    orders: [1, 2]
   }
 
   renderOrderItem(order) {
-    return <Card>
+    return <Card elevation={0} style={styles.card}>
       <OrderNumber id="123456789" />
+      <OrderItemRow label="Order Date" value={`03/05/2019`} />
+      <OrderItemRow label="SKU" value={`1234567`} />
+      <OrderItemRow label="Category" value={`Base`} />
+      <OrderItemRow label="Paint Finish" value={`Paint Gloss`} />
+      <OrderItemRow label="Dimensions" value={`10"W x 12"H x 9"D`} />
+      <OrderItemRow label="Quantity" value={1} />
+      <TotalAmount amount="$1,499" />
     </Card>
   }
 
-  renderOrders() {
+  renderCustomerOrders() {
     return this.state.orders.map(order => {
-      return renderOrderItem(order)
+      return this.renderOrderItem(order)
     })
   }
 
@@ -67,7 +75,9 @@ class OrdersPage extends Component {
           title={`Account Profile | ${shop && shop.name}`}
           meta={[{ name: "description", content: shop && shop.description }]}
         />
-        Orders...
+        <section style={{ margin: "2rem 0rem" }}>
+          {this.renderCustomerOrders()}
+        </section>
       </Fragment>
     );
   }

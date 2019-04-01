@@ -43,7 +43,8 @@ const BarOptions = {
   "/productGrid": { display: false },
   "/cart": { display: false },
   "/product-samples": { display: true, title: "Sample Details", cart: true, search: true, leftIcon: "back" },
-  "/wishlist": { display: true, title: "Wishlist", cart: true, search: true, leftIcon: "back" }
+  "/wishlist": { display: true, title: "Wishlist", cart: true, search: true, leftIcon: "back" },
+  "/orders": { display: true, title: "My Orders", cart: false, search: true, leftIcon: "back" },
 };
 
 @withStyles(styles, { name: "SkHeader" })
@@ -75,6 +76,7 @@ class Header extends Component {
         shop
       } = this.props;
 
+      console.log("Router.router.route: ", Router.router.route);
       const screen = BarOptions[Router.router.route];
       if (screen.display === false) return <div style={{ width: "56px" }} />;
 

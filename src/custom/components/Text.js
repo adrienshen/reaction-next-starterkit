@@ -220,3 +220,46 @@ export const WishListTitle = ({ title }) => {
     </span>
   );
 };
+
+/* Orders */
+
+export const OrderNumber = ({ id }) => {
+  return <div style={{
+    color: "#B09A51",
+    fontFamily: "Lato, sans-serif",
+    marginBottom: "1rem",
+    fontSize: "13px"
+  }}>Order No: {id}</div>
+}
+
+export const OrderItemRow = ({ label, value }) => {
+  return <div style={{
+    fontFamily: "Lato, sans-serif",
+    marginBottom: ".25rem",
+    fontSize: "14px"
+  }}>
+    <span style={{
+      color: "#C6C6C6",
+      display: "inline-block",
+      width: "50%",
+    }}>{label}</span>
+    <span style={{
+      color: "#4E4E4E",
+    }}>{value}</span>
+  </div>
+}
+
+export const TotalAmount = ({ amount }) => {
+  return <div style={{
+    marginTop: "2rem",
+    textAlign: "right",
+    fontFamily: "Lato, sans-serif"
+  }}>
+    <span style={{
+      marginRight: "4rem",
+    }}>Total Price:</span>
+    <span style={{
+      color: "#B09A51"
+    }}>{amount}</span>
+  </div>
+}
