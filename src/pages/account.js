@@ -8,7 +8,7 @@ import ErrorPage from "./_error";
 import { H2, UserName } from "../custom/components/Text";
 
 import Avatar from "@material-ui/core/Avatar";
-import { Link } from "@material-ui/core";
+import { Link } from "../components/Link";
 import { FavoriteIcon, OrdersIcon, ProfileIcon, CardIcon } from "../custom/components/SvgIcons";
 
 const styles = {
@@ -103,7 +103,7 @@ class AccountHomeScreen extends Component {
     console.log("user account: ", account);
 
     // If there is no logged in user, return Not Found page
-    // if (account && !account._id) return <ErrorPage shop={shop} subtitle="Not Found" />;
+    if (account && !account._id) return <ErrorPage shop={shop} subtitle="Not Found" />;
 
     return (
       <Fragment>

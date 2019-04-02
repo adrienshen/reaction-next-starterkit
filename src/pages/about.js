@@ -3,13 +3,8 @@ import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import Helmet from "react-helmet";
 import AccountProfileInfo from "@reactioncommerce/components/AccountProfileInfo/v1";
-import InPageMenu from "@reactioncommerce/components/InPageMenu/v1";
-import ErrorPage from "./_error";
-import { H2, UserName } from "../custom/components/Text";
-
-import Avatar from "@material-ui/core/Avatar";
 import { Link } from "@material-ui/core";
-import { FavoriteIcon, OrdersIcon, ProfileIcon, CardIcon } from "../custom/components/SvgIcons";
+import { PlaceholderIcon } from "../custom/components/SvgIcons";
 
 const styles = {
   accountProfileInfoContainer: {
@@ -21,12 +16,12 @@ const styles = {
     alignItems: "center"
   },
   line: {
-    margin: "2rem 0rem 2rem 1rem",
+    margin: "2rem 0rem 3rem 1rem",
     display: "flex"
   },
   link: {
     color: "#404040",
-    fontSize: "1.3rem",
+    fontSize: "17px",
     marginLeft: "1rem",
     fontFamily: "Lato, sans-serif",
     textDecoration: "none"
@@ -62,9 +57,7 @@ class AboutIndex extends Component {
   }
 
   render() {
-    const {
-      shop
-    } = this.props;
+    const { shop } = this.props;
 
     return (
       <Fragment>
@@ -75,16 +68,32 @@ class AboutIndex extends Component {
         <section>
           <section className="navigation-items">
             <div style={styles.line}>
-              <i>
-                <FavoriteIcon />
+              <i style={{
+                opacity: 0.5
+              }}>
+                <PlaceholderIcon />
               </i>
               <Link href="/about/dark">
-                <span style={styles.link}>Dark Mode</span>
+                <span style={{
+                  ...styles.link,
+                  opacity: 0.5,
+                }}>Dark Mode</span>
+                <span style={{
+                  color: "#fff",
+                  background: "#B09A51",
+                  padding: ".25rem .75rem",
+                  borderRadius: "6px",
+                  marginLeft: "5rem",
+                  fontFamily: "Lato, sans-serif",
+                  fontSize: "15px",
+                  color: "#fff",
+                  fontWeight: 500
+                }}>Coming Soon!</span>
               </Link>
             </div>
             <div style={styles.line}>
               <i>
-                <OrdersIcon />
+                <PlaceholderIcon />
               </i>
               <Link href="/about/measure">
                 <span style={styles.link}>How to Measure</span>
@@ -92,7 +101,7 @@ class AboutIndex extends Component {
             </div>
             <div style={styles.line}>
               <i>
-                <ProfileIcon />
+                <PlaceholderIcon />
               </i>
               <Link href="/about/10x10">
                 <span style={styles.link}>10x10 Kitchen</span>
@@ -100,7 +109,7 @@ class AboutIndex extends Component {
             </div>
             <div style={styles.line}>
               <i>
-                <CardIcon />
+                <PlaceholderIcon />
               </i>
               <Link href="/about/tnc">
                 <span style={styles.link}>Terms and Conditions</span>
@@ -108,7 +117,7 @@ class AboutIndex extends Component {
             </div>
             <div style={styles.line}>
               <i>
-                <CardIcon />
+                <PlaceholderIcon />
               </i>
               <Link href="/about/faq">
                 <span style={styles.link}>Frequently Asked Questions</span>
@@ -116,7 +125,7 @@ class AboutIndex extends Component {
             </div>
             <div style={styles.line}>
               <i>
-                <CardIcon />
+                <PlaceholderIcon />
               </i>
               <Link href="/about/us">
                 <span style={styles.link}>About Us</span>
@@ -124,7 +133,7 @@ class AboutIndex extends Component {
             </div>
             <div style={styles.line}>
               <i>
-                <CardIcon />
+                <PlaceholderIcon />
               </i>
               <Link href="/about/contact">
                 <span style={styles.link}>Contact Us</span>
