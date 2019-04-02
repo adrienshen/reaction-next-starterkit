@@ -28,6 +28,10 @@ function defineRoutes(routes) {
 
     // Extras about
     .add("about", "/about", "about")
+    .add("faq", "/about/faq", "faq")
+    .add("measure", "/about/measure", "measure")
+
+    // Categories
     .add("categories", "/categories", "categories")
     
     // Category verticals

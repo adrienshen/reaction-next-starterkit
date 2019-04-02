@@ -28,7 +28,7 @@ const styles = theme => ({
     color: "#4E4E4E",
     marginRight: theme.spacing.unit,
     fontFamily: "Lato, sans-serif",
-    fontSize: "17px"
+    fontSize: "19px"
   },
   toolbar: {
     alignItems: "center",
@@ -45,6 +45,9 @@ const BarOptions = {
   "/product-samples": { display: true, title: "Sample Details", cart: true, search: true, leftIcon: "back" },
   "/wishlist": { display: true, title: "Wishlist", cart: true, search: true, leftIcon: "back" },
   "/orders": { display: true, title: "My Orders", cart: false, search: true, leftIcon: "back" },
+  "/about": { display: true, title: "About", cart: false, search: false, leftIcon: null },
+  "/faq": { display: true, title: "FAQ", cart: false, search: false, leftIcon: null },
+  "/measure": { display: true, title: "Measurement Info", cart: false, search: false, leftIcon: null },
 };
 
 @withStyles(styles, { name: "SkHeader" })
@@ -78,12 +81,13 @@ class Header extends Component {
 
       console.log("Router.router.route: ", Router.router.route);
       const screen = BarOptions[Router.router.route];
-      if (screen.display === false) return <div style={{ width: "56px" }} />;
+      if (!screen || screen.display === false) return <div style={{ width: "56px" }} />;
 
       return (
         <AppBar
           style={{
-            border: "none"
+            border: "none",
+            paddingTop: "1rem"
           }}
           position="static"
           elevation={0}
