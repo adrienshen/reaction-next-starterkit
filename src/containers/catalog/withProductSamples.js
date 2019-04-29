@@ -24,7 +24,11 @@ export default function WithProductSamples(Component) {
       console.info("Cabinet samples loaded: ");
 
       return (
-        <Query errorPolicy="all" query={catalogItemProductQuery} variables={{ slugOrId: "cabinet-samples" }}>
+        <Query
+          errorPolicy="all"
+          query={catalogItemProductQuery}
+          variables={{ slugOrId: "cabinet-samples" }}
+        >
           {({ data, loading }) => {
             console.log("In withProductSamples data from GraphQL: ", data);
             const { catalogItemProduct } = data || {};

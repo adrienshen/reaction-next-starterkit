@@ -7,21 +7,21 @@ import React from "react";
 
 /** Common buttons */
 
-export const Button = ({ type = "standard", text = "Button Text", size = "m" }) => {
+export const Button = ({ type = "standard", text = "Button Text", size = "m", onClick }) => {
   const sizeStyles = {
     "s": { height: "28px", fontSize: "15px", padding: ".25rem .5rem" },
     "m": { height: "45px", fontSize: "18px", padding: ".5rem 1rem" },
     "l": { height: "50px", fontSize: "22px", padding: ".5rem 1.5rem" },
   }[size];
-  if (type === "standard") return <StandardButton text={text} sizeStyles={sizeStyles} />;
-  if (type === "hollow") return <HollowButton text={text} sizeStyles={sizeStyles} />;
-  if (type === "greyed") return <GreyedButton text={text} sizeStyles={sizeStyles} />;
-  if (type === "inverted") return <InvertedButton text={text} sizeStyles={sizeStyles} />;
-  if (type === "ghost") return <GhostButton text={text} sizeStyles={sizeStyles} />;
+  if (type === "standard") return <StandardButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "hollow") return <HollowButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "greyed") return <GreyedButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "inverted") return <InvertedButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "ghost") return <GhostButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
 }
 
-function StandardButton({ text }) {
-  return <button style={{
+function StandardButton({ text, onClick }) {
+  return <button onClick={onClick} style={{
     background: "#B09A51",
     backgroundColor: "#B09A51",
     color: "#fff",
@@ -33,8 +33,8 @@ function StandardButton({ text }) {
   }}>{text}</button>
 }
 
-function HollowButton({ text }) {
-  return <button style={{
+function HollowButton({ text, onClick }) {
+  return <button onClick={onClick} style={{
     background: "#FFF",
     backgroundColor: "#FFF",
     color: "#B09A51",
@@ -46,8 +46,8 @@ function HollowButton({ text }) {
   }}>{text}</button>
 }
 
-function GreyedButton({ text }) {
-  return <button style={{
+function GreyedButton({ text, onClick }) {
+  return <button onClick={onClick} style={{
     background: "#DFDFDF ",
     backgroundColor: "#DFDFDF",
     color: "#2A3330",
@@ -59,8 +59,8 @@ function GreyedButton({ text }) {
   }}>{text}</button>
 }
 
-function InvertedButton({ text }) {
-  return <button style={{
+function InvertedButton({ text, onClick }) {
+  return <button onClick={onClick} style={{
     background: "#fff",
     backgroundColor: "#fff",
     color: "#B09A51",
@@ -72,8 +72,8 @@ function InvertedButton({ text }) {
   }}>{text}</button>
 }
 
-function GhostButton({ text }) {
-  return <button style={{
+function GhostButton({ text, onClick }) {
+  return <button onClick={onClick} style={{
     background: "transparent",
     backgroundColor: "transparent",
     color: "#fff",

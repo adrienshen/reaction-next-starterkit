@@ -16,10 +16,7 @@ import {
   updateCartItemsQuantityMutation,
   updateFulfillmentOptionsForGroup
 } from "./mutations.gql";
-import {
-  accountCartByAccountIdQuery,
-  anonymousCartByCartIdQuery
-} from "./queries.gql";
+import { accountCartByAccountIdQuery, anonymousCartByCartIdQuery } from "./queries.gql";
 
 /**
  * withCart higher order query component for creating, fetching, and updating carts
@@ -49,7 +46,7 @@ export default function withCart(Component) {
       shop: PropTypes.shape({
         _id: PropTypes.string
       })
-    }
+    };
 
     componentDidMount() {
       const { cartStore } = this.props;
@@ -83,7 +80,7 @@ export default function withCart(Component) {
           }
         });
       }
-    }
+    };
 
     /**
      * Reconcile an anonymous and account cart when an anonymous user signs in
@@ -98,7 +95,11 @@ export default function withCart(Component) {
     reconcileCartsIfNecessary(refetchCart) {
       const { authStore, cartStore, shop, client: apolloClient } = this.props;
 
-      if (cartStore.hasAnonymousCartCredentials && authStore.isAuthenticated && cartStore.isReconcilingCarts === false) {
+      if (
+        cartStore.hasAnonymousCartCredentials &&
+        authStore.isAuthenticated &&
+        cartStore.isReconcilingCarts === false
+      ) {
         // Prevent multiple calls to reconcile cart mutations when one is currently in progress
         cartStore.setIsReconcilingCarts(true);
 
@@ -188,7 +189,7 @@ export default function withCart(Component) {
      * @param {Array<Object>|Object} cartItems An array of objects or a single object of shape: { cartItemId: String, quantity: Int }
      * @returns {undefined} No return
      */
-    handleChangeCartItemsQuantity = (cartItems) => {
+    handleChangeCartItemsQuantity = cartItems => {
       const { cartStore, client: apolloClient } = this.props;
 
       apolloClient.mutate({
@@ -214,7 +215,7 @@ export default function withCart(Component) {
           }
         }
       });
-    }
+    };
 
     /**
      * @name handleRemoveCartItems
@@ -224,7 +225,7 @@ export default function withCart(Component) {
      * @param {Array|String} itemIds Ids of the products to remove from the cart
      * @returns {undefined} No return
      */
-    handleRemoveCartItems = (itemIds) => {
+    handleRemoveCartItems = itemIds => {
       const { cartStore, client: apolloClient } = this.props;
 
       return apolloClient.mutate({
@@ -250,7 +251,7 @@ export default function withCart(Component) {
           }
         }
       });
-    }
+    };
 
     /**
      * @name handleSetEmailOnAnonymousCart
@@ -260,7 +261,10 @@ export default function withCart(Component) {
      * @return {undefined} No return
      */
     handleSetEmailOnAnonymousCart = async ({ email }) => {
-      const { cartStore: { anonymousCartToken }, client: apolloClient } = this.props;
+      const {
+        cartStore: { anonymousCartToken },
+        client: apolloClient
+      } = this.props;
       // Omit cartToken, as for this particular input type the
       // the param is named token
       const { cartToken, ...rest } = this.cartIdAndCartToken;
@@ -274,7 +278,7 @@ export default function withCart(Component) {
           }
         }
       });
-    }
+    };
 
     /**
      * @name handleUpdateFulfillmentOptionsForGroup
@@ -283,9 +287,8 @@ export default function withCart(Component) {
      * @param {Function} mutation An Apollo mutation function
      * @return {undefined} No return
      */
-    handleUpdateFulfillmentOptionsForGroup = async (fulfillmentGroupId) => {
+    handleUpdateFulfillmentOptionsForGroup = async fulfillmentGroupId => {
       const { client: apolloClient } = this.props;
-
 
       await apolloClient.mutate({
         mutation: updateFulfillmentOptionsForGroup,
@@ -296,7 +299,7 @@ export default function withCart(Component) {
           }
         }
       });
-    }
+    };
 
     get cartIdAndCartToken() {
       const { cartStore } = this.props;
@@ -332,7 +335,7 @@ export default function withCart(Component) {
           }
         }
       });
-    }
+    };
 
     /**
      * @name handleSetShippingAddress
@@ -341,7 +344,7 @@ export default function withCart(Component) {
      * @param {Function} mutation An Apollo mutation function
      * @return {undefined} No return
      */
-    handleSetShippingAddress = async (address) => {
+    handleSetShippingAddress = async address => {
       const { client: apolloClient } = this.props;
 
       const response = await apolloClient.mutate({
@@ -355,11 +358,15 @@ export default function withCart(Component) {
       });
 
       // Update fulfillment options for current cart
-      const { data: { setShippingAddressOnCart: { cart } } } = response;
+      const {
+        data: {
+          setShippingAddressOnCart: { cart }
+        }
+      } = response;
       this.handleUpdateFulfillmentOptionsForGroup(cart.checkout.fulfillmentGroups[0]._id);
 
       return response;
-    }
+    };
 
     render() {
       const { authStore, cartStore, shop } = this.props;
@@ -428,12 +435,10 @@ export default function withCart(Component) {
                   }
                 }}
               >
-                {(mutationFunction) => (
+                {mutationFunction => (
                   <Component
                     {...this.props}
-                    addItemsToCart={(items) => (
-                      this.handleAddItemsToCart(mutationFunction, { items }, !cart)
-                    )}
+                    addItemsToCart={items => this.handleAddItemsToCart(mutationFunction, { items }, !cart)}
                     cart={processedCartData}
                     checkoutMutations={{
                       onSetFulfillmentOption: this.handleSetFulfillmentOption,
@@ -450,7 +455,12 @@ export default function withCart(Component) {
                           const { cart: fetchMoreCart } = fetchMoreResult;
 
                           // Check for additional items from result
-                          if (fetchMoreCart && fetchMoreCart.items && Array.isArray(fetchMoreCart.items.edges) && fetchMoreCart.items.edges.length) {
+                          if (
+                            fetchMoreCart &&
+                            fetchMoreCart.items &&
+                            Array.isArray(fetchMoreCart.items.edges) &&
+                            fetchMoreCart.items.edges.length
+                          ) {
                             // Merge previous cart items with next cart items
                             return {
                               ...fetchMoreResult,
@@ -459,10 +469,7 @@ export default function withCart(Component) {
                                 items: {
                                   __typename: previousResult.cart.items.__typename,
                                   pageInfo: fetchMoreCart.items.pageInfo,
-                                  edges: [
-                                    ...previousResult.cart.items.edges,
-                                    ...fetchMoreCart.items.edges
-                                  ]
+                                  edges: [...previousResult.cart.items.edges, ...fetchMoreCart.items.edges]
                                 }
                               }
                             };
@@ -484,12 +491,13 @@ export default function withCart(Component) {
             );
           }}
         </Query>
-
       );
     }
   }
 
-  hoistNonReactStatic(WithCart, Component);
+  // hoistNonReactStatic(WithCart, Component);
+
+  console.log("WithCart: ", WithCart);
 
   return WithCart;
 }

@@ -8,7 +8,7 @@ import ErrorPage from "./_error";
 import { H2, UserName } from "../custom/components/Text";
 
 import Avatar from "@material-ui/core/Avatar";
-import { Link } from "../components/Link";
+import Link from "../components/Link";
 import { FavoriteIcon, OrdersIcon, ProfileIcon, CardIcon } from "../custom/components/SvgIcons";
 
 const styles = {

@@ -46,7 +46,6 @@ class AboutIndex extends Component {
   renderAccountProfileInfo() {
     const {
       authStore: { account },
-      classes
     } = this.props;
 
     return (
@@ -73,13 +72,11 @@ class AboutIndex extends Component {
               }}>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/dark">
+              <Link style={styles.link} href="/about/dark">
                 <span style={{
-                  ...styles.link,
                   opacity: 0.5,
                 }}>Dark Mode</span>
                 <span style={{
-                  color: "#fff",
                   background: "#B09A51",
                   padding: ".25rem .75rem",
                   borderRadius: "6px",
@@ -95,48 +92,48 @@ class AboutIndex extends Component {
               <i>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/measure">
-                <span style={styles.link}>How to Measure</span>
+              <Link style={styles.link} href="/about/measure">
+                <span>How to Measure</span>
               </Link>
             </div>
             <div style={styles.line}>
               <i>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/10x10">
-                <span style={styles.link}>10x10 Kitchen</span>
+              <Link style={styles.link} href="/about/10x10">
+                <span>10x10 Kitchen</span>
               </Link>
             </div>
             <div style={styles.line}>
               <i>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/tnc">
-                <span style={styles.link}>Terms and Conditions</span>
+              <Link style={styles.link} href="/about/tnc">
+                <span>Terms and Conditions</span>
               </Link>
             </div>
             <div style={styles.line}>
               <i>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/faq">
-                <span style={styles.link}>Frequently Asked Questions</span>
+              <Link style={styles.link} href="/about/faq">
+                <span>Frequently Asked Questions</span>
               </Link>
             </div>
             <div style={styles.line}>
               <i>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/us">
-                <span style={styles.link}>About Us</span>
+              <Link style={styles.link} href="/about/us">
+                <span>About Us</span>
               </Link>
             </div>
             <div style={styles.line}>
               <i>
                 <PlaceholderIcon />
               </i>
-              <Link href="/about/contact">
-                <span style={styles.link}>Contact Us</span>
+              <Link style={styles.link} href="/about/contact">
+                <span>Contact Us</span>
               </Link>
             </div>
           </section>

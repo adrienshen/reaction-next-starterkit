@@ -143,15 +143,14 @@ class CartPage extends Component {
 
       return (
         <Grid item xs={12} md={3}>
-          {/* <CartSummary
+          <CartSummary
             displayShipping={fulfillmentTotal && fulfillmentTotal.displayAmount}
             displaySubtotal={itemTotal && itemTotal.displayAmount}
             displaySurcharge={surchargeTotal && surchargeTotal.displayAmount}
             displayTax={taxTotal && taxTotal.displayAmount}
             displayTotal={total && total.displayAmount}
             itemsQuantity={cart.totalItemQuantity}
-          /> */}
-          <CartSummary />
+          />
           <div className={classes.checkoutButtonsContainer}>
             <CheckoutButtons />
           </div>

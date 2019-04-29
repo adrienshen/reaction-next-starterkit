@@ -1,14 +1,13 @@
 import React from "react";
-import Link from "../../components/Link";
+// import Link from "../../components/Link";
 
-/** Common text elements */
 export const Body = ({ content = "P needs content", size = "m" }) => {
   const fontSize = { s: "16px", m: "18px", l: "19px" }[size];
   return (
     <p
       style={{
         fontFamily: "Lato, sans-serif",
-        fontSize: fontSize,
+        fontSize,
         color: "#4E4E4E"
       }}
     >
@@ -57,7 +56,6 @@ export const UserName = ({ name }) => {
   )
 }
 
-/** Special text elements */
 export const ProductCurrentPrice = ({ price }) => {
   return (
     <span
@@ -89,6 +87,29 @@ export const ComponentSectionTitle = ({ title }) => {
           color: "#4E4E4E",
           fontFamily: "Lato, sans-serif",
           fontSize: "17px"
+        }}
+      >
+        {title}
+      </span>
+    </div>
+  );
+};
+
+export const PersonalSectionTitle = ({ title }) => {
+  return (
+    <div
+      style={{
+        width: "100%",
+        textAlign: "left",
+        padding: "1rem",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "Lato, sans-serif",
+          fontSize: "17px",
+          color: "#B09A51",
+          fontWeight: 500 
         }}
       >
         {title}
@@ -228,7 +249,7 @@ export const OrderNumber = ({ id }) => {
     color: "#B09A51",
     fontFamily: "Lato, sans-serif",
     marginBottom: "1rem",
-    fontSize: "13px"
+    fontSize: "16px"
   }}>Order No: {id}</div>
 }
 

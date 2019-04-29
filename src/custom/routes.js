@@ -14,7 +14,6 @@ function defineRoutes(routes) {
 
     // CabinetOne Customize Routes
     .add("search", "/search", "search")
-    .add("kitchenDesign", "/kitchendesign", "kitchenDesign")
     
     // Account and profile
     .add("account", "/account", "account")
@@ -25,6 +24,7 @@ function defineRoutes(routes) {
     // .add("profileAddressBook", "/profile/address", "profile")
     // .add("profileOrders", "/profile/orders", "profile")
     // .add("profilePaymentMethods", "/profile/payments", "profile")
+    .add("personalInformation", "/account/personal-information", "personalInformation")
 
     // Extras about
     .add("about", "/about", "about")
@@ -36,7 +36,7 @@ function defineRoutes(routes) {
     
     // Category verticals
     .add("samples", "/categories/samples", "samples")
-    .add("category-kitchen", "/category/kitchen", "category-kitchen")
+    .add("category.kitchen", "/category/kitchen", "category.kitchen")
     .add("category-bedroom", "/category/bedroom", "category-bedroom")
     .add("category-bathroom", "/category/bathroom", "category-bathroom")
     .add("category-living", "/category/living", "category-living")

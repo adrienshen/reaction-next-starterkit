@@ -63,7 +63,6 @@ const styles = theme => ({
 });
 
 @withStyles(styles, { name: "SkCartItems" })
-@withCart()
 class CartItems extends Component {
   static propTypes = {
     classes: PropTypes.object,
@@ -115,7 +114,8 @@ class CartItems extends Component {
     );
   }
 
-  renderPrice(price) {
+  renderPrice(price = "0.00") {
+    console.log("price: ", price);
     return <QuantitySelector
       decrement={() => console.log("decrement")}
       increment={() => console.log("increment")} />
@@ -133,7 +133,7 @@ class CartItems extends Component {
       }}>
         <section className={classes.cardContainer}>
           <div>
-            <img src="https://via.placeholder.com/100x120" alt="product photo" />
+            <img src="https://via.placeholder.com/100x120" alt="product" />
           </div>
           <div className={classes.content}>
             <h3 className={classes.titleH3}>{item.title}</h3>

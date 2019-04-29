@@ -34,12 +34,17 @@
       }
     },
     "extends": [
+      "@reactioncommerce",
       "prettier"
     ],
     "rules": {
+      "react/no-multi-comp": "off",
       "arrow-parens": "off",
       "comma-dangle": "off",
-      "semi": "off"
+      "no-console": "off",
+      "import/order": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
+      "require-jsdoc": "off"
     }
   },
   "dependencies": {

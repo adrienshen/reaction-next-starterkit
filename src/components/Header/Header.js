@@ -8,7 +8,6 @@ import { withStyles } from "@material-ui/core/styles";
 import MiniCart from "components/MiniCart";
 import BackArrow from "components/BackArrow";
 import SearchIcon from "../SearchIcon";
-import RenderError from "../../custom/components/RenderError";
 
 const styles = theme => ({
   appBar: {
@@ -48,6 +47,9 @@ const BarOptions = {
   "/about": { display: true, title: "About", cart: false, search: false, leftIcon: null },
   "/faq": { display: true, title: "FAQ", cart: false, search: false, leftIcon: null },
   "/measure": { display: true, title: "Measurement Info", cart: false, search: false, leftIcon: null },
+  "/category.kitchen": { display: true, title: "Kitchen", cart: true, search: true, leftIcon: "back" },
+  "/bedroom": { display: true, title: "Bedroom", cart: true, search: true, leftIcon: "back" },
+  "/styles": { display: true, title: "Styles", cart: true, search: true, leftIcon: "back" },
 };
 
 @withStyles(styles, { name: "SkHeader" })

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { inject } from "mobx-react";
 import Link from "../Link";
+import { Router } from "routes";
 
 const styles = {
   mainNavigationContainer: {
@@ -28,8 +29,9 @@ const styles = {
     marginRight: "1rem",
     fontFamily: "sans-serif",
     background: "#2A3330",
-    padding: ".5rem",
-    borderRadius: "50%"
+    padding: ".5rem .8rem",
+    borderRadius: "50%",
+    outline: "none",
     // transform: "translateY(-40px)"
   },
   navigationItemSelected: {
@@ -55,11 +57,19 @@ class MainNavigation extends Component {
   };
 
   render() {
+    console.log("Router.router.route: ", Router.router);
+
     return (
       <section style={styles.mainNavigationContainer}>
         <ul style={styles.navigationList}>
           <Link href="/">
-            <li style={styles.navigationItem}>
+            <li
+              style={{
+                ...styles.navigationItem,
+                transform:
+                  Router.router && Router.router.route === "/productGrid" ? "translateY(-40px)" : "translateY(0)"
+              }}
+            >
               <div style={{ textAlign: "center" }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="none" d="M0 0h24v24H0V0z" />
@@ -70,7 +80,12 @@ class MainNavigation extends Component {
             </li>
           </Link>
           <Link href="/cart">
-            <li style={styles.navigationItem}>
+            <li
+              style={{
+                ...styles.navigationItem,
+                transform: Router.router && Router.router.route === "/cart" ? "translateY(-40px)" : "translateY(0)"
+              }}
+            >
               <div style={{ textAlign: "center" }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="none" d="M0 0h24v24H0V0z" />
@@ -84,7 +99,12 @@ class MainNavigation extends Component {
             </li>
           </Link>
           <Link href="/account">
-            <li style={styles.navigationItem}>
+            <li
+              style={{
+                ...styles.navigationItem,
+                transform: Router.router && Router.router.route === "/account" ? "translateY(-40px)" : "translateY(0)"
+              }}
+            >
               <div style={{ textAlign: "center" }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="none" d="M0 0h24v24H0V0z" />
@@ -98,7 +118,12 @@ class MainNavigation extends Component {
             </li>
           </Link>
           <Link href="/about">
-            <li style={styles.navigationItem}>
+            <li
+              style={{
+                ...styles.navigationItem,
+                transform: Router.router && Router.router.route === "/about" ? "translateY(-40px)" : "translateY(0)"
+              }}
+            >
               <div style={{ textAlign: "center" }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                   <path fill="none" d="M0 0h24v24H0V0z" />

@@ -4,6 +4,7 @@ import { inject, observer } from "mobx-react";
 import Helmet from "react-helmet";
 import { Card } from "@material-ui/core";
 import { OrderNumber, OrderItemRow, TotalAmount } from "../custom/components/Text";
+import { PendingBadge } from "../custom/components/Badges";
 
 const styles = {
   container: {
@@ -43,7 +44,15 @@ class OrdersPage extends Component {
 
   renderOrderItem(order) {
     return <Card elevation={0} style={styles.card}>
-      <OrderNumber id="123456789" />
+      <div style={{
+        display: "flex",
+        flexDirection: "row no-wrap",
+        justifyContent: "space-between",
+        marginBottom: "2rem",
+      }}>
+        <OrderNumber id="123456789" />
+        <PendingBadge />
+      </div>
       <OrderItemRow label="Order Date" value={`03/05/2019`} />
       <OrderItemRow label="SKU" value={`1234567`} />
       <OrderItemRow label="Category" value={`Base`} />

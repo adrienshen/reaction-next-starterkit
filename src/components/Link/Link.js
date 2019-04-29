@@ -12,7 +12,8 @@ const { publicRuntimeConfig: { enableSPARouting } } = getConfig();
 const styles = () => ({
   anchor: {
     color: "inherit",
-    textDecoration: "none"
+    textDecoration: "none",
+    outline: "none",
   }
 });
 
