@@ -109,7 +109,7 @@ export const PersonalSectionTitle = ({ title }) => {
           fontFamily: "Lato, sans-serif",
           fontSize: "17px",
           color: "#B09A51",
-          fontWeight: 500 
+          fontWeight: 600 
         }}
       >
         {title}

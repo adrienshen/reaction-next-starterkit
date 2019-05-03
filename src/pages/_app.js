@@ -78,6 +78,8 @@ export default class App extends NextApp {
     const { route } = this.props.router;
     const { stripe } = this.state;
 
+    console.log("VIEWER OBJECT: ", viewer);
+
     return (
       <Container>
         <ComponentsProvider value={components}>

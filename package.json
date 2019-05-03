@@ -44,7 +44,8 @@
       "no-console": "off",
       "import/order": "off",
       "jsx-a11y/click-events-have-key-events": "off",
-      "require-jsdoc": "off"
+      "require-jsdoc": "off",
+      "react/no-did-mount-set-state": "off"
     }
   },
   "dependencies": {
