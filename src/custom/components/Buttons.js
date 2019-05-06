@@ -7,78 +7,84 @@ import React from "react";
 
 /** Common buttons */
 
-export const Button = ({ type = "standard", text = "Button Text", size = "m", onClick }) => {
+export const Button = ({ type = "standard", htmlType = "button", text = "Button Text", size = "m", onClick }) => {
   const sizeStyles = {
     "s": { height: "28px", fontSize: "15px", padding: ".25rem .5rem" },
-    "m": { height: "45px", fontSize: "18px", padding: ".5rem 1rem" },
-    "l": { height: "50px", fontSize: "22px", padding: ".5rem 1.5rem" },
+    "m": { width: "50%", height: "45px", fontSize: "18px", padding: ".5rem 1rem" },
+    "l": { width: "95%", height: "50px", fontSize: "22px", padding: ".5rem 1.5rem" },
   }[size];
-  if (type === "standard") return <StandardButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
-  if (type === "hollow") return <HollowButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
-  if (type === "greyed") return <GreyedButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
-  if (type === "inverted") return <InvertedButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
-  if (type === "ghost") return <GhostButton onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+
+  if (type === "standard") return <StandardButton
+    htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "hollow") return <HollowButton
+    htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "greyed") return <GreyedButton
+    htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "inverted") return <InvertedButton
+    htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
+  if (type === "ghost") return <GhostButton
+    htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
 }
 
-function StandardButton({ text, onClick }) {
-  return <button onClick={onClick} style={{
+function StandardButton({ htmlType, text, onClick, sizeStyles }) {
+  return <button type={htmlType} onClick={onClick} style={{
+    ...sizeStyles,
     background: "#B09A51",
     backgroundColor: "#B09A51",
     color: "#fff",
     borderRadius: "1.5rem",
-    padding: ".5rem 1.5rem",
     border: "none",
     outline: "none",
     cursor: "pointer"
   }}>{text}</button>
 }
 
-function HollowButton({ text, onClick }) {
-  return <button onClick={onClick} style={{
+function HollowButton({ htmlType, text, onClick, sizeStyles }) {
+  return <button type={htmlType} onClick={onClick} style={{
+    ...sizeStyles,
     background: "#FFF",
     backgroundColor: "#FFF",
     color: "#B09A51",
     borderRadius: "1.5rem",
-    padding: ".5rem 1.5rem",
     border: "1px solid #B09A51",
     outline: "none",
     cursor: "pointer"
   }}>{text}</button>
 }
 
-function GreyedButton({ text, onClick }) {
-  return <button onClick={onClick} style={{
+function GreyedButton({ htmlType, text, onClick, sizeStyles }) {
+  return <button type={htmlType} onClick={onClick} style={{
+    ...sizeStyles,
     background: "#DFDFDF ",
     backgroundColor: "#DFDFDF",
     color: "#2A3330",
     borderRadius: "1.5rem",
-    padding: ".5rem 1.5rem",
     border: "none",
     outline: "none",
     cursor: "pointer"
   }}>{text}</button>
 }
 
-function InvertedButton({ text, onClick }) {
-  return <button onClick={onClick} style={{
+function InvertedButton({ htmlType, text, onClick, sizeStyles }) {
+  return <button type={htmlType} onClick={onClick} style={{
+    ...sizeStyles,
     background: "#fff",
     backgroundColor: "#fff",
     color: "#B09A51",
     borderRadius: "1.5rem",
-    padding: ".5rem 1.5rem",
     border: "none",
     outline: "none",
     cursor: "pointer"
   }}>{text}</button>
 }
 
-function GhostButton({ text, onClick }) {
-  return <button onClick={onClick} style={{
+function GhostButton({ htmlType, text, onClick, sizeStyles }) {
+  return <button type={htmlType} onClick={onClick} style={{
+    ...sizeStyles,
     background: "transparent",
     backgroundColor: "transparent",
     color: "#fff",
     borderRadius: "1.5rem",
-    padding: ".5rem 1.5rem",
     border: "1px solid #fff",
     outline: "none",
     cursor: "pointer"

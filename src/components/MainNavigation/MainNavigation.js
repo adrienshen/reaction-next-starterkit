@@ -57,8 +57,6 @@ class MainNavigation extends Component {
   };
 
   render() {
-    console.log("Router.router.routeee: ", Router);
-
     return (
       <section style={styles.mainNavigationContainer}>
         <ul style={styles.navigationList}>

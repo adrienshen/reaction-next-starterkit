@@ -45,7 +45,8 @@
       "import/order": "off",
       "jsx-a11y/click-events-have-key-events": "off",
       "require-jsdoc": "off",
-      "react/no-did-mount-set-state": "off"
+      "react/no-did-mount-set-state": "off",
+      "react/jsx-closing-bracket-location": "off"
     }
   },
   "dependencies": {
@@ -70,6 +71,7 @@
     "envalid": "^4.2.0",
     "eslint-config-airbnb": "^17.1.0",
     "express": "^4.16.4",
+    "formik": "^1.5.4",
     "graphql": "14.1.1",
     "graphql-tag": "2.10.1",
     "isomorphic-fetch": "^2.2.1",
@@ -96,7 +98,8 @@
     "react-tracking": "^5.6.0",
     "reacto-form": "^0.0.2",
     "styled-components": "^3.4.10",
-    "subscriptions-transport-ws": "^0.9.15"
+    "subscriptions-transport-ws": "^0.9.15",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

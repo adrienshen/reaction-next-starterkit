@@ -8,9 +8,11 @@ import { Button } from "../custom/components/Buttons";
 import { RoundedTextInput, OptionsSelect } from "../custom/components/Inputs";
 // import ToggleSwitch from "../custom/components/ToggleSwitch";
 import withAddressBook from "containers/address/withAddressBook";
-
-import PersonalInformation from "../custom/PersonalInformation";
+import ErrorPage from "../pages/_error";
 import withViewer from "../containers/account/withViewer";
+import { Router } from "routes";
+import { Formik } from 'formik';
+import { AddressSchema, PersonalInformationSchema } from "../lib/validations";
 
 @withViewer
 @withAddressBook
@@ -29,39 +31,78 @@ class UserPersonalInformation extends Component {
     personalDetails: {},
     billingAddress: {},
     shippingAddress: {},
+    fieldErrors: {
+      billingAddress: {
+        address1: "",
+        city: "",
+        country: "",
+        postal: "",
+        phone: "",
+      },
+      shippingAddress: {
+        address1: "",
+        city: "",
+        country: "",
+        postal: "",
+        phone: "",
+      }
+    },
   };
 
   componentDidMount() {
     console.log("THIS.PROPS: ", this.props);
+    if (!this.props.viewer) {
+      console.warn("Viewer is null");
+      Router.pushRoute("/login");
+      return;
+    }
+    const { primaryEmailAddress, addressBook } = this.props.viewer;
 
-    const { addressBook } = this.props.viewer;
-    const firstBillingAddress = addressBook.edges.filter(edge => {
-      return edge.node.isBillingDefault;
-    })[0];
+    let firstBillingAddress;
+    let firstShippingAddress;
+    if (addressBook) {
+      [firstBillingAddress] = addressBook.edges.filter(edge => {
+        return edge.node.isBillingDefault;
+      });
+  
+      [firstShippingAddress] = addressBook.edges.filter(edge => {
+        return edge.node.isBillingDefault;
+      });
+    }
 
-    const firstShippingAddress = addressBook.edges.filter(edge => {
-      return edge.node.isBillingDefault;
-    })[0];
+    console.log("primaryEmailAddress: ", primaryEmailAddress);
 
-    console.log("HERE: ", firstBillingAddress, firstShippingAddress);
+    // Use the billing address as the customer personal information
+    const personalDetails = {
+      firstName: firstBillingAddress && firstBillingAddress.firstName || "",
+      lastName: firstBillingAddress && firstBillingAddress.lastName || "",
+      primaryEmailAddress,
+      // Password can not be queried from GraphQL, so this will probably be a reset password button
+      resetPassword: "",
+      confirmPassword: "",
+    };
+
+    const billingAddress = firstBillingAddress || {
+      address1: "",
+      city: "",
+      country: "",
+      postal: "",
+      phone: "",
+    }
+
+    const shippingAddress = firstShippingAddress || {
+      address1: "",
+      city: "",
+      country: "",
+      postal: "",
+      phone: "",
+    }
 
     this.setState({
-      billingAddress: firstBillingAddress || {
-        address1: "",
-        city: "",
-        country: "",
-        postal: "",
-        phone: "",
-      },
-      shippingAddress: firstShippingAddress || {
-        address1: "",
-        city: "",
-        country: "",
-        postal: "",
-        phone: "",
-      },
+      personalDetails,
+      billingAddress,
+      shippingAddress,
     });
-
   }
 
   editMode = () => {
@@ -70,55 +111,28 @@ class UserPersonalInformation extends Component {
     });
   };
 
+  saveBillingAddress = address => {
+    console.log("ready for saving... ", address);
+  }
+
+  saveShippingAddress = address => {
+    console.log("ready for saving... ", address);
+  }
+
   onInputChange = ({ target }) => {
     console.log("value: ", target.value);
   };
 
-  onBillingAddressInputChange = (field, value) => {
-    const billingAddress = { ...this.state.billingAddress, [field]: value };
-    this.setState({
-      billingAddress,
-    });
-  }
-
-  onShippingAddressInputChange = (field, value) => {
-    const shippingAddress = { ...this.state.shippingAddress, [field]: value };
-    this.setState({
-      shippingAddress,
-    });
-  }
-
   renderPersonalInformation() {
-    const { addressBook, primaryEmailAddress } = this.props.viewer;
-    const { fullName, address1, city, country, postal, phone } = addressBook.edges[0].node;
-    console.log(addressBook, primaryEmailAddress);
+    const { shippingAddress, billingAddress, personalDetails } = this.state;
 
     return (
       <section style={{ padding: "1rem" }}>
         Display user personal information
-        <div style={{ margin: "2rem 0rem" }}>
-          <PersonalSectionTitle title="Account Information" />
-          <InfoLine label="Name" value={fullName} type="text" />
-          <InfoLine label="Email" value={primaryEmailAddress} type="text" />
-          <InfoLine label="Password" value="somepassword" type="password" />
-        </div>
+        {this.renderPersonalStatic(personalDetails, billingAddress)}
         <Divider />
-        <div style={{ margin: "2rem 0rem" }}>
-          <PersonalSectionTitle title="Billing Address" />
-          <InfoLine label="Address" value={``} />
-          <InfoLine label="City" value={``} />
-          <InfoLine label="State" value={``} />
-          <InfoLine label="Zipcode" value={``} />
-          <InfoLine label="Phone" value={``} />
-        </div>
-        <div style={{ margin: "2rem 0rem" }}>
-          <PersonalSectionTitle title="Shipping Address" />
-          <InfoLine label="Address" value={address1} />
-          <InfoLine label="City" value={city} />
-          <InfoLine label="State" value={country} />
-          <InfoLine label="Zipcode" value={postal} />
-          <InfoLine label="Phone" value={phone} />
-        </div>
+        {this.renderAddressStatic(billingAddress)}
+        {this.renderAddressStatic(shippingAddress)}
         <Button
           type="hollow"
           text="Edit"
@@ -131,128 +145,295 @@ class UserPersonalInformation extends Component {
     );
   }
 
+  renderPersonalStatic({ primaryEmailAddress }, { firstName, lastName }) {
+    return (
+      <div style={{ margin: "2rem 0rem" }}>
+        <PersonalSectionTitle title="Account Information" />
+        <InfoLine label="Name" value={`${firstName} ${lastName}`} type="text" />
+        <InfoLine label="Email" value={primaryEmailAddress} type="text" />
+        <InfoLine label="Password" value="somepassword" type="password" />
+      </div>
+    )
+  }
+
+  renderAddressStatic({ address1, city, country, postal, phone }) {
+    return (
+      <div style={{ margin: "2rem 0rem" }}>
+        <PersonalSectionTitle title="Shipping Address" />
+        <InfoLine label="Address" value={address1} />
+        <InfoLine label="City" value={city} />
+        <InfoLine label="State" value={country} />
+        <InfoLine label="Zipcode" value={postal} />
+        <InfoLine label="Phone" value={phone} />
+      </div>
+    )
+  }
+
   renderEdit() {
-    const { addressBook, primaryEmailAddress } = this.props.viewer;
     if (!this.props.viewer) return null;
-    const { fullName } = addressBook.edges[0].node;
-    console.log(addressBook, primaryEmailAddress);
+    // const { primaryEmailAddress } = this.props.viewer;
+    // const { fullName } = this.state.billingAddress;
 
     return (
       <section>
         <PersonalSectionTitle title="Account Information" />
-        <section style={{ padding: "2rem", display: "flex", flexFlow: "row wrap", justifyContent: "space-evenly" }}>
-          <RoundedTextInput onChange={this.onInputChange} value={fullName || ""} width="49%" />
-          <RoundedTextInput onChange={this.onInputChange} value="" width="49%" />
-          <RoundedTextInput onChange={this.onInputChange} value={primaryEmailAddress || ""} width="100%" />
-          <RoundedTextInput
-            placeholder="new password"
-            onChange={this.onInputChange}
-            value=""
-            width="100%"
-            type="password"
-          />
-          {/* on blur send updated password */}
-          <RoundedTextInput
-            placeholder="confirm password"
-            onChange={this.onInputChange}
-            value=""
-            width="100%"
-            type="password"
-          />
+        <section style={{
+          padding: "2rem",
+          display: "flex",
+          flexFlow: "row wrap",
+          justifyContent: "space-evenly"
+        }}>
+          {this.renderPersonalDetailsForm()}
         </section>
-        {this.renderBillingAddressForm()}
         {this.renderShippingAddressToggle()}
-        {this.renderShippingAddressForm()}
-        <Button type="standard" text="SAVE" size="m" onClick={() => console.log("Saving...")}>
+        {this.renderAddressFormik(this.state.shippingAddress, this.saveShippingAddress)}
+        {this.renderAddressFormik(this.state.billingAddress, this.saveBillingAddress)}
+        <Button
+          type="standard"
+          text="SAVE"
+          size="m"
+          onClick={this.onFormSave}
+        >
           Save
         </Button>
       </section>
     );
   }
 
-  renderBillingAddressForm() {
-    const { address1, city, country, postal, phone } = this.state.billingAddress || {};
+  renderPersonalDetailsForm() {
+    const { primaryEmailAddress } = this.state.personalDetails;
+    const { firstName, lastName } = this.state.billingAddress;
+
     return (
-      <React.Fragment>
-        <PersonalSectionTitle title="Billing Address" />
-        <section style={{ padding: "2rem", display: "flex", flexFlow: "row wrap", justifyContent: "space-evenly" }}>
-          <RoundedTextInput
-            placeholder="Address 1"
-            onChange={({ target }) => this.onBillingAddressInputChange("address1", target.value)}
-            value={address1 || ``}
-            width="49.5%"
-          />
-          <RoundedTextInput
-            placeholder="City"
-            onChange={({ target }) => this.onBillingAddressInputChange("city", target.value)}
-            value={city || ``}
-            width="49.5%"
-          />
-          <OptionsSelect
-            currentValue={country || `USA`}
-            dataOptions={["USA", "China"]}
-            onSelect={value => console.log(value)}
-          />
-          <RoundedTextInput
-            placeholder="12315"
-            onChange={({ target }) => this.onBillingAddressInputChange("postal", target.value)}
-            value={postal || ``}
-            width="30%"
-            type="text"
-          />
-          <RoundedTextInput
-            placeholder="Phone number"
-            onChange={({ target }) => this.onBillingAddressInputChange("phone", target.value)}
-            value={phone || ``}
-            width="68%"
-            type="text"
-          />
-        </section>
-      </React.Fragment>
-    );
+      <Formik
+        initialValues={{
+          firstName,
+          lastName,
+          primaryEmailAddress,
+          password: "",
+          confirmPassword: "",
+        }}
+        validationSchema={PersonalInformationSchema}
+        onSubmit={(values, actions) => {
+          console.log("HERE: ", values, actions);
+
+
+
+          // onSave(values).then(
+          //   updatedUser => {
+          //     actions.setSubmitting(false);
+          //     updateUser(updatedUser);
+          //     onClose();
+          //   },
+          //   error => {
+          //     actions.setSubmitting(false);
+          //     actions.setErrors(transformMyRestApiErrorsToAnObject(error));
+          //     actions.setStatus({ msg: 'Set some arbitrary status or data' });
+          //   }
+          // );
+        }}
+        render={({
+          values,
+          errors,
+          status,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form
+            style={{
+              display: "flex",
+              flexFlow: "row wrap",
+              justifyContent: "space-evenly"
+            }}
+            onSubmit={handleSubmit}>
+            <RoundedTextInput
+              placeholder="First name"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.firstName}
+              width="49.5%"
+              type="text"
+              name="firstName"
+            />
+            {errors.firstName && touched.firstName && <ValidationError message={errors.firstName} />}
+
+            <RoundedTextInput
+              placeholder="Last name"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.lastName}
+              width="49.5%"
+              type="text"
+              name="lastName"
+            />
+            {errors.lastName && touched.lastName && <ValidationError message={errors.lastName} />}
+
+            <RoundedTextInput
+              placeholder="Email address"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.primaryEmailAddress}
+              width="100%"
+              type="text"
+              name="primaryEmailAddress"
+            />
+            {errors.primaryEmailAddress && touched.primaryEmailAddress && <ValidationError message={errors.primaryEmailAddress} />}
+
+            <RoundedTextInput
+              placeholder="*****"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+              width="100%"
+              type="password"
+              name="password"
+            />
+            {errors.password && touched.password && <ValidationError message={errors.password} />}
+
+            <RoundedTextInput
+              placeholder="*****"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.confirmPassword}
+              width="100%"
+              type="password"
+              name="confirmPassword"
+            />
+            {errors.confirmPassword && touched.confirmPassword && <ValidationError message={errors.confirmPassword} />}
+
+            <Button
+              type="standard"
+              htmlType="submit"
+              text="SAVE"
+              size="l"
+              disabled={isSubmitting}
+            />
+          </form>
+        )}
+      />
+    )
   }
 
-  renderShippingAddressForm() {
-    const { address1, city, country, postal, phone } = (this.state.shippingAddress || {});
-
+  renderAddressFormik(address, onSave) {
     return (
-      <React.Fragment>
-        <PersonalSectionTitle title="Shipping Address" />
-        <section style={{ padding: "2rem", display: "flex", flexFlow: "row wrap", justifyContent: "space-evenly" }}>
-          <RoundedTextInput
-            placeholder="Address 1"
-            onChange={(e) => this.onShippingAddressInputChange("address1", e.target.value)}
-            value={address1 || ``}
-            width="49.5%"
-          />
-          <RoundedTextInput
-            placeholder="City"
-            onChange={({ target }) => this.onShippingAddressInputChange("city", target.value)}
-            value={city || ``}
-            width="49.5%"
-          />
-          <OptionsSelect
-            currentValue={country || `USA`}
-            dataOptions={["USA", "China"]}
-            onSelect={({ target }) => this.onShippingAddressInputChange("country", target.value)}
-          />
-          <RoundedTextInput
-            placeholder="12315"
-            onChange={({ target }) => this.onShippingAddressInputChange("postal", target.value)}
-            value={postal || ``}
-            width="30%"
-            type="text"
-          />
-          <RoundedTextInput
-            placeholder="Phone number"
-            onChange={({ target }) => this.onShippingAddressInputChange("phone", target.value)}
-            value={phone || ``}
-            width="68%"
-            type="text"
-          />
-        </section>
-      </React.Fragment>
-    );
+      <Formik
+        initialValues={{
+          address1: address.address1 || "",
+          city: address.city || "",
+          country: address.country || "",
+          postal: address.postal || "",
+          phone: address.phone || "",
+          region: address.phone || "",
+          fullName: "Default customer",
+          isCommercial: false,
+        }}
+        validationSchema={AddressSchema}
+        onSubmit={(values, actions) => {
+          // console.log(values, actions);
+          onSave(values, actions);
+
+          console.log("this.props: ", this.props);
+          // this.props.onAddressAdded(values);
+
+          // onSave(values).then(
+          //   updatedUser => {
+          //     actions.setSubmitting(false);
+          //     updateUser(updatedUser);
+          //     onClose();
+          //   },
+          //   error => {
+          //     actions.setSubmitting(false);
+          //     actions.setErrors(transformMyRestApiErrorsToAnObject(error));
+          //     actions.setStatus({ msg: 'Set some arbitrary status or data' });
+          //   }
+          // );
+        }}
+        render={({
+          values,
+          errors,
+          status,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form style={{ padding: "2rem", display: "flex", flexFlow: "row wrap", justifyContent: "space-evenly" }}
+            onSubmit={handleSubmit}>
+            <RoundedTextInput
+              placeholder="Address 1"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.address1}
+              width="49.5%"
+              type="text"
+              name="address1"
+            />
+            {errors.address1 && touched.address1 && <ValidationError message={errors.address1} />}
+
+            <RoundedTextInput
+              placeholder="City"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.city}
+              width="49.5%"
+              type="text"
+              name="city"
+            />
+            {errors.city && touched.city && <ValidationError message={errors.email} />}
+
+            <OptionsSelect
+              currentValue={values.country || `USA`}
+              dataOptions={["USA", "China", "Singapore"]}
+              onSelect={handleChange}
+              name="country"
+              width="49.5%"
+            />
+
+            <RoundedTextInput
+              placeholder="Region"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.region}
+              width="49.5%"
+              type="text"
+              name="region"
+            />
+
+            <RoundedTextInput
+              placeholder="Postal"
+              onChange={handleChange}
+              value={values.postal}
+              width="30%"
+              type="text"
+              name="postal"
+            />
+            {errors.postal && touched.postal && <ValidationError message={errors.postal} />}
+
+            <RoundedTextInput
+              placeholder="Phone number"
+              onChange={handleChange}
+              value={values.phone}
+              width="68%"
+              type="text"
+              name="phone"
+            />
+            {errors.phone && touched.phone && <ValidationError message={errors.phone} />}
+
+            <Button
+              type="standard"
+              htmlType="submit"
+              text="SAVE"
+              size="l"
+              disabled={isSubmitting}
+            />
+          </form>
+        )}
+      />
+    )
   }
 
   renderShippingAddressToggle() {
@@ -273,10 +454,8 @@ class UserPersonalInformation extends Component {
       shop
     } = this.props;
 
-    console.log("user account: ", account);
-
     // If there is no logged in user, return Not Found page
-    // if (account && !account._id) return <ErrorPage shop={shop} subtitle="Not Found" />;
+    if (account && !account._id) return <ErrorPage shop={shop} subtitle="Not Found" />;
 
     return (
       <Fragment>
@@ -285,7 +464,6 @@ class UserPersonalInformation extends Component {
           meta={[{ name: "description", content: shop && shop.description }]}
         />
         {this.state.editMode ? this.renderEdit() : this.renderPersonalInformation()}
-        {/* <PersonalInformation /> */}
       </Fragment>
     );
   }
@@ -323,6 +501,13 @@ function InfoLine({ label, value, type }) {
       />
     </div>
   );
+}
+
+function ValidationError({ message }) {
+  return <div style={{
+    width: "100%",
+    color: "red"
+  }}>{message}</div>
 }
 
 export default UserPersonalInformation;
