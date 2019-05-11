@@ -45,12 +45,14 @@ const BarOptions = {
   "/wishlist": { display: true, title: "Wishlist", cart: true, search: true, leftIcon: "back" },
   "/orders": { display: true, title: "My Orders", cart: false, search: true, leftIcon: "back" },
   "/about": { display: true, title: "About", cart: false, search: false, leftIcon: null },
+  "/contactUs": { display: true, title: "About Us", cart: false, search: false, leftIcon: null },
   "/faq": { display: true, title: "FAQ", cart: false, search: false, leftIcon: null },
   "/measure": { display: true, title: "Measurement Info", cart: false, search: false, leftIcon: null },
   "/category.kitchen": { display: true, title: "Kitchen", cart: true, search: true, leftIcon: "back" },
   "/bedroom": { display: true, title: "Bedroom", cart: true, search: true, leftIcon: "back" },
   "/styles": { display: true, title: "Styles", cart: true, search: true, leftIcon: "back" },
-  "/personalInformation": { display: true, title: "Personal Information", cart: false, search: false, leftIcon: false }
+  "/personalInformation": { display: true, title: "Personal Information", cart: false, search: false, leftIcon: false },
+  "/contactDesigners": { display: true, title: "Contact Designers", cart: false, search: false, leftIcon: false }
 };
 
 @withStyles(styles, { name: "SkHeader" })

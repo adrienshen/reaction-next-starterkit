@@ -41,16 +41,40 @@ export function OptionsSelect({ dataOptions, onSelect, name, width }) {
   };
   const containerStyles = {
     width: width || "100%",
-    marginBottom: "1rem"
+    marginBottom: "1rem",
   };
 
   return (
     <div style={containerStyles}>
       <select name={name} style={selectStyle} onBlur={onSelect}>
+        <option value="" defaultValue>Select {name}</option>
         {dataOptions.map((option, key) => {
-          return <option key={key}>{option}</option>;
+          return <option value={option} key={key}>{option}</option>;
         })}
       </select>
     </div>
   );
+}
+
+export function DetailsBox({ name, onChange, placeholder, value }) {
+  return <div style={{
+
+  }}>
+    <textarea
+      onChange={onChange}
+      name={name}
+      placeholder={placeholder}
+      style={{
+        width: "100%",
+        border: "2px solid #ECECEC",
+        borderRadius: "4px",
+        padding: "1.5rem",
+        height: "15rem",
+        outline: "none",
+        fontSize: "1rem",
+        marginBottom: "1rem",
+      }}>
+      {value}
+    </textarea>
+  </div>
 }

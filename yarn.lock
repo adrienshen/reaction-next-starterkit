@@ -1250,6 +1250,11 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/yup@^0.26.13":
+  version "0.26.13"
+  resolved "https://registry.yarnpkg.com/@types/yup/-/yup-0.26.13.tgz#0aeeba85231a34ddc68c74b3a2c64eeb2ccf68bf"
+  integrity sha512-sMMtb+c2xxf/FcK0kW36+0uuSWpNwvCBZYI7vpnD9J9Z6OYk09P4TmDkMWV+NWdi9Nzt2tUJjtpnPpkiUklBaw==
+
 "@types/zen-observable@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"

@@ -28,6 +28,7 @@ function defineRoutes(routes) {
 
     // Extras about
     .add("about", "/about", "about")
+    .add("aboutUs", "/about/us", "aboutUs")
     .add("faq", "/about/faq", "faq")
     .add("measure", "/about/measure", "measure")
 
@@ -51,6 +52,8 @@ function defineRoutes(routes) {
     .add("checkoutLogin", "/cart/login", "checkout")
     .add("checkoutComplete", "/checkout/order/:orderId", "checkoutComplete")
 
+    .add("contactDesigners", "/contact/designers", "contactDesigners")
+    .add("contactUs", "/contact/us", "contactUs")
 }
 
 module.exports = defineRoutes;

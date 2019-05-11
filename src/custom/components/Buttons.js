@@ -7,14 +7,14 @@ import React from "react";
 
 /** Common buttons */
 
-export const Button = ({ type = "standard", htmlType = "button", text = "Button Text", size = "m", onClick }) => {
+export const Button = ({ type = "standard", htmlType = "button", text = "Button Text", size = "m", onClick, isSubmitting = false }) => {
   const sizeStyles = {
     "s": { height: "28px", fontSize: "15px", padding: ".25rem .5rem" },
     "m": { width: "50%", height: "45px", fontSize: "18px", padding: ".5rem 1rem" },
     "l": { width: "95%", height: "50px", fontSize: "22px", padding: ".5rem 1.5rem" },
   }[size];
 
-  if (type === "standard") return <StandardButton
+  if (type === "standard") return <StandardButton isSubmitting={isSubmitting}
     htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
   if (type === "hollow") return <HollowButton
     htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
@@ -26,8 +26,9 @@ export const Button = ({ type = "standard", htmlType = "button", text = "Button 
     htmlType={htmlType} onClick={onClick} text={text} sizeStyles={sizeStyles} />;
 }
 
-function StandardButton({ htmlType, text, onClick, sizeStyles }) {
-  return <button type={htmlType} onClick={onClick} style={{
+function StandardButton({ htmlType, text, onClick, sizeStyles, isSubmitting }) {
+  return <button isSubmitting={isSubmitting}
+    type={htmlType} onClick={onClick} style={{
     ...sizeStyles,
     background: "#B09A51",
     backgroundColor: "#B09A51",
