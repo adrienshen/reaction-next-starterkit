@@ -54,6 +54,7 @@ function defineRoutes(routes) {
 
     .add("contactDesigners", "/contact/designers", "contactDesigners")
     .add("contactUs", "/contact/us", "contactUs")
+    .add("customerService", "customer-service", "customerService")
 
     // Onboarding and confirmation pages
     .add("onboardingOne", "/onboarding-one", "onboardingOne")
