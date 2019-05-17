@@ -4,8 +4,6 @@ import { inject, observer } from "mobx-react";
 import Helmet from "react-helmet";
 import Grid from "@material-ui/core/Grid";
 import { withStyles } from "@material-ui/core/styles";
-// import InPageMenu from "@reactioncommerce/components/InPageMenu/v1";
-// import ErrorPage from "./_error";
 
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -13,8 +11,12 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "../components/SearchIcon";
 import Link from "../components/Link";
+import { PlainOptionButton } from "../custom/components/Buttons";
 
-const styles = theme => ({
+const styles = () => ({
+  container: {
+    padding: "1rem"
+  },
   searchInputContainer: {
     width: "100%"
   },
@@ -49,7 +51,8 @@ export default class Search extends Component {
   };
 
   state = {
-    query: ""
+    query: "",
+    results: []
   };
 
   onInput = (e) => {
@@ -58,13 +61,47 @@ export default class Search extends Component {
     });
   }
 
+  clearInput = () => {
+    this.setState({
+      query: "",
+    });
+  }
+
+  onSearch = () => {
+    const staticData = [
+      "Modern Base Kitchen Cabinet",
+      "Modern Pearl White Cabinet",
+      "Modern Tail Cabinet",
+      "Modern Wall High Cabinet"
+    ];
+
+    this.setState({
+      results: staticData
+    });
+  }
+
   renderSearchInput() {
     return (
       <Fragment>
-        <FormControl style={{
-          marginBottom: "2rem"
-        }}
-        fullWidth>
+        <FormControl
+          style={{
+            margin: "2rem",
+            display: "flex",
+            flexFlow: "row nowrap",
+            justifyContent: "space-between"
+          }}
+          fullWidth
+        >
+        <span
+          tabIndex={0}
+          role="button"
+          onClick={this.clearInput}
+          style={{
+            width: "40px",
+            paddingTop: "1rem",
+            fontSize: "1.25rem",
+            outline: "none"
+          }}>✕</span>
           <Input
             id="searchInput"
             type="text"
@@ -73,8 +110,10 @@ export default class Search extends Component {
             onChange={this.onInput}
             endAdornment={
               <InputAdornment position="end">
-                <IconButton aria-label="Toggle password visibility" onClick={() => console.log("Search here...")}>
-                  <SearchIcon />
+                <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={this.onSearch}>
+                  <SearchIcon onSearchPage={true} />
                 </IconButton>
               </InputAdornment>
             }
@@ -85,18 +124,14 @@ export default class Search extends Component {
   }
 
   renderOutputResults() {
+    if (this.state.results.length === 0) {
+      return <CategorySelects />
+    }
     const { classes } = this.props;
-    const staticData = [
-      "Modern Base Kitchen Cabinet",
-      "Modern Pearl White Cabinet",
-      "Modern Tail Cabinet",
-      "Modern Wall High Cabinet"
-    ];
     return (
       <div className={classes.searchOutputContainer}>
         <ul className={classes.searchOutputContainerUl}>
-          <li className={classes.searchOutputContainerLi}>query results</li>
-          {staticData.map((line, key) => (
+          {this.state.results.map((line, key) => (
             <Link key={key} href="/ideas">
               <li className={classes.searchOutputContainerLi}>
                 {line}
@@ -104,12 +139,13 @@ export default class Search extends Component {
             </Link>
           ))}
         </ul>
+        <InterestedIn />
       </div>
     );
   }
 
   render() {
-    const { shop } = this.props;
+    const { shop, classes } = this.props;
 
     return (
       <Fragment>
@@ -117,13 +153,54 @@ export default class Search extends Component {
           title={`Search | ${shop && shop.name}`}
           meta={[{ name: "description", content: shop && shop.description }]}
         />
-        <Grid container spacing={24}>
-          {this.renderSearchInput()}
-        </Grid>
-        <Grid container spacing={24}>
-          {this.renderOutputResults()}
-        </Grid>
+        <section className={classes.container}>
+          <Grid container spacing={24}>
+            {this.renderSearchInput()}
+          </Grid>
+          <Grid container spacing={24}>
+            {this.renderOutputResults()}
+          </Grid>
+        </section>
       </Fragment>
     );
   }
+}
+
+const CategorySelects = () => {
+  return <section>
+    <h2 style={{
+      fontSize: "1rem",
+      color: "#4E4E4E",
+      fontFamily: "Lato, Regular",
+      fontWeight: 200,
+      marginLeft: ".5rem",
+      paddingTop: "10rem"
+    }}>
+      Categories:
+    </h2>
+    <PlainOptionButton label="Kitchen" />
+    <PlainOptionButton label="Bedroom" />
+    <PlainOptionButton label="Bathroom" />
+    <PlainOptionButton label="Living Room" />
+    <PlainOptionButton label="Outdoor" />
+  </section>
+}
+
+const InterestedIn = () => {
+  return <section>
+    <h2 style={{
+      fontSize: "1rem",
+      color: "#4E4E4E",
+      fontFamily: "Lato, Regular",
+      fontWeight: 200,
+      marginLeft: ".5rem",
+      paddingTop: "4rem"
+    }}>
+      You may be interested in:
+    </h2>
+    <PlainOptionButton label="Sample Doors" />
+    <PlainOptionButton label="Sample Kitchen Set" />
+    <PlainOptionButton label="Soft White" />
+    <PlainOptionButton label="Silver" />
+  </section>
 }

@@ -140,3 +140,20 @@ export const ProductGetSample = ({ action }) => {
     </button>
   );
 };
+
+export const PlainOptionButton = ({ label, action }) => {
+  return (
+    <button
+      style={{
+        background: "#fff",
+        color: "#707070",
+        border: "1px solid #707070",
+        padding: ".75rem 1rem",
+        borderRadius: "4px",
+        margin: ".5rem",
+      }}
+      onClick={action}>
+      {label}
+    </button>
+  )
+}
