@@ -45,12 +45,15 @@ class ContactDesigners extends Component {
     shop: PropTypes.shape({
       name: PropTypes.string.isRequired,
       description: PropTypes.string
-    }),
+    })
+  };
+
+  state = {
+    formSent: false
   };
 
   componentDidMount() {
     console.log("this.props. :: ", this.props);
-
   }
 
   renderAccountProfileInfo() {
@@ -65,6 +68,8 @@ class ContactDesigners extends Component {
     );
   }
 
+  showThankYou = () => this.setState({ formSent: true });
+
   render() {
     const { shop } = this.props;
 
@@ -78,7 +83,11 @@ class ContactDesigners extends Component {
           <section className="navigation-items">
             <ComponentSectionTitle title="Personal Information" />
             <section style={{ padding: "1rem" }} className="history">
-              <ContactForm onSendForm={this.props.onSendForm} />
+              {this.state.formSent ? (
+                <span>Thanks for your inquiry</span>
+              ) : (
+                <ContactForm onSendForm={this.props.onSendForm} showThankYou={this.showThankYou} />
+              )}
             </section>
           </section>
         </section>
@@ -87,7 +96,7 @@ class ContactDesigners extends Component {
   }
 }
 
-const ContactForm = ({ onSendForm }) => {
+const ContactForm = ({ onSendForm, showThankYou }) => {
   return (
     <div>
       <Formik
@@ -103,9 +112,10 @@ const ContactForm = ({ onSendForm }) => {
             // alert(JSON.stringify(values, null, 2));
             actions.setSubmitting(true);
             const results = await onSendForm(values);
-            
             if (results) {
               actions.setSubmitting(false);
+              actions.resetForm();
+              showThankYou();
             }
           }, 1000);
         }}
@@ -134,7 +144,7 @@ const ContactForm = ({ onSendForm }) => {
 
             <p>Tell us more about your project</p>
             <OptionsSelect
-              dataOptions={["a", "b"]}
+              dataOptions={["Kitchen", "Bedroom", "Bathroom", "Living Room", "Outdoor"]}
               onSelect={handleChange}
               name="room"
               width="100%"
@@ -144,7 +154,12 @@ const ContactForm = ({ onSendForm }) => {
             {errors.room && <div id="feedback">{errors.room}</div>}
 
             <OptionsSelect
-              dataOptions={[1000, 2000, 3000, 4000, 5000]}
+              dataOptions={[
+                "$0 - $5,000",
+                "$5000 - $15,000",
+                "$15,000 - $30,000",
+                "> $30,000"
+              ]}
               onSelect={handleChange}
               name="budget"
               width="100%"
@@ -153,11 +168,7 @@ const ContactForm = ({ onSendForm }) => {
             />
             {errors.budget && <div id="feedback">{errors.budget}</div>}
 
-            <DetailsBox name="contents"
-              value={values.details}
-              placeholder=""
-              onChange={handleChange}
-            />
+            <DetailsBox name="contents" value={values.contents} placeholder="You message" onChange={handleChange} />
 
             <div style={{ textAlign: "center" }}>
               <Button

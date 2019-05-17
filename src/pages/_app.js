@@ -21,6 +21,8 @@ import components from "../custom/componentsContext";
 import componentTheme from "../custom/componentTheme";
 import getAllTags from "../lib/data/getAllTags";
 
+import { PageTransition } from "next-page-transitions";
+
 const { publicRuntimeConfig } = getConfig();
 
 @withApolloClient
@@ -74,11 +76,17 @@ export default class App extends NextApp {
   }
 
   render() {
-    const { Component, pageProps, shop, shop: { defaultNavigationTree: navItems }, tags, viewer, ...rest } = this.props;
+    const {
+      Component,
+      pageProps,
+      shop,
+      shop: { defaultNavigationTree: navItems },
+      tags,
+      viewer,
+      ...rest
+    } = this.props;
     const { route } = this.props.router;
     const { stripe } = this.state;
-
-    console.log("VIEWER OBJECT: ", viewer);
 
     return (
       <Container>
@@ -91,15 +99,33 @@ export default class App extends NextApp {
               <RuiThemeProvider theme={componentTheme}>
                 <MuiThemeProvider theme={this.pageContext.theme} sheetsManager={this.pageContext.sheetsManager}>
                   <CssBaseline />
-                  {route === "/checkout" || route === "/login" ? (
-                    <StripeProvider stripe={stripe}>
-                      <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
-                    </StripeProvider>
-                  ) : (
-                    <Layout shop={shop} viewer={viewer}>
-                      <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
-                    </Layout>
-                  )}
+                  <PageTransition timeout={300} classNames="page-transition">
+                    {route === "/checkout" || route === "/login" ? (
+                      <StripeProvider stripe={stripe}>
+                        <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
+                      </StripeProvider>
+                    ) : (
+                      <Layout shop={shop} viewer={viewer}>
+                        <Component pageContext={this.pageContext} shop={shop} {...rest} {...pageProps} />
+                      </Layout>
+                    )}
+                    {/* <style jsx global>{`
+                      .page-transition-enter {
+                        opacity: 0;
+                      }
+                      .page-transition-enter-active {
+                        opacity: 1;
+                        transition: opacity 300ms;
+                      }
+                      .page-transition-exit {
+                        opacity: 1;
+                      }
+                      .page-transition-exit-active {
+                        opacity: 0;
+                        transition: opacity 300ms;
+                      }
+                    `}</style> */}
+                  </PageTransition>
                 </MuiThemeProvider>
               </RuiThemeProvider>
             </JssProvider>

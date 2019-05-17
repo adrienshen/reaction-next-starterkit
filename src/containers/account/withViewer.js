@@ -27,7 +27,7 @@ export default function withViewer(Component) {
       return (
         <Query errorPolicy="all" query={viewerQuery}>
           {({ data }) => {
-            console.log("In viewer: ", data);
+            // console.log("In viewer: ", data);
             if (data) {
               authStore.setAccount(data.viewer);
             }

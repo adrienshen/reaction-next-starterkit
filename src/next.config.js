@@ -28,12 +28,24 @@ module.exports = {
   },
   // NextJS builds to `/src/.next` by default. Change that to `/build/app`
   distDir: "../build/app",
-  webpack: (webpackConfig) => {
+  webpack: (webpackConfig, { defaultLoaders }) => {
     webpackConfig.module.rules.push({
       test: /\.(gql|graphql)$/,
       loader: "graphql-tag/loader",
       exclude: ["/node_modules/", "/.next/"],
       enforce: "pre"
+    });
+    webpackConfig.module.rules.push({
+      test: /\.css$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: require('styled-jsx/webpack').loader,
+          options: {
+            type: 'scoped'
+          }
+        }
+      ]
     });
 
     webpackConfig.module.rules.push({

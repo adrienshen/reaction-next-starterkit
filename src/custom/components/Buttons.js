@@ -11,7 +11,7 @@ export const Button = ({ type = "standard", htmlType = "button", text = "Button 
   const sizeStyles = {
     "s": { height: "28px", fontSize: "15px", padding: ".25rem .5rem" },
     "m": { width: "50%", height: "45px", fontSize: "18px", padding: ".5rem 1rem" },
-    "l": { width: "95%", height: "50px", fontSize: "22px", padding: ".5rem 1.5rem" },
+    "l": { width: "95%", height: "50px", fontSize: "20px", padding: ".5rem 1.5rem" },
   }[size];
 
   if (type === "standard") return <StandardButton isSubmitting={isSubmitting}

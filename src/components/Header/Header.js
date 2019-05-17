@@ -108,7 +108,7 @@ class Header extends Component {
         </AppBar>
       );
     } catch (err) {
-      console.error("There was an error! ", err);
+      console.error("There was an error! Header.js:111");
       return null;
     }
   }

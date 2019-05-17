@@ -54,6 +54,11 @@ function defineRoutes(routes) {
 
     .add("contactDesigners", "/contact/designers", "contactDesigners")
     .add("contactUs", "/contact/us", "contactUs")
+
+    // Onboarding and confirmation pages
+    .add("onboardingOne", "/onboarding-one", "onboardingOne")
+    .add("onboardingTwo", "/onboarding-two", "onboardingTwo")
+    .add("onboardingThree", "/onboarding-three", "onboardingThree")
 }
 
 module.exports = defineRoutes;

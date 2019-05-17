@@ -495,9 +495,7 @@ export default function withCart(Component) {
     }
   }
 
-  // hoistNonReactStatic(WithCart, Component);
-
-  console.log("WithCart: ", WithCart);
+  hoistNonReactStatic(WithCart, Component);
 
   return WithCart;
 }
