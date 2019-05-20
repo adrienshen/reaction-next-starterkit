@@ -54,12 +54,13 @@ function defineRoutes(routes) {
 
     .add("contactDesigners", "/contact/designers", "contactDesigners")
     .add("contactUs", "/contact/us", "contactUs")
-    .add("customerService", "customer-service", "customerService")
+    .add("customerService", "/customer-service", "customerService")
 
     // Onboarding and confirmation pages
     .add("onboardingOne", "/onboarding-one", "onboardingOne")
     .add("onboardingTwo", "/onboarding-two", "onboardingTwo")
     .add("onboardingThree", "/onboarding-three", "onboardingThree")
+    .add("emailSent", "/email-sent", "emailSent")
 }
 
 module.exports = defineRoutes;

@@ -58,9 +58,10 @@ class MainNavigation extends Component {
 
   render() {
     console.log("Router: ", Router);
-    if (["/onboardingOne", "/onboardingTwo", "/onboardingThree"].includes(Router.router && Router.router.route)) {
+    if (["/emailSent", "/onboardingOne", "/onboardingTwo", "/onboardingThree"].includes(Router.router && Router.router.route)) {
       return null;
     }
+
     return (
       <section style={styles.mainNavigationContainer}>
         <ul style={styles.navigationList}>
