@@ -136,16 +136,30 @@ export const PersonalSectionTitle = ({ title }) => {
   );
 };
 
+const fullTextStyles = {
+  fontSize: "12px",
+  fontFamily: "Lato, sans-serif",
+  color: "#676767",
+  width: "100%",
+  height: "0px"
+};
+
 export const ProductDimension = ({ dimension }) => {
   return (
     <span
-      style={{
-        fontSize: "15px",
-        fontFamily: "Lato, sans-serif",
-        color: "#676767",
-      }}
+      style={fullTextStyles}
     >
-      {dimension}
+      Dimensions: {dimension}
+    </span>
+  );
+};
+
+export const SkuDetails = ({ sku }) => {
+  return (
+    <span
+      style={fullTextStyles}
+    >
+      SKU: {sku}
     </span>
   );
 };
@@ -154,12 +168,13 @@ export const ProductVariantTitle = ({ title }) => {
   return (
     <h3
       style={{
-        marginTop: "0rem",
+        marginTop: ".5rem",
         color: "#B09A51",
         fontSize: "1rem",
         fontWeight: "400",
         fontFamily: "Lato, sans-serif",
-        width: "100%"
+        width: "100%",
+        marginBottom: 0
       }}
     >
       {title}

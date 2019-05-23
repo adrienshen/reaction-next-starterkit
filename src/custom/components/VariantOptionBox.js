@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { ProductVariantThumbnail } from "./Images";
-import { ProductDimension, ProductPrices, ProductVariantTitle } from "./Text";
+import { ProductDimension, ProductPrices, ProductVariantTitle, SkuDetails } from "./Text";
 import QuantitySelector from "./QuantitySelector";
 import { ProductVariantAddToCart } from "./Buttons";
 import RenderError from "../../custom/components/RenderError";
@@ -8,9 +8,10 @@ import RenderError from "../../custom/components/RenderError";
 const styles = {
   container: {
     padding: ".5rem",
-    width: "90%",
+    width: "98%",
+    maxWidth: "400px",
     border: "1px solid #ECECEC",
-    margin: "1rem",
+    margin: ".5rem auto",
     display: "flex",
     flexFlow: "row wrap"
   },
@@ -42,6 +43,7 @@ export default class VariantOptionBox extends PureComponent {
     const product = {
       title: `Temporary Product Title`,
       dimension: `10"w x 10"h x 10"d`,
+      sku: `ABC1234`,
       price: `10.97`,
       originalPrice: `15.00`,
       thumbnail: "https://loremflickr.com/110/110/dog",
@@ -54,10 +56,11 @@ export default class VariantOptionBox extends PureComponent {
 
     return (
       <div style={styles.container}>
-        <ProductVariantTitle title={product.title} />
         <ProductVariantThumbnail src={product.thumbnail || ""} />
         <div style={styles.content}>
-          <ProductDimension dimension={product.thumbnail} />
+          <ProductVariantTitle title={product.title} />
+          <ProductDimension dimension={product.dimension} />
+          <SkuDetails sku={product.sku} />
           <QuantitySelector
             quantity={0}
             increment={() => console.log("increment")}
