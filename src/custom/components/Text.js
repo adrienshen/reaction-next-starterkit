@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 // import Link from "../../components/Link";
 
 export const Body = ({ content = "P needs content", size = "m" }) => {
@@ -47,30 +47,47 @@ export const H2 = ({ title }) => {
 
 export const UserName = ({ name }) => {
   return (
-    <span style={{
-      color: "#B09A51",
-      fontSize: "16px",
-      fontFamily: "Lato, sans-serif",
-      fontWeight: 600
-    }}>{name}</span>
-  )
-}
-
-export const ProductCurrentPrice = ({ price }) => {
-  return (
     <span
       style={{
         color: "#B09A51",
-        fontSize: "1rem",
-        fontWeight: "800",
+        fontSize: "16px",
         fontFamily: "Lato, sans-serif",
-        marginTop: ".5rem",
-        textAlign: "right",
-        width: "30%"
+        fontWeight: 600
       }}
     >
-      {price}
+      {name}
     </span>
+  );
+};
+
+export const ProductPrices = ({ originalPrice, currentPrice }) => {
+  const styles = {
+    currentPrice: {
+      color: "#B09A51",
+      fontSize: ".85rem",
+      fontWeight: "800",
+      fontFamily: "Lato, sans-serif",
+      marginTop: ".5rem",
+      textAlign: "right",
+      width: "20%"
+    },
+    originalPrice: {
+      color: "#808080",
+      fontSize: ".75rem",
+      fontWeight: 400,
+      fontFamily: "Lato, sans-serif",
+      marginTop: ".5rem",
+      textAlign: "right",
+      width: "20%",
+      textDecoration: "line-through",
+      marginRight: "4px",
+    }
+  };
+  return (
+    <Fragment>
+      <span style={styles.originalPrice}>{originalPrice}</span>
+      <span style={styles.currentPrice}>{currentPrice}</span>
+    </Fragment>
   );
 };
 
@@ -102,7 +119,7 @@ export const PersonalSectionTitle = ({ title }) => {
       style={{
         width: "100%",
         textAlign: "left",
-        padding: "1rem",
+        padding: "1rem"
       }}
     >
       <span
@@ -126,7 +143,6 @@ export const ProductDimension = ({ dimension }) => {
         fontSize: "15px",
         fontFamily: "Lato, sans-serif",
         color: "#676767",
-        marginBottom: "1rem"
       }}
     >
       {dimension}
@@ -246,42 +262,72 @@ export const WishListTitle = ({ title }) => {
 /* Orders */
 
 export const OrderNumber = ({ id }) => {
-  return <div style={{
-    color: "#B09A51",
-    fontFamily: "Lato, sans-serif",
-    marginBottom: "1rem",
-    fontSize: "16px"
-  }}>Order No: {id}</div>
-}
+  return (
+    <div
+      style={{
+        color: "#B09A51",
+        fontFamily: "Lato, sans-serif",
+        marginBottom: "1rem",
+        fontSize: "16px"
+      }}
+    >
+      Order No: {id}
+    </div>
+  );
+};
 
 export const OrderItemRow = ({ label, value }) => {
-  return <div style={{
-    fontFamily: "Lato, sans-serif",
-    marginBottom: ".25rem",
-    fontSize: "14px"
-  }}>
-    <span style={{
-      color: "#C6C6C6",
-      display: "inline-block",
-      width: "50%",
-    }}>{label}</span>
-    <span style={{
-      color: "#4E4E4E",
-    }}>{value}</span>
-  </div>
-}
+  return (
+    <div
+      style={{
+        fontFamily: "Lato, sans-serif",
+        marginBottom: ".25rem",
+        fontSize: "14px"
+      }}
+    >
+      <span
+        style={{
+          color: "#C6C6C6",
+          display: "inline-block",
+          width: "50%"
+        }}
+      >
+        {label}
+      </span>
+      <span
+        style={{
+          color: "#4E4E4E"
+        }}
+      >
+        {value}
+      </span>
+    </div>
+  );
+};
 
 export const TotalAmount = ({ amount }) => {
-  return <div style={{
-    marginTop: "2rem",
-    textAlign: "right",
-    fontFamily: "Lato, sans-serif"
-  }}>
-    <span style={{
-      marginRight: "4rem",
-    }}>Total Price:</span>
-    <span style={{
-      color: "#B09A51"
-    }}>{amount}</span>
-  </div>
-}
+  return (
+    <div
+      style={{
+        marginTop: "2rem",
+        textAlign: "right",
+        fontFamily: "Lato, sans-serif"
+      }}
+    >
+      <span
+        style={{
+          marginRight: "4rem"
+        }}
+      >
+        Total Price:
+      </span>
+      <span
+        style={{
+          color: "#B09A51"
+        }}
+      >
+        {amount}
+      </span>
+    </div>
+  );
+};

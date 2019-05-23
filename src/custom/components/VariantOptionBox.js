@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { ProductVariantThumbnail } from "./Images";
-import { ProductDimension, ProductCurrentPrice, ProductVariantTitle } from "./Text";
+import { ProductDimension, ProductPrices, ProductVariantTitle } from "./Text";
 import QuantitySelector from "./QuantitySelector";
 import { ProductVariantAddToCart } from "./Buttons";
 import RenderError from "../../custom/components/RenderError";
@@ -16,7 +16,7 @@ const styles = {
   },
   content: {
     width: "65%",
-    paddingLeft: "1rem",
+    paddingLeft: ".5rem",
     display: "flex",
     flexFlow: "row wrap"
   }
@@ -42,7 +42,8 @@ export default class VariantOptionBox extends PureComponent {
     const product = {
       title: `Temporary Product Title`,
       dimension: `10"w x 10"h x 10"d`,
-      price: `$ 10.97`,
+      price: `10.97`,
+      originalPrice: `15.00`,
       thumbnail: "https://loremflickr.com/110/110/dog",
       soldOut: false,
     }
@@ -57,13 +58,14 @@ export default class VariantOptionBox extends PureComponent {
         <ProductVariantThumbnail src={product.thumbnail || ""} />
         <div style={styles.content}>
           <ProductDimension dimension={product.thumbnail} />
-
           <QuantitySelector
             quantity={0}
             increment={() => console.log("increment")}
             decrement={() => console.log("decrement")}
           />
-          <ProductCurrentPrice price={product.price} />
+          <ProductPrices
+            originalPrice={product.originalPrice}
+            currentPrice={product.price} />
         </div>
         <ProductVariantAddToCart action={() => console.log("ADD TO CART")} />
       </div>

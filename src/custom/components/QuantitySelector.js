@@ -5,7 +5,6 @@ import RenderError from "./RenderError";
 const styles = {
   container: {
     width: "50%",
-    marginBottom: "1rem",
     marginRight: "1rem",
   },
   incrementDecrementButtons: {
