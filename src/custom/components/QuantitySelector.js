@@ -4,8 +4,9 @@ import RenderError from "./RenderError";
 
 const styles = {
   container: {
+    width: "50%",
     marginBottom: "1rem",
-    width: "100%"
+    marginRight: "1rem",
   },
   incrementDecrementButtons: {
     borderRadius: "50%",
@@ -15,7 +16,6 @@ const styles = {
     height: "30px",
     fontWeight: 600,
     background: "#B09A51",
-    fontWeight: 600,
     fontSize: "18px",
     textAlign: "center",
     outline: "none",

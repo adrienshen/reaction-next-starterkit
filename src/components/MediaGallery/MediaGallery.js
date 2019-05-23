@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
-import ProgressiveImage from "@reactioncommerce/components/ProgressiveImage/v1";
 
-const styles = (theme) => ({
+const styles = theme => ({
   root: {
     width: "100%"
   },
@@ -12,6 +11,7 @@ const styles = (theme) => ({
     display: "flex",
     justifyContent: "center",
     marginBottom: theme.spacing.unit,
+    padding: "1rem"
   },
   featuredImage: {
     flex: 0,
@@ -60,14 +60,13 @@ class MediaGallery extends Component {
   };
 
   renderPlaceHolderImg = () => {
-    const placeholderURL = "/static/images/placeholder.gif";
     return (
-      <ProgressiveImage
-        presrc={placeholderURL}
-        src={placeholderURL}
-      />
+      <picture>
+        <source srcSet="https://loremflickr.com/400/350/dog" media="(min-width: 800px)" />
+        <img src="https://loremflickr.com/400/350/dog" alt="primary" />
+      </picture>
     );
-  }
+  };
 
   renderFeaturedImage() {
     const { mediaItems } = this.props;
@@ -77,14 +76,16 @@ class MediaGallery extends Component {
       return this.renderPlaceHolderImg();
     }
 
-    const featuredMedia = mediaItems[this.state.featuredMediaIndex];
-    const mediaUrls = featuredMedia && featuredMedia.URLs;
-
-    return <ProgressiveImage presrc={mediaUrls && mediaUrls.thumbnail} src={mediaUrls && mediaUrls.large} />;
+    return (
+      <picture>
+        <source srcSet="https://loremflickr.com/400/350/dog" media="(min-width: 800px)" />
+        <img src="https://loremflickr.com/400/350/dog" alt="primary" />
+      </picture>
+    );
   }
 
   render() {
-    const { classes, mediaItems, theme } = this.props;
+    const { classes } = this.props;
 
     return (
       <Grid container className={classes.root}>

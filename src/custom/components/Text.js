@@ -64,8 +64,9 @@ export const ProductCurrentPrice = ({ price }) => {
         fontSize: "1rem",
         fontWeight: "800",
         fontFamily: "Lato, sans-serif",
-        marginRight: "1.5rem",
-        marginTop: ".5rem"
+        marginTop: ".5rem",
+        textAlign: "right",
+        width: "30%"
       }}
     >
       {price}
@@ -109,7 +110,7 @@ export const PersonalSectionTitle = ({ title }) => {
           fontFamily: "Lato, sans-serif",
           fontSize: "17px",
           color: "#B09A51",
-          fontWeight: 600 
+          fontWeight: 600
         }}
       >
         {title}

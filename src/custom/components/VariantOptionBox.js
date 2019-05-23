@@ -7,7 +7,7 @@ import RenderError from "../../custom/components/RenderError";
 
 const styles = {
   container: {
-    padding: "1rem",
+    padding: ".5rem",
     width: "90%",
     border: "1px solid #ECECEC",
     margin: "1rem",
@@ -57,14 +57,15 @@ export default class VariantOptionBox extends PureComponent {
         <ProductVariantThumbnail src={product.thumbnail || ""} />
         <div style={styles.content}>
           <ProductDimension dimension={product.thumbnail} />
+
           <QuantitySelector
             quantity={0}
             increment={() => console.log("increment")}
             decrement={() => console.log("decrement")}
           />
           <ProductCurrentPrice price={product.price} />
-          <ProductVariantAddToCart action={() => console.log("ADD TO CART")} />
         </div>
+        <ProductVariantAddToCart action={() => console.log("ADD TO CART")} />
       </div>
     );
   }

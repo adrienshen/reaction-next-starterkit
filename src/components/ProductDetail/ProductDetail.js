@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import withWidth from "@material-ui/core/withWidth";
 import { inject, observer } from "mobx-react";
 import track from "lib/tracking/track";
 import MediaGallery from "components/MediaGallery";
-import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
-import variantById from "lib/utils/variantById";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -139,89 +137,8 @@ class ProductDetail extends Component {
    * @returns {undefined} No return
    */
   handleAddToCartClick = async quantity => {
-    const {
-      addItemsToCart,
-      currencyCode,
-      product,
-      uiStore: { openCartWithTimeout, pdpSelectedOptionId, pdpSelectedVariantId },
-      width
-    } = this.props;
-
-    // Get selected variant or variant option
-    const selectedVariant = variantById(product.variants, pdpSelectedVariantId);
-    const selectedOption = variantById(selectedVariant.options, pdpSelectedOptionId);
-    const selectedVariantOrOption = selectedOption || selectedVariant;
-
-    if (selectedVariantOrOption) {
-      // Get the price for the currently selected variant or variant option
-      const price = priceByCurrencyCode(currencyCode, selectedVariantOrOption.pricing);
-
-      // Call addItemsToCart with an object matching the GraphQL `CartItemInput` schema
-      const { data } = await addItemsToCart([
-        {
-          price: {
-            amount: price.price,
-            currencyCode
-          },
-          productConfiguration: {
-            productId: product.productId, // Pass the productId, not to be confused with _id
-            productVariantId: selectedVariantOrOption.variantId // Pass the variantId, not to be confused with _id
-          },
-          quantity
-        }
-      ]);
-
-      // If no errors occurred, track action
-      if (data) {
-        // The response data will be in either `createCart` or `addCartItems` prop
-        // depending on the type of user, either authenticated or anonymous.
-        const { cart } = data.createCart || data.addCartItems;
-      }
-    }
-    if (isWidthUp("md", width)) {
-      // Open the cart, and close after a 3 second delay
-      openCartWithTimeout(3000);
-    }
+    console.log("Adding to cart... ", quantity);
   };
-
-  /**
-   * @name handleSelectOption
-   * @summary Called when an option is selected in the option list
-   * @private
-   * @ignore
-   * @param {Object} option The option object that was selected
-   * @returns {undefined} No return
-   */
-  handleSelectOption = option => {
-    const { product, uiStore } = this.props;
-
-    // If we are clicking an option, it must be for the current selected variant
-    const variant = product.variants.find(vnt => vnt._id === uiStore.pdpSelectedVariantId);
-
-    this.selectVariant(variant, option._id);
-  };
-
-  /**
-   * @name determineProductPrice
-   * @description Determines a product's price given the shop's currency code. It will
-   * use the selected option if available, otherwise it will use the selected variant.
-   * @returns {Object} An pricing object
-   */
-  determineProductPrice() {
-    const { currencyCode, product } = this.props;
-    const { pdpSelectedVariantId, pdpSelectedOptionId } = this.props.uiStore;
-    const selectedVariant = variantById(product.variants, pdpSelectedVariantId);
-    let productPrice = {};
-
-    if (pdpSelectedOptionId && selectedVariant) {
-      const selectedOption = variantById(selectedVariant.options, pdpSelectedOptionId);
-      productPrice = priceByCurrencyCode(currencyCode, selectedOption.pricing);
-    } else if (!pdpSelectedOptionId && selectedVariant) {
-      productPrice = priceByCurrencyCode(currencyCode, selectedVariant.pricing);
-    }
-
-    return productPrice;
-  }
 
   selectDesignColor(color) {
     // console.log("color selected: ", color);
@@ -318,10 +235,11 @@ class ProductDetail extends Component {
             color: "#808080",
             fontSize: "1rem"
           }}
+          value=""
           defaultValue=""
           className={classes.filterSelect}
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             {categoryObj.category.toUpperCase()}
           </option>
           {categoryObj.options.map((elem, key) => {
@@ -332,8 +250,12 @@ class ProductDetail extends Component {
     );
   }
 
-  renderOption(option) {
-    return <option value={option.value}>{option.label}</option>;
+  renderOption(option, key) {
+    return (
+      <option key={key} value={option.value}>
+        {option.label}
+      </option>
+    );
   }
 
   renderAttributeChoices() {
@@ -383,7 +305,7 @@ class ProductDetail extends Component {
     const {
       classes,
       product,
-      uiStore: { pdpSelectedOptionId, pdpSelectedVariantId },
+      uiStore: { pdpSelectedOptionId, pdpSelectedVariantId }
     } = this.props;
 
     // console.log("color selected: ", this.state);
