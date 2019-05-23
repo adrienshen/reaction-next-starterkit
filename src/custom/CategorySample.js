@@ -12,7 +12,7 @@ const styles = theme => ({
     display: "flex",
     flexFlow: "row wrap",
     justifyContent: "center"
-  }
+  },
 });
 
 @withStyles(styles, { name: "OCCategorySample" })
@@ -131,7 +131,6 @@ class CategorySample extends Component {
 
     return (
       <Fragment>
-        <section>{this.renderColorFilter()}</section>
         <section className={classes.samplesGrid}>{this.renderSampleSelection()}</section>
         <section className={classes.samplesGrid}>{this.renderAddToCart()}</section>
       </Fragment>
@@ -140,20 +139,20 @@ class CategorySample extends Component {
 }
 
 const SampleItem = ({ selectSampleItem, sample, index, productIndexSelected }) => {
-  // console.log("sample: ", sample);
+  const sampleItemStyles = {
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "center",
+    marginBottom: "1rem",
+    margin: "2.5rem",
+    cursor: "pointer"
+  }
 
   return (
     <div
       key={index}
       onClick={() => selectSampleItem(index)}
-      style={{
-        display: "flex",
-        flexFlow: "column",
-        justifyContent: "center",
-        marginBottom: "1rem",
-        margin: "2.5rem",
-        cursor: "pointer"
-      }}
+      style={sampleItemStyles}
     >
       <RadioLabel productIndexSelected={productIndexSelected} index={index} title={sample.title} />
       <SampleCenterImage src={sample.media.length && sample.media[0].URLs.original} />

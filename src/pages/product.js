@@ -110,7 +110,6 @@ class ProductDetailPage extends Component {
           script={[{ type: "application/ld+json", innerHTML: this.buildJSONLd() }]}
         />
         {this.renderMainArea()}
-        <div>some other area</div>
       </Fragment>
     );
   }

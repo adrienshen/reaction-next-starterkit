@@ -1,23 +1,12 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import withWidth, { isWidthUp, isWidthDown } from "@material-ui/core/withWidth";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import { inject, observer } from "mobx-react";
 import track from "lib/tracking/track";
-// import ProductDetailAddToCart from "components/ProductDetailAddToCart";
-import ProductDetailTitle from "components/ProductDetailTitle";
-import VariantList from "components/VariantList";
-import ProductDetailVendor from "components/ProductDetailVendor";
-import ProductDetailDescription from "components/ProductDetailDescription";
-import ProductDetailPrice from "components/ProductDetailPrice";
 import MediaGallery from "components/MediaGallery";
-import { Router } from "routes";
 import priceByCurrencyCode from "lib/utils/priceByCurrencyCode";
 import variantById from "lib/utils/variantById";
-// import trackProduct from "lib/tracking/trackProduct";
-// import TRACKING from "lib/tracking/constants";
-import trackCartItems from "lib/tracking/trackCartItems";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -33,8 +22,6 @@ import SampleBox from "../../custom/components/SampleBox";
 import { ProductGetSample } from "../../custom/components/Buttons";
 import DetailTabs from "../../custom/DetailTabs";
 import FilterColor from "../../custom/components/FilterColor";
-
-// const { CART_VIEWED, PRODUCT_ADDED, PRODUCT_VIEWED } = TRACKING;
 
 const styles = theme => ({
   section: {
@@ -115,6 +102,7 @@ class ProductDetail extends Component {
 
   state = {
     colorFilterSelected: null,
+    // needs to be moved to admin
     colorFilters: [
       { code: "soft_white", patternLabel: "Soft White", patternUrl: "#eee" },
       { code: "oak_wood", patternLabel: "Oak Wood", patternUrl: "wood.png" },
@@ -127,41 +115,8 @@ class ProductDetail extends Component {
   };
 
   componentDidMount() {
-    const { product } = this.props;
-
-    // Select first variant by default
-    this.selectVariant(product.variants[0]);
+    console.log("ComponentDidMount");
   }
-
-  selectVariant(variant, optionId) {
-    const { product, uiStore } = this.props;
-
-    // Select the variant, and if it has options, the first option
-    const variantId = variant._id;
-    let selectOptionId = optionId;
-    if (!selectOptionId && variant.options && variant.options.length) {
-      selectOptionId = variant.options[0]._id;
-    }
-
-    // this.trackAction({ variant, optionId, action: PRODUCT_VIEWED });
-
-    uiStore.setPDPSelectedVariantId(variantId, selectOptionId);
-
-    Router.pushRoute(
-      "product",
-      {
-        slugOrId: product.slug,
-        variantId: selectOptionId || variantId
-      },
-      { replace: true }
-    );
-  }
-
-  // @trackProduct()
-  // trackAction() {}
-
-  // @trackCartItems()
-  // trackCartItems() {}
 
   /**
    * @name handleSelectVariant
@@ -286,9 +241,10 @@ class ProductDetail extends Component {
         <FilterColor
           colorFilters={colorFilters}
           colorFilterSelected={colorFilterSelected}
-          selectDesignColor={this.selectDesignColor} />
-      );  
-    } catch(err) {
+          selectDesignColor={this.selectDesignColor}
+        />
+      );
+    } catch (err) {
       console.error("Error: ", err);
     }
   }
@@ -376,8 +332,7 @@ class ProductDetail extends Component {
     );
   }
 
-  renderOption(option, key) {
-    const { classes } = this.props;
+  renderOption(option) {
     return <option value={option.value}>{option.label}</option>;
   }
 
@@ -427,15 +382,11 @@ class ProductDetail extends Component {
   render() {
     const {
       classes,
-      currencyCode,
       product,
-      routingStore,
-      theme,
       uiStore: { pdpSelectedOptionId, pdpSelectedVariantId },
-      width
     } = this.props;
 
-    console.log("color selected: ", this.state);
+    // console.log("color selected: ", this.state);
 
     // Set the default media as the top-level product's media
     // (all media on all variants and objects)
@@ -462,89 +413,22 @@ class ProductDetail extends Component {
       }
     }
 
-    const productPrice = this.determineProductPrice();
-    const compareAtDisplayPrice = (productPrice.compareAtPrice && productPrice.compareAtPrice.displayAmount) || null;
-
-    // Phone size
-    if (isWidthDown("sm", width)) {
-      return (
-        <Fragment>
-          <div className={classes.section}>
-            <MediaGallery mediaItems={pdpMediaItems} />
-          </div>
-
-          <div className={classes.section}>
-            {this.renderColorSelect()}
-            {this.renderSampleBox()}
-            {/* <ProductDetailAddToCart
-              onClick={this.handleAddToCartClick}
-              selectedOptionId={pdpSelectedOptionId}
-              selectedVariantId={pdpSelectedVariantId}
-              variants={product.variants}
-            /> */}
-          </div>
-
-          <div className={classes.section}>{this.renderTabDetails()}</div>
-
-          {this.renderAttributeChoices()}
-
-          <div className={classes.variantOptionList}>
-            {this.renderVariantBox(product)}
-            {/* <VariantList
-              onSelectOption={this.handleSelectOption}
-              onSelectVariant={this.handleSelectVariant}
-              product={product}
-              selectedOptionId={pdpSelectedOptionId}
-              selectedVariantId={pdpSelectedVariantId}
-              currencyCode={currencyCode}
-              variants={product.variants}
-            /> */}
-          </div>
-        </Fragment>
-      );
-    }
-
     return (
       <Fragment>
-        <Grid container spacing={theme.spacing.unit * 5}>
-          <Grid item xs={12} sm={6}>
-            <div className={classes.section}>
-              <MediaGallery mediaItems={pdpMediaItems} />
-            </div>
-          </Grid>
+        <div className={classes.section}>
+          <MediaGallery mediaItems={pdpMediaItems} />
+        </div>
 
-          <Grid item xs={12} sm={6}>
-            <ProductDetailTitle pageTitle={product.pageTitle} title={product.title} />
-            <div className={classes.info}>
-              <ProductDetailVendor>{product.vendor}</ProductDetailVendor>
-            </div>
-            <div className={classes.info}>
-              <ProductDetailPrice
-                className={classes.bottomMargin}
-                compareAtPrice={compareAtDisplayPrice}
-                price={productPrice.displayPrice}
-              />
-            </div>
-            <div className={classes.info}>
-              <ProductDetailDescription>{product.description}</ProductDetailDescription>
-            </div>
-            <VariantList
-              onSelectOption={this.handleSelectOption}
-              onSelectVariant={this.handleSelectVariant}
-              product={product}
-              selectedOptionId={pdpSelectedOptionId}
-              selectedVariantId={pdpSelectedVariantId}
-              currencyCode={currencyCode}
-              variants={product.variants}
-            />
-            {/* <ProductDetailAddToCart
-              onClick={this.handleAddToCartClick}
-              selectedOptionId={pdpSelectedOptionId}
-              selectedVariantId={pdpSelectedVariantId}
-              variants={product.variants}
-            /> */}
-          </Grid>
-        </Grid>
+        <div className={classes.section}>
+          {this.renderColorSelect()}
+          {this.renderSampleBox()}
+        </div>
+
+        <div className={classes.section}>{this.renderTabDetails()}</div>
+
+        {this.renderAttributeChoices()}
+
+        <div className={classes.variantOptionList}>{this.renderVariantBox(product)}</div>
       </Fragment>
     );
   }

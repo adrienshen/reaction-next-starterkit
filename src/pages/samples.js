@@ -2,11 +2,13 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react";
 import Helmet from "react-helmet";
-import withCatalogItems from "containers/catalog/withCatalogItems";
+// import withCatalogItems from "containers/catalog/withCatalogItems";
 import withProductSamples from "containers/catalog/withProductSamples";
 import trackProductListViewed from "lib/tracking/trackProductListViewed";
-
 import CategorySample from "../custom/CategorySample";
+
+import FilterWidget from "../custom/components/FilterWidget";
+import { IconButton } from "@material-ui/core";
 
 @withProductSamples
 @inject("routingStore", "uiStore")
@@ -41,6 +43,10 @@ class View extends Component {
     return { initialGridSize: { width } };
   }
 
+  state = {
+    filterOpen: false
+  };
+
   @trackProductListViewed()
   componentDidMount() {
     const { routingStore } = this.props;
@@ -70,6 +76,32 @@ class View extends Component {
     return <CategorySample product={this.props.product} />;
   }
 
+  renderFilterOffCanvas() {
+    return <FilterWidget toggleFilter={this.toggleFilter} open={this.state.filterOpen} />;
+  }
+
+  toggleFilter = () => {
+    this.setState({
+      filterOpen: !this.state.filterOpen
+    });
+  };
+
+  renderSubHeader() {
+    return (
+      <header>
+        <h2>Samples</h2>
+        <IconButton onClick={this.toggleFilter}>
+          <i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
+            </svg>
+          </i>
+        </IconButton>
+      </header>
+    );
+  }
+
   render() {
     const { shop } = this.props;
     const pageTitle = shop && shop.description ? `${shop.name} | ${shop.description}` : shop.name;
@@ -77,7 +109,9 @@ class View extends Component {
     return (
       <Fragment>
         <Helmet title={pageTitle} meta={[{ name: "description", content: shop && shop.description }]} />
+        {this.renderSubHeader()}
         {this.renderCategorySample()}
+        {this.renderFilterOffCanvas()}
       </Fragment>
     );
   }
