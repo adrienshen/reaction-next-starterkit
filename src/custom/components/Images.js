@@ -3,27 +3,36 @@ import React from "react";
 export const ProductVariantThumbnail = ({ src }) => {
   return (
     <div style={{}}>
-      <img style={{}} src={src || "https://via.placeholder.com/100x120"} alt="a product image" />
+      <img width="120px" height="120px" style={{}} src={src || "https://via.placeholder.com/120x120"}
+        alt="" />
     </div>
   );
 };
 
 export const SampleCenterImage = ({ src }) => {
   return (
-    <img style={{
-      width: "200px",
-      marginBottom: ".75rem",
-    }} src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"} alt="a sample image" />
+    <img
+      style={{
+        width: "200px",
+        marginBottom: ".75rem"
+      }}
+      src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"}
+      alt=""
+    />
   );
-}
+};
 
 export const WishListImage = ({ src }) => {
   return (
-    <img style={{
-      width: "100%",
-      maxWidth: "450px",
-      marginBottom: ".75rem",
-      maxHeight: "280px"
-    }} src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"} alt="a sample image" />
+    <img
+      style={{
+        width: "100%",
+        maxWidth: "450px",
+        marginBottom: ".75rem",
+        maxHeight: "280px"
+      }}
+      src={src || "/static/images/samples/placeholder.png" || "https://via.placeholder.com/200x200"}
+      alt=""
+    />
   );
-}
+};

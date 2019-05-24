@@ -16,7 +16,7 @@ const styles = {
     flexFlow: "row wrap"
   },
   content: {
-    width: "65%",
+    width: "64%",
     paddingLeft: ".5rem",
     display: "flex",
     flexFlow: "row wrap"

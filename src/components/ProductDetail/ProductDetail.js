@@ -5,14 +5,6 @@ import withWidth from "@material-ui/core/withWidth";
 import { inject, observer } from "mobx-react";
 import track from "lib/tracking/track";
 import MediaGallery from "components/MediaGallery";
-
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
-import { SubcategoriesLabel } from "../../custom/components/Text";
-import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import VariantOptionBox from "../../custom/components/VariantOptionBox";
@@ -20,6 +12,7 @@ import SampleBox from "../../custom/components/SampleBox";
 import { ProductGetSample } from "../../custom/components/Buttons";
 import DetailTabs from "../../custom/DetailTabs";
 import FilterColor from "../../custom/components/FilterColor";
+import { ComponentSectionTitle } from "../../custom/components/Text";
 
 const styles = theme => ({
   section: {
@@ -108,7 +101,8 @@ class ProductDetail extends Component {
       { code: "brown", patternLabel: "Brown", patternUrl: "brown.png" },
       { code: "dark", patternLabel: "Dark", patternUrl: "dark.png" }
     ],
-    tabSelected: "FEATURES",
+    tabSelected: "DETAILS",
+    sampleSelected: 0,
     subCategorySelected: ["wall", "base", "tall", "pantry"]
   };
 
@@ -170,6 +164,10 @@ class ProductDetail extends Component {
     console.log("GET SAMPLE");
   }
 
+  selectSample = (index) => {
+    this.setState({ sampleSelected: index });
+  }
+
   renderSampleBox() {
     return (
       <section
@@ -179,7 +177,7 @@ class ProductDetail extends Component {
           textAlign: "center"
         }}
       >
-        <SampleBox price="$9.99" title="Sample Title" />
+        <SampleBox select={this.selectSample} selected={this.state.sampleSelected} />
         <ProductGetSample action={this.handleGetSampleClick} />
       </section>
     );
@@ -233,14 +231,15 @@ class ProductDetail extends Component {
         <select
           style={{
             color: "#808080",
-            fontSize: "1rem"
+            fontSize: "1rem",
+            paddingLeft: "1rem"
           }}
           value=""
           defaultValue=""
           className={classes.filterSelect}
         >
           <option value="" disabled>
-            {categoryObj.category.toUpperCase()}
+            {categoryObj.category}
           </option>
           {categoryObj.options.map((elem, key) => {
             return this.renderOption(elem, key);
@@ -263,29 +262,18 @@ class ProductDetail extends Component {
       const { classes } = this.props;
       return (
         <section className={classes.section}>
-          <div className={classes.selectContainer}>
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <SubcategoriesLabel />
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <FormControl component="fieldset" className={classes.formControl}>
-                  {["wall", "base", "tall", "pantry"].map((elem, key) => this.renderCheckboxControl(elem, key))}
-                </FormControl>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </div>
+          <ComponentSectionTitle title="Filter cabinets by dimensions" gold={true} />
           <div className={classes.categoryFilters}>
             {this.renderCategorySelect({
-              category: "width",
+              category: "Width",
               options: [{ value: 20, label: "20" }, { value: 21, label: "21" }]
             })}
             {this.renderCategorySelect({
-              category: "height",
+              category: "Height",
               options: [{ value: 20, label: "20" }, { value: 21, label: "21" }]
             })}
             {this.renderCategorySelect({
-              category: "depth",
+              category: "Depth",
               options: [{ value: 20, label: "20" }, { value: 21, label: "21" }]
             })}
           </div>
@@ -342,7 +330,7 @@ class ProductDetail extends Component {
         </div>
 
         <div className={classes.section}>
-          {this.renderColorSelect()}
+          {/* {this.renderColorSelect()} */}
           {this.renderSampleBox()}
         </div>
 

@@ -91,7 +91,7 @@ export const ProductPrices = ({ originalPrice, currentPrice }) => {
   );
 };
 
-export const ComponentSectionTitle = ({ title }) => {
+export const ComponentSectionTitle = ({ title, gold = false }) => {
   return (
     <div
       style={{
@@ -102,9 +102,10 @@ export const ComponentSectionTitle = ({ title }) => {
     >
       <span
         style={{
-          color: "#4E4E4E",
+          color: gold ? "rgb(176, 154, 81)" : "#4E4E4E",
           fontFamily: "Lato, sans-serif",
-          fontSize: "17px"
+          fontSize: "18px",
+          fontWeight: 500
         }}
       >
         {title}

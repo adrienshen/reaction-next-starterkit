@@ -28,21 +28,11 @@ const styles = {
   features: {}
 };
 
-export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTab, tabSelected, product }) => {
+export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTab, tabSelected }) => {
   try {
     return (
       <section style={styles.renderTabsSection}>
         <div style={styles.buttons}>
-          <button
-            style={{
-              ...styles.buttonTabs,
-              borderBottom: tabSelected === "FEATURES" ? "4px solid #B09A51" : "none",
-              color: tabSelected === "FEATURES" ? "#B09A51" : "#222"
-            }}
-            onClick={() => selectTab("FEATURES")}
-          >
-            Features
-          </button>
           <button
             style={{
               ...styles.buttonTabs,
@@ -51,14 +41,28 @@ export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTa
             }}
             onClick={() => selectTab("DETAILS")}
           >
-            Description
+            DETAILS
+          </button>
+          <button
+            style={{
+              ...styles.buttonTabs,
+              borderBottom: tabSelected === "FEATURES" ? "4px solid #B09A51" : "none",
+              color: tabSelected === "FEATURES" ? "#B09A51" : "#222"
+            }}
+            onClick={() => selectTab("FEATURES")}
+          >
+            SPECIFICATIONS
           </button>
         </div>
         <section style={styles.contentContainer}>
-          {tabSelected === "DETAILS" ? <div style={styles.content}>{product.description}</div> : null}
+          {tabSelected === "DETAILS" ? (
+            <div style={styles.content}>
+              <ProductDetailsTable />
+            </div>
+          ) : null}
           {tabSelected === "FEATURES" ? (
             <div className={[classes.content, classes.features]}>
-              Features content - not sure where this should come from
+              <Specifications />
             </div>
           ) : null}
         </section>
@@ -69,3 +73,50 @@ export default withStyles(styles, { name: "OCDetailTabs" })(({ classes, selectTa
     return <RenderError />;
   }
 });
+
+const defaultTableDetails = [
+  { key: "Style", value: "Shaker" },
+  { key: "Face Frame", value: `3/4" x 1-3/4" Birch` },
+  { key: "Door Frame", value: `Premium HDF` },
+  { key: "Door Center", value: `Premium HDF` },
+  { key: "Sides", value: `1/2" A-Grade Plywood` },
+  { key: "Top & Bottom (Wall)", value: `1/2" A-Grade Plywood` },
+  { key: "Bottom (Base)", value: `1/2" A-Grade Plywood` },
+  { key: "Installation/Design Note", value: `Cabinet specs are subject...` }
+];
+
+const tableStyles = {
+  border: "1px solid #aaa",
+  padding: ".75rem",
+  fontSize: ".8rem",
+  color: "#444"
+}
+
+function ProductDetailsTable() {
+  return (
+    <div>
+      <table style={{
+        ...tableStyles,
+        borderCollapse: "collapse",
+        width: "100%"
+      }}>
+        <tbody>
+          {defaultTableDetails.map((item, key) => {
+            return (
+              <tr key={key}>
+                <td style={tableStyles}>{item.key}:</td>
+                <td style={tableStyles}>{item.value}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Specifications() {
+  return <div>
+    <p>Specifications to be added</p>
+  </div>
+}

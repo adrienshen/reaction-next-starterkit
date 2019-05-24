@@ -42,6 +42,15 @@ export const Button = ({
 };
 
 function StandardButton({ htmlType, text, onClick, sizeStyles, isSubmitting }) {
+  const styles = {
+    background: "#B09A51",
+    backgroundColor: "#B09A51",
+    color: "#fff",
+    borderRadius: "1.5rem",
+    border: "none",
+    outline: "none",
+    cursor: "pointer"
+  }
   return (
     <button
       isSubmitting={isSubmitting}
@@ -49,13 +58,7 @@ function StandardButton({ htmlType, text, onClick, sizeStyles, isSubmitting }) {
       onClick={onClick}
       style={{
         ...sizeStyles,
-        background: "#B09A51",
-        backgroundColor: "#B09A51",
-        color: "#fff",
-        borderRadius: "1.5rem",
-        border: "none",
-        outline: "none",
-        cursor: "pointer"
+        ...styles
       }}
     >
       {text}
@@ -174,15 +177,17 @@ export const ProductGetSample = ({ action }) => {
     <button
       onClick={action}
       style={{
-        border: "2px solid #B09A51",
+        border: "1px solid #B09A51",
         color: "#B09A51",
-        borderRadius: "1rem",
-        padding: "6px 14px",
+        borderRadius: "1.5rem",
+        padding: ".75rem 2rem",
         background: "#fff",
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        width: "90%",
+        fontSize: "1rem"
       }}
     >
-      Get a Sample
+      ORDER SAMPLES
     </button>
   );
 };
