@@ -22,6 +22,10 @@ export const SampleCenterImage = ({ src }) => {
   );
 };
 
+/**
+ * Test changes
+ */
+
 export const WishListImage = ({ src }) => {
   return (
     <div>
