@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import withStyles from "@material-ui/core/styles/withStyles";
+import colors from "../../lib/theme/colors";
+import FavoriteAction from "../../custom/components/FavoriteAction";
 
 const styles = theme => ({
   root: {
@@ -62,8 +64,8 @@ class MediaGallery extends Component {
   renderPlaceHolderImg = () => {
     return (
       <picture>
-        <source srcSet="https://loremflickr.com/400/350/dog" media="(min-width: 800px)" />
-        <img src="https://loremflickr.com/400/350/dog" alt="primary" />
+        <source srcSet="https://loremflickr.com/400/350/furniture?lock=30976" media="(min-width: 800px)" />
+        <img height="350" width="400" src="https://loremflickr.com/400/350/furniture?lock=30976" alt="primary" />
       </picture>
     );
   };
@@ -76,11 +78,45 @@ class MediaGallery extends Component {
       return this.renderPlaceHolderImg();
     }
 
+    const product = {
+      id: "p99",
+      name: "a test demo product",
+      image: "https://loremflickr.com/400/350/dog?lock=30976",
+    }
+
     return (
-      <picture>
-        <source srcSet="https://loremflickr.com/400/350/dog" media="(min-width: 800px)" />
-        <img src="https://loremflickr.com/400/350/dog" alt="primary" />
-      </picture>
+      <div>
+        <FavoriteAction product={product} />
+        <picture style={{ height: "350px", position: "relative" }}>
+          <source srcSet="https://loremflickr.com/400/350/dog?lock=30976" media="(min-width: 800px)" />
+          <img src="https://loremflickr.com/400/350/dog?lock=30976" alt="primary" />
+          {this.renderInformationBar()}
+        </picture>
+      </div>
+    );
+  }
+
+  renderInformationBar() {
+    const styles = {
+      container: {
+        position: "absolute",
+        width: "100%",
+        bottom: 5,
+        padding: ".5rem 1rem",
+        background: colors.GOLD,
+        color: "#fff",
+        fontFamily: "Lato, sans-serif",
+        display: "flex",
+        justifyContent: "space-between",
+        opacity: ".75",
+        zIndex: 999
+      }
+    };
+    return (
+      <div style={styles.container}>
+        <span>Vintage Kitchen</span>
+        <span>$8,318</span>
+      </div>
     );
   }
 

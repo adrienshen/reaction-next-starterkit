@@ -3,26 +3,13 @@ import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import Helmet from "react-helmet";
 import { withStyles } from "@material-ui/core/styles";
-import ErrorPage from "./_error";
-import { WishListTitle } from "../custom/components/Text";
 import { WishListImage } from "../custom/components/Images";
+import CategoryVerticalHeading from "../custom/components/CategoryVerticalHeading";
 
 import IconButton from "@material-ui/core/IconButton";
 import { TunesIcon, FavoriteFullIcon } from "../custom/components/SvgIcons";
 import { Router } from "routes";
-
-const WishListStaticMockLocal = [
-  {
-    name: "Potted Plant",
-    productUrl: "potted-plant/cmVhY3Rpb24vY2F0YWxvZ1Byb2R1Y3RWYXJpYW50OkdvRnlSak0zTUZyb2hTNkVn",
-    primaryImage: "http://localhost:3000/assets/files/Media/MkTBScckCuQLoi6Lm/medium/green_plant_product_14301_1.jpg",
-  },
-  {
-    name: "Doors",
-    productUrl: "doors/cmVhY3Rpb24vY2F0YWxvZ1Byb2R1Y3RWYXJpYW50OkRDZkhCSlNhTmtDOGVuR2VI",
-    primaryImage: "http://localhost:3000/assets/files/Media/eMXwqTdeoAuZ73vZd/medium/Screenshot 2019-03-22 16.22.49.jpg",
-  }
-];
+import store from "store";
 
 const styles = {
   imageContainer: {
@@ -59,6 +46,15 @@ class Profile extends Component {
     })
   };
 
+  state = {
+    wishlist: {}
+  }
+
+  componentDidMount() {
+    console.log("CDM");
+    this.setState({ wishlist: store.get("wishlist") });
+  }
+
   goProductDetailPage(url) {
     console.log("Navigate to details: ", url);
     Router.push("/product/" + url);
@@ -72,9 +68,7 @@ class Profile extends Component {
     return (
       <div onClick={() => this.goProductDetailPage(wish.productUrl)}>
         <div style={styles.imageContainer}>
-          <WishListTitle title={wish.name} />
-          <WishListImage src={wish.primaryImage} />
-          <ImageToolbar />
+          <WishListImage src={wish.image} />
         </div>
       </div>
     );
@@ -89,16 +83,22 @@ class Profile extends Component {
     // If there is no logged in user, return Not Found page
     // if (account && !account._id) return <div>Must log in to view this screen</div>;
 
+    const { wishlist } = this.state;
+    console.log("wishlist: ", wishlist);
+
     return (
       <Fragment>
         <Helmet
           title={`Wishlist | ${shop && shop.name}`}
           meta={[{ name: "description", content: shop && shop.description }]}
         />
-        <section style={{ paddingTop: "2rem" }}>
-          {WishListStaticMockLocal.map(wish => {
-            return this.renderWishItem(wish);
-          })}
+        <section style={{ paddingTop: "10rem" }}>
+          <CategoryVerticalHeading title="My Wishlist" />
+            <main>
+              {Object.keys(wishlist).map(wishKey => {
+                return this.renderWishItem(wishlist[wishKey]);
+              })}
+            </main>
         </section>
       </Fragment>
     );

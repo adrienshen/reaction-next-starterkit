@@ -52,7 +52,8 @@ const BarOptions = {
   "/bedroom": { display: true, title: "Bedroom", cart: true, search: true, leftIcon: "back" },
   "/styles": { display: true, title: "Styles", cart: true, search: true, leftIcon: "back" },
   "/personalInformation": { display: true, title: "Personal Information", cart: false, search: false, leftIcon: false },
-  "/contactDesigners": { display: true, title: "Contact Designers", cart: false, search: false, leftIcon: false }
+  "/contactDesigners": { display: true, title: "Contact Designers", cart: false, search: false, leftIcon: false },
+  "/product": { display: true, title: "", cart: true, search: true, leftIcon: "back" }
 };
 
 @withStyles(styles, { name: "SkHeader" })
@@ -91,7 +92,10 @@ class Header extends Component {
         <AppBar
           style={{
             border: "none",
-            paddingTop: "1rem"
+            paddingTop: "1rem",
+            position: "absolute",
+            top: 0,
+            zIndex: 99
           }}
           position="static"
           elevation={0}
